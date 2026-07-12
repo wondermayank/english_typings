@@ -1,0 +1,1004 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Typing Speed Test - WPM Test | ThunderStudy</title>
+<meta name="description" content="Free online typing speed test with 5 practice passages, live WPM tracking, a countdown timer, and a progress dashboard. No signup required.">
+<meta name="theme-color" content="#6699FB">
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Free Online Typing Speed Test - WPM Test | ThunderStudy">
+<meta property="og:description" content="Practice with 5 built-in passages or your own text, track live WPM and accuracy, race a timer, and watch your progress on a dashboard.">
+<meta property="og:image" content="/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Online Typing Speed Test - WPM Test | ThunderStudy">
+<meta name="twitter:description" content="Practice with 5 built-in passages or your own text, track live WPM and accuracy, race a timer, and watch your progress on a dashboard.">
+<meta name="twitter:image" content="/og-image.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ThunderType Typing Speed Test",
+  "description": "A free online typing speed test with 5 practice passages, live WPM and accuracy tracking, a countdown timer, and a progress dashboard.",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "publisher": { "@type": "Organization", "name": "ThunderStudy" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+
+<style>
+  :root, :root[data-theme="light"] {
+    --primary: #6699FB;
+    --primary-active: #4F82E8;
+    --primary-focus: #86AEFC;
+    --primary-disabled: #D6D6D6;
+    --ink: #1d1d1f;
+    --body: #3c3c3c;
+    --body-strong: #1a1a1a;
+    --muted: #6b6b6b;
+    --muted-soft: #9a9a9a;
+    --hairline: #e6e6e6;
+    --hairline-strong: #cccccc;
+    --canvas: #ffffff;
+    --canvas-parchment: #F5F5FF;
+    --surface-soft: #F0F5FF;
+    --surface-card: #fafafa;
+    --surface-pearl: #fafafc;
+    --surface-strong: #ebebeb;
+    --surface-dark: #1a2129;
+    --on-primary: #ffffff;
+    --on-dark: #ffffff;
+    --on-dark-soft: #bbbbbb;
+    --success: #22c55e;
+    --success-soft: #e9f9ef;
+    --warning: #f59e0b;
+    --warning-soft: #fef3e2;
+    --error: #dc2626;
+    --error-soft: #fdecec;
+  }
+
+  :root[data-theme="dark"] {
+    --primary: #89B4FF;
+    --primary-active: #6d9bf0;
+    --primary-focus: #a6c6ff;
+    --primary-disabled: #3a3a3c;
+    --ink: #f5f5f7;
+    --body: #d1d1d6;
+    --body-strong: #ffffff;
+    --muted: #8e8e93;
+    --muted-soft: #636366;
+    --hairline: #2c2c2e;
+    --hairline-strong: #3a3a3c;
+    --canvas: #0e0e10;
+    --canvas-parchment: #161618;
+    --surface-soft: #1a1a1c;
+    --surface-card: #1c1c1e;
+    --surface-pearl: #1e1e20;
+    --surface-strong: #2c2c2e;
+    --surface-dark: #000000;
+    --on-dark: #ffffff;
+    --on-dark-soft: #ebebf5;
+    --success: #22c55e;
+    --success-soft: #12291a;
+    --warning: #f59e0b;
+    --warning-soft: #2b210f;
+    --error: #dc2626;
+    --error-soft: #2b1414;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--canvas);
+    color: var(--body);
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  a { color: inherit; }
+
+  .container { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- Loader ---------- */
+  #loader {
+    position: fixed; inset: 0; z-index: 999;
+    background: var(--canvas);
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+  #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  #loader svg circle {
+    fill: none; stroke: var(--primary); stroke-width: 4; stroke-linecap: round;
+    stroke-dasharray: 140; stroke-dashoffset: 40;
+    transform-origin: center; animation: spin 1.1s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ---------- Nav ---------- */
+  .topnav {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--canvas);
+    border-bottom: 1px solid var(--hairline);
+    height: 64px;
+  }
+  .topnav .container { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .brand-mark {
+    width: 32px; height: 32px; border-radius: 9999px;
+    background: var(--primary); color: var(--on-primary);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 15px; flex-shrink: 0;
+  }
+  .brand-name { font-weight: 700; font-size: 17px; color: var(--ink); letter-spacing: -0.1px; }
+
+  .tabs { display: flex; gap: 4px; background: var(--surface-soft); border-radius: 9999px; padding: 4px; }
+  .tab-btn {
+    border: none; background: transparent; cursor: pointer;
+    font-family: inherit; font-size: 14px; font-weight: 600;
+    padding: 8px 18px; border-radius: 9999px; color: var(--muted);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .tab-btn.active { background: var(--primary); color: var(--on-primary); }
+
+  .nav-actions { display: flex; align-items: center; gap: 8px; }
+  .icon-btn {
+    width: 40px; height: 40px; border-radius: 9999px;
+    border: 1px solid var(--hairline-strong); background: var(--canvas);
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    color: var(--ink); transition: transform 0.15s ease;
+  }
+  .icon-btn:active { transform: scale(0.95); }
+  .icon-btn svg { width: 18px; height: 18px; }
+
+  /* ---------- Buttons ---------- */
+  .button-primary, .button-secondary, .button-text-link {
+    font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer;
+    border-radius: 9999px; height: 48px; padding: 0 28px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    transition: transform 0.12s ease, background 0.15s ease; border: none;
+  }
+  .button-primary { background: var(--primary); color: var(--on-primary); }
+  .button-primary:active { transform: scale(0.95); background: var(--primary-active); }
+  .button-primary:disabled { background: var(--primary-disabled); cursor: not-allowed; }
+  .button-secondary { background: var(--canvas); color: var(--ink); border: 1px solid var(--hairline-strong); }
+  .button-secondary:active { transform: scale(0.95); }
+  .button-text-link {
+    background: transparent; color: var(--ink); height: auto; padding: 8px 4px;
+    font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+  }
+  .button-text-link:active { transform: scale(0.97); }
+
+  /* ---------- Chips ---------- */
+  .chips-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip {
+    font-family: inherit; cursor: pointer; text-align: left;
+    background: var(--canvas); border: 1px solid var(--hairline-strong);
+    border-radius: 18px; padding: 12px 16px; color: var(--ink);
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .chip.selected { border: 2px solid var(--primary); background: var(--surface-soft); padding: 11px 15px; }
+  .chip-title { font-size: 15px; font-weight: 700; display: block; }
+  .chip-meta { font-size: 12px; color: var(--muted); display: block; margin-top: 2px; }
+  .level-pill {
+    display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.6px; padding: 2px 8px; border-radius: 9999px; margin-top: 6px;
+  }
+  .level-Easy, .level-Easy-Medium { background: var(--success-soft); color: var(--success); }
+  .level-Medium { background: var(--surface-soft); color: var(--primary); }
+  .level-Hard { background: var(--warning-soft); color: var(--warning); }
+
+  .timer-chip { min-width: 84px; text-align: center; }
+  .custom-seconds-input {
+    width: 84px; height: 44px; border-radius: 8px; border: 1px solid var(--hairline);
+    background: var(--canvas); color: var(--ink); font-family: inherit; font-size: 15px;
+    padding: 0 10px;
+  }
+
+  /* ---------- Section headings ---------- */
+  h1.page-title { font-size: 32px; font-weight: 700; line-height: 1.15; color: var(--ink); margin: 0 0 8px; letter-spacing: -0.2px; }
+  .lead { font-size: 17px; font-weight: 400; color: var(--body); line-height: 1.5; margin: 0 0 28px; max-width: 60ch; }
+  h2.section-title { font-size: 18px; font-weight: 700; color: var(--ink); margin: 0; }
+  .eyebrow {
+    font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--primary); margin: 0 0 10px;
+  }
+
+  .view { padding: 40px 0 80px; }
+  .view[hidden] { display: none; }
+
+  /* ---------- Panels ---------- */
+  .panel-block { margin-bottom: 32px; }
+  .panel-block:last-child { margin-bottom: 0; }
+  .field-label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin: 0 0 12px; }
+
+  .custom-text-box { margin-top: 14px; padding: 16px; border: 1px solid var(--hairline); border-radius: 18px; background: var(--surface-soft); }
+  .custom-text-box textarea {
+    width: 100%; min-height: 100px; resize: vertical; font-family: inherit; font-size: 15px;
+    border: 1px solid var(--hairline); border-radius: 8px; padding: 12px; color: var(--ink); background: var(--canvas);
+  }
+  .custom-text-actions { display: flex; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+  .hint-text { font-size: 13px; color: var(--muted); margin: 0; }
+
+  /* ---------- Typing panel ---------- */
+  .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .stat-chip {
+    background: var(--surface-card); border: 1px solid var(--hairline); border-radius: 14px;
+    padding: 14px 16px; text-align: center;
+  }
+  .stat-chip .stat-num { font-size: 24px; font-weight: 700; color: var(--ink); display: block; line-height: 1.1; }
+  .stat-chip .stat-tag { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+
+  .progress-track { height: 6px; background: var(--surface-strong); border-radius: 9999px; overflow: hidden; margin-bottom: 24px; }
+  .progress-fill { height: 100%; width: 0%; background: var(--primary); border-radius: 9999px; transition: width 0.15s ease; }
+
+  .passage-box {
+    font-size: 20px; line-height: 1.75; letter-spacing: 0.2px;
+    padding: 24px; border: 1px solid var(--hairline); border-radius: 18px;
+    background: var(--surface-card); color: var(--muted-soft); margin-bottom: 16px;
+    user-select: none;
+  }
+  .passage-box .char { transition: color 0.05s ease; }
+  .passage-box .char.correct { color: var(--ink); }
+  .passage-box .char.incorrect { color: var(--error); background: var(--error-soft); border-radius: 2px; }
+  .passage-box .char.current { border-left: 2px solid var(--primary); animation: blink 1s step-start infinite; margin-left: -2px; }
+  @keyframes blink { 50% { border-color: transparent; } }
+
+  .typing-input {
+    width: 100%; height: 56px; border-radius: 8px; border: 1px solid var(--hairline);
+    background: var(--canvas); color: var(--ink); font-family: inherit; font-size: 17px;
+    padding: 0 18px; margin-bottom: 20px;
+  }
+  .typing-input:focus { outline: none; border: 2px solid var(--primary); padding: 0 17px; }
+
+  .action-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+  /* ---------- Results ---------- */
+  .result-badge {
+    display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 9999px;
+    font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 24px;
+  }
+  .badge-success { background: var(--success-soft); color: var(--success); }
+  .badge-warning { background: var(--warning-soft); color: var(--warning); }
+  .badge-primary { background: var(--surface-soft); color: var(--primary); }
+
+  .result-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .result-card {
+    background: var(--surface-card); border: 1px solid var(--hairline); border-radius: 18px;
+    padding: 20px 16px; text-align: center;
+  }
+  .result-card .stat-value { font-size: 30px; font-weight: 700; color: var(--ink); display: block; }
+  .result-card .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+  #result-message { font-size: 15px; color: var(--body); margin: 0 0 28px; }
+
+  /* ---------- Dashboard ---------- */
+  .dashboard-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
+  .summary-card {
+    background: var(--surface-card); border: 1px solid var(--hairline); border-radius: 18px; padding: 20px;
+  }
+  .summary-card .stat-value { font-size: 28px; font-weight: 700; color: var(--ink); display: block; }
+  .summary-card .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  .chart-card, .history-card {
+    background: var(--surface-card); border: 1px solid var(--hairline); border-radius: 18px;
+    padding: 24px; margin-bottom: 24px;
+  }
+  .chart-card { height: 300px; }
+  .history-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+
+  table.history-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.history-table th {
+    text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px;
+    color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--hairline);
+  }
+  table.history-table td { padding: 12px 10px; border-bottom: 1px solid var(--hairline); color: var(--body); }
+  table.history-table tr:last-child td { border-bottom: none; }
+  .status-pill {
+    display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 9999px;
+  }
+  .empty-state { text-align: center; color: var(--muted); font-size: 14px; padding: 32px 0; }
+
+  /* ---------- FAQ ---------- */
+  .faq-item { border-bottom: 1px solid var(--hairline); padding: 20px 0; }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q { font-size: 15px; font-weight: 700; color: var(--ink); margin: 0 0 6px; }
+  .faq-a { font-size: 15px; color: var(--body); margin: 0; line-height: 1.55; }
+
+  /* ---------- Footer ---------- */
+  footer { background: var(--canvas-parchment); padding: 56px 0 24px; }
+  .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 32px; }
+  .footer-col h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--ink); margin: 0 0 14px; }
+  .footer-col a { display: block; font-size: 14px; color: var(--muted); text-decoration: none; margin-bottom: 10px; }
+  .footer-bottom { border-top: 1px solid var(--hairline); padding-top: 20px; font-size: 12px; color: var(--muted); text-align: center; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 720px) {
+    .stats-bar, .result-grid, .dashboard-summary { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    h1.page-title { font-size: 26px; }
+    .passage-box { font-size: 17px; padding: 18px; }
+    .tabs .tab-btn { padding: 8px 12px; font-size: 13px; }
+    .brand-name { display: none; }
+  }
+</style>
+</head>
+<body data-theme="light">
+
+<div id="loader" aria-hidden="true">
+  <svg viewBox="0 0 60 60" width="48" height="48"><circle cx="30" cy="30" r="24"></circle></svg>
+</div>
+
+<header class="topnav">
+  <div class="container">
+    <a class="brand" href="#" aria-label="ThunderType home">
+      <span class="brand-mark" aria-hidden="true">T</span>
+      <span class="brand-name">ThunderType</span>
+    </a>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab-btn active" id="tab-test" role="tab" aria-selected="true">Test</button>
+      <button class="tab-btn" id="tab-dashboard" role="tab" aria-selected="false">Dashboard</button>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">
+        <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+        <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ===================== TEST VIEW ===================== -->
+  <section class="view" id="view-test">
+    <div class="container">
+
+      <!-- Selection panel -->
+      <div id="panel-select">
+        <p class="eyebrow">Typing Practice</p>
+        <h1 class="page-title">Free Online Typing Speed Test</h1>
+        <p class="lead">Pick a passage, set a timer, and start typing. Live WPM and accuracy update as you go — finish before the clock runs out and we'll let you know you nailed it.</p>
+
+        <div class="panel-block">
+          <p class="field-label">1. Choose a passage</p>
+          <div class="chips-row" id="passage-chips"></div>
+          <div class="custom-text-box" id="custom-box" hidden>
+            <p class="field-label" style="margin-bottom:8px;">Paste or upload your own text</p>
+            <textarea id="custom-textarea" placeholder="Paste at least a sentence or two here..."></textarea>
+            <div class="custom-text-actions">
+              <button class="button-secondary" id="use-custom-btn" type="button">Use this text</button>
+              <button class="button-secondary" id="upload-txt-btn" type="button">Upload .txt file</button>
+              <input type="file" id="upload-txt-input" accept=".txt,text/plain" hidden>
+              <p class="hint-text" id="custom-status" style="margin:0;"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-block">
+          <p class="field-label">2. Set a timer</p>
+          <div class="chips-row" id="timer-chips"></div>
+        </div>
+
+        <button class="button-primary" id="start-btn" type="button">Start Test</button>
+      </div>
+
+      <!-- Typing panel -->
+      <div id="panel-typing" hidden>
+        <div class="stats-bar">
+          <div class="stat-chip"><span class="stat-num" id="live-time">0:00</span><span class="stat-tag">Time</span></div>
+          <div class="stat-chip"><span class="stat-num" id="live-wpm">0</span><span class="stat-tag">WPM</span></div>
+          <div class="stat-chip"><span class="stat-num" id="live-acc">100%</span><span class="stat-tag">Accuracy</span></div>
+          <div class="stat-chip"><span class="stat-num" id="live-err">0</span><span class="stat-tag">Errors</span></div>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        <div class="passage-box" id="passage-display"></div>
+        <input type="text" class="typing-input" id="typing-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Click here and start typing to begin...">
+        <div class="action-row">
+          <button class="button-secondary" id="restart-btn" type="button">Restart</button>
+          <button class="button-text-link" id="quit-btn" type="button">‹ BACK TO PASSAGES</button>
+        </div>
+      </div>
+
+      <!-- Results panel -->
+      <div id="panel-results" hidden aria-live="polite">
+        <div class="result-badge" id="result-badge"></div>
+        <div class="result-grid">
+          <div class="result-card"><span class="stat-value" id="res-wpm">0</span><span class="stat-label">WPM</span></div>
+          <div class="result-card"><span class="stat-value" id="res-acc">0%</span><span class="stat-label">Accuracy</span></div>
+          <div class="result-card"><span class="stat-value" id="res-time">0:00</span><span class="stat-label">Time Taken</span></div>
+          <div class="result-card"><span class="stat-value" id="res-err">0</span><span class="stat-label">Errors</span></div>
+        </div>
+        <p id="result-message"></p>
+        <div class="action-row">
+          <button class="button-primary" id="try-again-btn" type="button">Try Again</button>
+          <button class="button-secondary" id="next-passage-btn" type="button">New Passage</button>
+          <button class="button-text-link" id="view-dashboard-btn" type="button">VIEW DASHBOARD ›</button>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div style="margin-top:64px;">
+        <h2 class="section-title" style="margin-bottom:8px;">Frequently Asked Questions</h2>
+        <div class="faq-item">
+          <p class="faq-q">How is WPM calculated?</p>
+          <p class="faq-a">WPM is calculated as the number of correctly typed characters divided by 5 (the average word length), divided by the time taken in minutes. Typing errors reduce your final WPM.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">What happens if I finish before the timer runs out?</p>
+          <p class="faq-a">If you complete the passage before a countdown timer ends, the result is marked "Finished Early" and shows how many seconds you had to spare.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Can I practice with my own text?</p>
+          <p class="faq-a">Yes. Choose "Custom Text" to paste your own paragraph, or upload a .txt file and it will be loaded as your passage automatically.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Is my typing history saved?</p>
+          <p class="faq-a">Results are kept on the Dashboard for the current browser session so you can track progress across attempts. Closing or reloading the page clears the history.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Is this typing test free?</p>
+          <p class="faq-a">Yes, it is completely free with no signup required.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== DASHBOARD VIEW ===================== -->
+  <section class="view" id="view-dashboard" hidden>
+    <div class="container">
+      <p class="eyebrow">Your Progress</p>
+      <h1 class="page-title">Typing Dashboard</h1>
+      <p class="lead">Every test you complete this session is tracked here — watch your speed and accuracy trend over time.</p>
+
+      <div class="dashboard-summary" id="dash-summary"></div>
+
+      <div class="chart-card">
+        <h2 class="section-title" style="margin-bottom:12px;">WPM Over Time</h2>
+        <canvas id="wpm-chart"></canvas>
+      </div>
+
+      <div class="history-card">
+        <div class="history-header">
+          <h2 class="section-title">Recent Tests</h2>
+          <button class="button-text-link" id="reset-history-btn" type="button">RESET PROGRESS</button>
+        </div>
+        <table class="history-table" id="history-table" hidden>
+          <thead>
+            <tr><th>Time</th><th>Passage</th><th>WPM</th><th>Accuracy</th><th>Duration</th><th>Status</th></tr>
+          </thead>
+          <tbody id="history-body"></tbody>
+        </table>
+        <p class="empty-state" id="history-empty">No tests completed yet in this session — finish a typing test to see it here.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h3>Thunder</h3>
+        <a href="https://commercesehoga.github.io/">ThunderStudy</a>
+        <a href="https://commercesehoga.github.io/dashboard">CBT Mock Platform</a>
+        <a href="https://thunderstudy.github.io">Free Study Material</a>
+        <a href="https://commercesehoga.github.io/help">Help / Donate</a>
+      </div>
+      <div class="footer-col">
+        <h3>wondermayank</h3>
+        <a href="https://wondermayank.indevs.in">Portfolio</a>
+        <a href="https://wondermayank.github.io/">wondermayank.github.io</a>
+        <a href="https://wondermayank.github.io/mail">Mail</a>
+        <a href="https://wondermayank.github.io/contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h3>Legal</h3>
+        <a href="https://wondermayank.github.io/terms">Terms</a>
+        <a href="https://wondermayank.github.io/privacy">Privacy</a>
+        <a href="https://wondermayank.github.io/disclaimer">Disclaimer</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Thunder · by wondermayank</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ============== THEME (session only — see note at bottom) ============== */
+  var root = document.documentElement;
+  var themeToggle = document.getElementById('theme-toggle');
+  var iconSun = document.getElementById('icon-sun');
+  var iconMoon = document.getElementById('icon-moon');
+  themeToggle.addEventListener('click', function () {
+    var isDark = root.getAttribute('data-theme') === 'dark';
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    iconSun.style.display = isDark ? 'block' : 'none';
+    iconMoon.style.display = isDark ? 'none' : 'block';
+  });
+
+  /* ============== LOADER ============== */
+  function hideLoader() { document.getElementById('loader').classList.add('hidden'); }
+  window.addEventListener('DOMContentLoaded', hideLoader);
+  setTimeout(hideLoader, 1500);
+
+  /* ============== DATA ============== */
+  var PASSAGES = [
+    { id: 'p1', title: 'Morning Calm', level: 'Easy', text: "The sun rises quietly over the hills every morning, painting the sky in soft shades of orange and pink. Birds begin to sing as the world slowly wakes up. A cup of warm tea and a few deep breaths are often the best way to start a calm and productive day." },
+    { id: 'p2', title: 'Digital Learning', level: 'Easy-Medium', text: "Technology has changed the way people learn, work, and communicate with one another. A single smartphone today holds more computing power than the machines that once filled entire rooms. Students can now access course material, video lessons, and practice tests from almost anywhere in the world. While these tools make learning more convenient, they also demand a new kind of discipline, since endless notifications and distractions are only a tap away. Building strong digital habits has become just as important as building strong study habits." },
+    { id: 'p3', title: 'Exam Consistency', level: 'Medium', text: "Consistent practice is the quiet foundation behind every strong exam result. Students who revise a little every day, rather than cramming everything before a test, tend to retain concepts far longer and recall them with less stress. Breaking a large syllabus into small daily goals turns an overwhelming subject into a manageable routine. Mock tests play an important role in this process, since they reveal weak areas long before the real exam does. Progress rarely feels dramatic day to day, but when measured over weeks and months, small consistent efforts add up to real, lasting improvement." },
+    { id: 'p4', title: 'The Cosmos', level: 'Hard', text: "The universe is far older and larger than the human mind can comfortably imagine. Light from some of the most distant galaxies has been traveling toward Earth for over thirteen billion years, meaning astronomers observing these galaxies are essentially looking back in time. Within our own solar system, moons orbiting distant planets show surprising signs of subsurface oceans, hidden beneath thick layers of ice, raising fascinating questions about where else life might exist. Every new telescope and space mission adds another piece to this enormous puzzle, yet each answer tends to raise several new questions. Studying the cosmos requires patience, precision, and a willingness to be endlessly surprised by what lies beyond our own small corner of space." },
+    { id: 'p5', title: 'Growth & Patience', level: 'Hard', text: "Growth rarely follows a straight or predictable line; it tends to arrive in uneven bursts, separated by long stretches that can feel like standing still. Many people quit during these quiet stretches, mistaking a lack of visible progress for a lack of real progress. Yet skill, much like compound interest, often works silently in the background before producing a noticeable result. The habits practiced during difficult, unremarkable days are usually the ones that matter most in the long run, even though they rarely feel significant at the time. Patience, in this sense, is not simply about waiting; it is about continuing to show up and put in deliberate effort long after the initial motivation has quietly faded away." }
+  ];
+
+  var TIMER_OPTIONS = [
+    { label: 'No Limit', seconds: null },
+    { label: '30 sec', seconds: 30 },
+    { label: '1 min', seconds: 60 },
+    { label: '2 min', seconds: 120 },
+    { label: '3 min', seconds: 180 },
+    { label: '5 min', seconds: 300 }
+  ];
+
+  var history = []; // in-memory session history
+  var customText = null;
+  var selectedPassageId = 'p1';
+  var selectedSeconds = null;
+  var chartInstance = null;
+
+  /* ============== STATE FOR ACTIVE TEST ============== */
+  var test = null; // { text, durationSeconds, startTime, timerId, correctChars, typedLength, finished }
+
+  /* ============== ELEMENTS ============== */
+  var passageChipsEl = document.getElementById('passage-chips');
+  var timerChipsEl = document.getElementById('timer-chips');
+  var customBox = document.getElementById('custom-box');
+  var customTextarea = document.getElementById('custom-textarea');
+  var customStatus = document.getElementById('custom-status');
+  var panelSelect = document.getElementById('panel-select');
+  var panelTyping = document.getElementById('panel-typing');
+  var panelResults = document.getElementById('panel-results');
+  var passageDisplay = document.getElementById('passage-display');
+  var typingInput = document.getElementById('typing-input');
+  var progressFill = document.getElementById('progress-fill');
+  var liveTime = document.getElementById('live-time');
+  var liveWpm = document.getElementById('live-wpm');
+  var liveAcc = document.getElementById('live-acc');
+  var liveErr = document.getElementById('live-err');
+
+  /* ============== HELPERS ============== */
+  function fmtTime(totalSeconds) {
+    totalSeconds = Math.max(0, Math.round(totalSeconds));
+    var m = Math.floor(totalSeconds / 60);
+    var s = totalSeconds % 60;
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+  function wordCount(text) { return text.trim().split(/\s+/).length; }
+
+  /* ============== RENDER SELECTION CHIPS ============== */
+  function renderPassageChips() {
+    var html = '';
+    PASSAGES.forEach(function (p) {
+      var sel = p.id === selectedPassageId ? ' selected' : '';
+      html += '<button type="button" class="chip' + sel + '" data-passage="' + p.id + '">' +
+        '<span class="chip-title">' + p.title + '</span>' +
+        '<span class="chip-meta">' + wordCount(p.text) + ' words</span>' +
+        '<span class="level-pill level-' + p.level + '">' + p.level + '</span>' +
+        '</button>';
+    });
+    var sel = selectedPassageId === 'custom' ? ' selected' : '';
+    html += '<button type="button" class="chip' + sel + '" data-passage="custom">' +
+      '<span class="chip-title">Custom Text</span>' +
+      '<span class="chip-meta">Paste or upload your own</span>' +
+      '</button>';
+    passageChipsEl.innerHTML = html;
+
+    Array.prototype.forEach.call(passageChipsEl.querySelectorAll('.chip'), function (btn) {
+      btn.addEventListener('click', function () {
+        selectedPassageId = btn.getAttribute('data-passage');
+        customBox.hidden = selectedPassageId !== 'custom';
+        renderPassageChips();
+      });
+    });
+  }
+
+  function renderTimerChips() {
+    var html = '';
+    TIMER_OPTIONS.forEach(function (t) {
+      var sel = t.seconds === selectedSeconds ? ' selected' : '';
+      html += '<button type="button" class="chip timer-chip' + sel + '" data-seconds="' + t.seconds + '">' +
+        '<span class="chip-title">' + t.label + '</span></button>';
+    });
+    html += '<button type="button" class="chip timer-chip" id="custom-timer-chip"><span class="chip-title">Custom</span></button>' +
+      '<input type="number" min="10" max="1800" placeholder="sec" class="custom-seconds-input" id="custom-seconds-input">';
+    timerChipsEl.innerHTML = html;
+
+    Array.prototype.forEach.call(timerChipsEl.querySelectorAll('.timer-chip'), function (btn) {
+      if (btn.id === 'custom-timer-chip') return;
+      btn.addEventListener('click', function () {
+        var val = btn.getAttribute('data-seconds');
+        selectedSeconds = val === 'null' ? null : parseInt(val, 10);
+        renderTimerChips();
+      });
+    });
+    document.getElementById('custom-timer-chip').addEventListener('click', function () {
+      var input = document.getElementById('custom-seconds-input');
+      var val = parseInt(input.value, 10);
+      if (val && val >= 10) {
+        selectedSeconds = val;
+        renderTimerChips();
+      } else {
+        input.focus();
+      }
+    });
+  }
+
+  /* ============== CUSTOM TEXT ============== */
+  document.getElementById('use-custom-btn').addEventListener('click', function () {
+    var val = customTextarea.value.trim();
+    if (val.length < 20) {
+      customStatus.textContent = 'Please enter at least 20 characters.';
+      customStatus.style.color = 'var(--error)';
+      return;
+    }
+    customText = val.length > 2500 ? val.slice(0, 2500) : val;
+    customStatus.textContent = 'Custom text ready (' + wordCount(customText) + ' words).';
+    customStatus.style.color = 'var(--success)';
+    selectedPassageId = 'custom';
+  });
+  document.getElementById('upload-txt-btn').addEventListener('click', function () {
+    document.getElementById('upload-txt-input').click();
+  });
+  document.getElementById('upload-txt-input').addEventListener('change', function (e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function (evt) {
+      var content = String(evt.target.result).trim();
+      if (content.length > 2500) {
+        content = content.slice(0, 2500);
+        customStatus.textContent = 'Loaded "' + file.name + '" (truncated to 2500 characters).';
+      } else {
+        customStatus.textContent = 'Loaded "' + file.name + '" (' + wordCount(content) + ' words).';
+      }
+      customStatus.style.color = 'var(--success)';
+      customTextarea.value = content;
+      customText = content;
+      selectedPassageId = 'custom';
+      customBox.hidden = false;
+      renderPassageChips();
+    };
+    reader.onerror = function () {
+      customStatus.textContent = 'Could not read that file. Please try a plain .txt file.';
+      customStatus.style.color = 'var(--error)';
+    };
+    reader.readAsText(file);
+  });
+
+  /* ============== START / RUN TEST ============== */
+  function getSelectedText() {
+    if (selectedPassageId === 'custom') return customText;
+    var p = PASSAGES.filter(function (x) { return x.id === selectedPassageId; })[0];
+    return p ? p.text : PASSAGES[0].text;
+  }
+
+  document.getElementById('start-btn').addEventListener('click', function () {
+    if (selectedPassageId === 'custom' && !customText) {
+      customStatus.textContent = 'Add some custom text first, or pick a built-in passage.';
+      customStatus.style.color = 'var(--error)';
+      customBox.hidden = false;
+      return;
+    }
+    beginTest();
+  });
+
+  function beginTest() {
+    var text = getSelectedText();
+    test = { text: text, durationSeconds: selectedSeconds, startTime: null, timerId: null, correctChars: 0, typedLength: 0, finished: false };
+    renderPassageSpans(text);
+    typingInput.value = '';
+    typingInput.disabled = false;
+    liveTime.textContent = selectedSeconds ? fmtTime(selectedSeconds) : '0:00';
+    liveWpm.textContent = '0';
+    liveAcc.textContent = '100%';
+    liveErr.textContent = '0';
+    progressFill.style.width = '0%';
+
+    panelSelect.hidden = true;
+    panelResults.hidden = true;
+    panelTyping.hidden = false;
+    typingInput.focus();
+  }
+
+  function renderPassageSpans(text) {
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < text.length; i++) {
+      var span = document.createElement('span');
+      span.className = 'char' + (i === 0 ? ' current' : '');
+      span.textContent = text[i];
+      frag.appendChild(span);
+    }
+    passageDisplay.innerHTML = '';
+    passageDisplay.appendChild(frag);
+  }
+
+  typingInput.addEventListener('paste', function (e) { e.preventDefault(); });
+
+  typingInput.addEventListener('input', function () {
+    if (!test || test.finished) return;
+    if (test.startTime === null) {
+      test.startTime = Date.now();
+      test.timerId = setInterval(tick, 100);
+    }
+    var value = typingInput.value;
+    if (value.length > test.text.length) value = value.slice(0, test.text.length);
+
+    var spans = passageDisplay.children;
+    var correct = 0;
+    for (var i = 0; i < spans.length; i++) {
+      spans[i].classList.remove('current');
+      if (i < value.length) {
+        if (value[i] === test.text[i]) {
+          spans[i].classList.add('correct');
+          spans[i].classList.remove('incorrect');
+          correct++;
+        } else {
+          spans[i].classList.add('incorrect');
+          spans[i].classList.remove('correct');
+        }
+      } else {
+        spans[i].classList.remove('correct', 'incorrect');
+      }
+    }
+    if (value.length < spans.length) spans[value.length].classList.add('current');
+
+    test.correctChars = correct;
+    test.typedLength = value.length;
+    progressFill.style.width = Math.round((value.length / test.text.length) * 100) + '%';
+
+    updateLiveStats();
+
+    if (value.length >= test.text.length) {
+      finishTest('completed');
+    }
+  });
+
+  function tick() {
+    if (!test || test.startTime === null || test.finished) return;
+    updateLiveStats();
+    if (test.durationSeconds) {
+      var elapsed = (Date.now() - test.startTime) / 1000;
+      if (elapsed >= test.durationSeconds) finishTest('timeout');
+    }
+  }
+
+  function updateLiveStats() {
+    if (!test || test.startTime === null) return;
+    var elapsedSec = (Date.now() - test.startTime) / 1000;
+    var minutes = Math.max(elapsedSec / 60, 1 / 600); // guard against divide-by-near-zero
+    var wpm = Math.round((test.correctChars / 5) / minutes);
+    var accuracy = test.typedLength > 0 ? Math.round((test.correctChars / test.typedLength) * 100) : 100;
+    var errors = test.typedLength - test.correctChars;
+
+    liveWpm.textContent = Math.max(0, wpm);
+    liveAcc.textContent = accuracy + '%';
+    liveErr.textContent = errors;
+
+    if (test.durationSeconds) {
+      var remaining = Math.max(0, test.durationSeconds - elapsedSec);
+      liveTime.textContent = fmtTime(remaining);
+    } else {
+      liveTime.textContent = fmtTime(elapsedSec);
+    }
+  }
+
+  function finishTest(reason) {
+    if (!test || test.finished) return;
+    test.finished = true;
+    clearInterval(test.timerId);
+    typingInput.disabled = true;
+
+    var elapsedSec = test.startTime ? (Date.now() - test.startTime) / 1000 : 0;
+    var minutes = Math.max(elapsedSec / 60, 1 / 600);
+    var wpm = Math.max(0, Math.round((test.correctChars / 5) / minutes));
+    var accuracy = test.typedLength > 0 ? Math.round((test.correctChars / test.typedLength) * 100) : 100;
+    var errors = test.typedLength - test.correctChars;
+    var remaining = test.durationSeconds ? Math.max(0, test.durationSeconds - elapsedSec) : null;
+
+    var status, badgeClass, message;
+    if (reason === 'timeout') {
+      status = "Time's Up";
+      badgeClass = 'badge-warning';
+      message = "Time ran out before you finished the full passage. Your WPM and accuracy are based on what you typed correctly.";
+    } else if (test.durationSeconds && remaining > 0.4) {
+      status = 'Finished Early';
+      badgeClass = 'badge-success';
+      message = 'Nice work — you finished with ' + Math.round(remaining) + ' seconds to spare. That counts as a great pace!';
+    } else {
+      status = 'Completed';
+      badgeClass = 'badge-primary';
+      message = 'Passage complete. Try a harder passage or a shorter timer to push your speed further.';
+    }
+
+    document.getElementById('result-badge').className = 'result-badge ' + badgeClass;
+    document.getElementById('result-badge').textContent = status;
+    document.getElementById('res-wpm').textContent = wpm;
+    document.getElementById('res-acc').textContent = accuracy + '%';
+    document.getElementById('res-time').textContent = fmtTime(elapsedSec);
+    document.getElementById('res-err').textContent = errors;
+    document.getElementById('result-message').textContent = message;
+
+    var passageTitle = selectedPassageId === 'custom' ? 'Custom Text' : PASSAGES.filter(function (p) { return p.id === selectedPassageId; })[0].title;
+    history.push({
+      time: new Date(),
+      passage: passageTitle,
+      wpm: wpm,
+      accuracy: accuracy,
+      duration: elapsedSec,
+      status: status
+    });
+
+    panelTyping.hidden = true;
+    panelResults.hidden = false;
+  }
+
+  document.getElementById('restart-btn').addEventListener('click', beginTest);
+  document.getElementById('try-again-btn').addEventListener('click', beginTest);
+  document.getElementById('quit-btn').addEventListener('click', backToSelect);
+  document.getElementById('next-passage-btn').addEventListener('click', backToSelect);
+
+  function backToSelect() {
+    if (test && test.timerId) clearInterval(test.timerId);
+    panelTyping.hidden = true;
+    panelResults.hidden = true;
+    panelSelect.hidden = false;
+  }
+
+  document.getElementById('view-dashboard-btn').addEventListener('click', function () {
+    switchView('dashboard');
+  });
+
+  /* ============== TABS ============== */
+  var tabTest = document.getElementById('tab-test');
+  var tabDashboard = document.getElementById('tab-dashboard');
+  var viewTest = document.getElementById('view-test');
+  var viewDashboard = document.getElementById('view-dashboard');
+
+  function switchView(name) {
+    var toTest = name === 'test';
+    viewTest.hidden = !toTest;
+    viewDashboard.hidden = toTest;
+    tabTest.classList.toggle('active', toTest);
+    tabDashboard.classList.toggle('active', !toTest);
+    tabTest.setAttribute('aria-selected', String(toTest));
+    tabDashboard.setAttribute('aria-selected', String(!toTest));
+    if (!toTest) renderDashboard();
+  }
+  tabTest.addEventListener('click', function () { switchView('test'); });
+  tabDashboard.addEventListener('click', function () { switchView('dashboard'); });
+
+  /* ============== DASHBOARD ============== */
+  function renderDashboard() {
+    var summaryEl = document.getElementById('dash-summary');
+    var tableEl = document.getElementById('history-table');
+    var bodyEl = document.getElementById('history-body');
+    var emptyEl = document.getElementById('history-empty');
+
+    if (history.length === 0) {
+      summaryEl.innerHTML =
+        '<div class="summary-card"><span class="stat-value">0</span><span class="stat-label">Tests Completed</span></div>' +
+        '<div class="summary-card"><span class="stat-value">–</span><span class="stat-label">Best WPM</span></div>' +
+        '<div class="summary-card"><span class="stat-value">–</span><span class="stat-label">Average WPM</span></div>' +
+        '<div class="summary-card"><span class="stat-value">–</span><span class="stat-label">Average Accuracy</span></div>';
+      tableEl.hidden = true;
+      emptyEl.hidden = false;
+      renderChart([]);
+      return;
+    }
+
+    var best = Math.max.apply(null, history.map(function (h) { return h.wpm; }));
+    var avgWpm = Math.round(history.reduce(function (s, h) { return s + h.wpm; }, 0) / history.length);
+    var avgAcc = Math.round(history.reduce(function (s, h) { return s + h.accuracy; }, 0) / history.length);
+
+    summaryEl.innerHTML =
+      '<div class="summary-card"><span class="stat-value">' + history.length + '</span><span class="stat-label">Tests Completed</span></div>' +
+      '<div class="summary-card"><span class="stat-value">' + best + '</span><span class="stat-label">Best WPM</span></div>' +
+      '<div class="summary-card"><span class="stat-value">' + avgWpm + '</span><span class="stat-label">Average WPM</span></div>' +
+      '<div class="summary-card"><span class="stat-value">' + avgAcc + '%</span><span class="stat-label">Average Accuracy</span></div>';
+
+    tableEl.hidden = false;
+    emptyEl.hidden = true;
+
+    var rowsHtml = '';
+    history.slice().reverse().slice(0, 20).forEach(function (h) {
+      var pillClass = h.status === 'Finished Early' ? 'badge-success' : (h.status === "Time's Up" ? 'badge-warning' : 'badge-primary');
+      rowsHtml += '<tr>' +
+        '<td>' + h.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + '</td>' +
+        '<td>' + h.passage + '</td>' +
+        '<td>' + h.wpm + '</td>' +
+        '<td>' + h.accuracy + '%</td>' +
+        '<td>' + fmtTime(h.duration) + '</td>' +
+        '<td><span class="status-pill ' + pillClass + '">' + h.status + '</span></td>' +
+        '</tr>';
+    });
+    bodyEl.innerHTML = rowsHtml;
+
+    renderChart(history);
+  }
+
+  function renderChart(data) {
+    var ctx = document.getElementById('wpm-chart').getContext('2d');
+    if (chartInstance) chartInstance.destroy();
+    var styles = getComputedStyle(document.documentElement);
+    var primary = styles.getPropertyValue('--primary').trim();
+    var muted = styles.getPropertyValue('--muted').trim();
+    var hairline = styles.getPropertyValue('--hairline').trim();
+
+    chartInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: data.map(function (_, i) { return 'Test ' + (i + 1); }),
+        datasets: [{
+          label: 'WPM',
+          data: data.map(function (h) { return h.wpm; }),
+          borderColor: primary,
+          backgroundColor: primary,
+          tension: 0.3,
+          pointRadius: 4,
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { color: hairline }, ticks: { color: muted } },
+          y: { beginAtZero: true, grid: { color: hairline }, ticks: { color: muted } }
+        }
+      }
+    });
+  }
+
+  document.getElementById('reset-history-btn').addEventListener('click', function () {
+    if (history.length === 0) return;
+    if (confirm('Clear all typing history for this session? This cannot be undone.')) {
+      history = [];
+      renderDashboard();
+    }
+  });
+
+  /* ============== INIT ============== */
+  renderPassageChips();
+  renderTimerChips();
+
+  /*
+    NOTE ON PERSISTENCE (for deployment on your own domain):
+    This preview keeps theme + history in memory only, so it works safely in
+    any sandboxed preview. Once you deploy this file on wondermayank.in /
+    commercesehoga.github.io, you can make both persist across visits with a
+    few lines, matching your ts_ prefix convention, e.g.:
+
+      localStorage.setItem('ts_typing_theme', theme);
+      localStorage.setItem('ts_typing_history', JSON.stringify(history));
+
+    and reading them back on load with localStorage.getItem(...).
+  */
+})();
+</script>
+</body>
+</html>
