@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -324,14 +323,143 @@
   .footer-col a { display: block; font-size: 14px; color: var(--muted); text-decoration: none; margin-bottom: 10px; }
   .footer-bottom { border-top: 1px solid var(--hairline); padding-top: 20px; font-size: 12px; color: var(--muted); text-align: center; }
 
+  /* ---------- Result / dashboard grids now hold more cards ---------- */
+  .result-grid { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+  .dashboard-summary { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+
+  /* ---------- Caps Lock warning ---------- */
+  .caps-warning {
+    display: none; align-items: center; gap: 8px;
+    background: var(--warning-soft); color: var(--warning);
+    border-radius: 10px; padding: 10px 14px; font-size: 13px; font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .caps-warning.show { display: flex; }
+
+  /* ---------- Current word highlight ---------- */
+  .passage-box .char.current-word:not(.incorrect) { background: var(--surface-soft); border-radius: 2px; }
+
+  /* ---------- XP / Level ---------- */
+  .xp-wrap { display: flex; align-items: center; gap: 8px; }
+  .level-badge {
+    display: flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 9999px; background: var(--surface-soft);
+    color: var(--primary); font-weight: 700; font-size: 12px; flex-shrink: 0;
+  }
+  .xp-track { width: 60px; height: 6px; border-radius: 9999px; background: var(--surface-strong); overflow: hidden; }
+  .xp-fill { height: 100%; width: 0%; background: var(--primary); border-radius: 9999px; transition: width .3s ease; }
+
+  /* ---------- Mode toggle / Government box ---------- */
+  .mode-toggle { display: flex; gap: 4px; background: var(--surface-soft); border-radius: 9999px; padding: 4px; width: fit-content; margin-bottom: 18px; }
+  .mode-btn { border: none; background: transparent; cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600; padding: 9px 18px; border-radius: 9999px; color: var(--muted); }
+  .mode-btn.active { background: var(--primary); color: var(--on-primary); }
+  .gov-box { background: var(--surface-soft); border: 1px solid var(--hairline); border-radius: 14px; padding: 16px; margin-bottom: 20px; }
+  .gov-box .hint-text { margin: 10px 0 0; }
+
+  /* ---------- Ghost race ---------- */
+  .ghost-row { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--body); cursor: pointer; }
+  .progress-track { position: relative; }
+  .ghost-marker { position: absolute; top: -3px; width: 2px; height: 12px; background: var(--muted); opacity: .8; left: 0; display: none; }
+
+  /* ---------- Achievements ---------- */
+  .badges-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); gap: 12px; }
+  .badge-card { background: var(--surface-card); border: 1px solid var(--hairline); border-radius: 14px; padding: 14px; text-align: center; opacity: .35; transition: opacity .2s ease, border-color .2s ease; }
+  .badge-card.unlocked { opacity: 1; border-color: var(--primary); }
+  .badge-card .badge-icon { font-size: 26px; display: block; margin-bottom: 6px; }
+  .badge-card .badge-name { font-size: 12px; font-weight: 700; color: var(--ink); display: block; }
+  .badge-card .badge-desc { font-size: 11px; color: var(--muted); display: block; margin-top: 2px; }
+
+  /* ---------- Virtual keyboard ---------- */
+  .vkeyboard-wrap { margin: 8px 0 20px; }
+  .vkeyboard { display: flex; flex-direction: column; gap: 6px; }
+  .vkeyboard .krow { display: flex; gap: 6px; justify-content: center; }
+  .vkey {
+    min-width: 30px; height: 30px; border-radius: 6px; background: var(--surface-card);
+    border: 1px solid var(--hairline); display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: var(--muted); text-transform: uppercase; transition: background .1s ease, color .1s ease;
+  }
+  .vkey.next { background: var(--primary); color: var(--on-primary); }
+  .vkey.space { flex: 1; max-width: 260px; }
+
+  /* ---------- Toast ---------- */
+  .ts-toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--surface-dark); color: var(--on-dark); padding: 12px 22px; border-radius: 9999px;
+    font-size: 14px; font-weight: 600; opacity: 0; transition: opacity .3s ease, transform .3s ease;
+    z-index: 200; pointer-events: none; white-space: nowrap; max-width: 90vw; overflow: hidden; text-overflow: ellipsis;
+  }
+  .ts-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .best-badge { display: inline-block; font-size: 11px; font-weight: 700; color: var(--success); background: var(--success-soft); padding: 4px 10px; border-radius: 9999px; margin: 0 0 16px; }
+  .icon-btn.active { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+
+  /* ---------- Games grid ---------- */
+  .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
+  .game-card {
+    background: var(--surface-card); border: 1px solid var(--hairline); border-radius: 18px;
+    padding: 22px; display: flex; flex-direction: column; align-items: flex-start;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .game-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+  .game-card-icon {
+    width: 48px; height: 48px; border-radius: 14px; background: var(--surface-soft);
+    display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 14px;
+  }
+  .game-card-title { font-size: 16px; font-weight: 700; color: var(--ink); margin: 0 0 6px; }
+  .game-card-desc { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0 0 18px; flex: 1; }
+  .game-card .game-play-btn { height: 40px; padding: 0 20px; font-size: 13px; width: 100%; }
+  .game-card-best { font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.6px; margin: 0 0 10px; }
+  .game-card.daily-card { border: 2px solid var(--primary); background: var(--surface-soft); }
+  .daily-played-badge { display: inline-block; font-size: 11px; font-weight: 700; color: var(--success); background: var(--success-soft); padding: 3px 10px; border-radius: 9999px; margin: 0 0 10px; }
+  .game-diff-row { display: flex; gap: 4px; background: var(--surface-soft); border-radius: 9999px; padding: 4px; width: fit-content; margin-bottom: 12px; }
+  .game-diff-btn { border: none; background: transparent; cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 9999px; color: var(--muted); }
+  .game-diff-btn.active { background: var(--primary); color: var(--on-primary); }
+  .game-recent-runs { list-style: none; padding: 0; margin: 0 0 20px; font-size: 12px; color: #d8d8dc; }
+  .game-recent-runs li { padding: 2px 0; }
+
+  /* ---------- Game overlay ---------- */
+  .game-overlay {
+    position: fixed; inset: 0; z-index: 300; background: rgba(15, 18, 24, 0.6);
+    display: flex; align-items: center; justify-content: center; padding: 16px;
+  }
+  .game-overlay[hidden] { display: none; }
+  .game-modal {
+    background: var(--canvas); border-radius: 22px; width: 100%; max-width: 720px;
+    padding: 18px; box-shadow: 0 24px 60px rgba(0,0,0,0.35); max-height: 94vh; overflow: auto;
+  }
+  .game-modal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .game-modal-title { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; color: var(--ink); }
+  .game-modal-title span:first-child { font-size: 22px; }
+  .game-hud { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .game-hud-item {
+    background: var(--surface-card); border: 1px solid var(--hairline); border-radius: 12px;
+    padding: 8px 16px; text-align: center; min-width: 84px;
+  }
+  .game-hud-num { font-size: 18px; font-weight: 700; color: var(--ink); display: block; line-height: 1.2; }
+  .game-hud-tag { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+  .game-stage-wrap { position: relative; border-radius: 16px; overflow: hidden; background: var(--surface-soft); }
+  #game-canvas { display: block; width: 100%; height: auto; }
+  .game-instructions { padding: 10px 14px; font-size: 12px; color: var(--muted); background: var(--surface-card); border-top: 1px solid var(--hairline); }
+  .game-overlay-msg {
+    position: absolute; inset: 0; background: rgba(10, 12, 16, 0.78);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px;
+  }
+  .game-overlay-msg[hidden] { display: none; }
+  .game-msg-title { font-size: 24px; font-weight: 700; color: #fff; margin: 0 0 8px; }
+  .game-msg-sub { font-size: 14px; color: #d8d8dc; margin: 0 0 22px; max-width: 40ch; }
+  .game-msg-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
   /* ---------- Responsive ---------- */
   @media (max-width: 720px) {
-    .stats-bar, .result-grid, .dashboard-summary { grid-template-columns: repeat(2, 1fr); }
+    .stats-bar, .dashboard-summary { grid-template-columns: repeat(2, 1fr); }
+    .result-grid { grid-template-columns: repeat(3, 1fr); }
     .footer-grid { grid-template-columns: 1fr; gap: 24px; }
     h1.page-title { font-size: 26px; }
     .passage-box { font-size: 17px; padding: 18px; }
     .tabs .tab-btn { padding: 8px 12px; font-size: 13px; }
     .brand-name { display: none; }
+    .xp-wrap { display: none; }
+    .vkey { min-width: 22px; height: 26px; font-size: 9px; }
   }
 </style>
 </head>
@@ -349,9 +477,21 @@
     </a>
     <nav class="tabs" role="tablist" aria-label="Sections">
       <button class="tab-btn active" id="tab-test" role="tab" aria-selected="true">Test</button>
+      <button class="tab-btn" id="tab-games" role="tab" aria-selected="false">Games</button>
       <button class="tab-btn" id="tab-dashboard" role="tab" aria-selected="false">Dashboard</button>
     </nav>
     <div class="nav-actions">
+      <div class="xp-wrap" title="Your typing level">
+        <div class="level-badge" id="level-badge">1</div>
+        <div class="xp-track"><div class="xp-fill" id="xp-fill"></div></div>
+      </div>
+      <button class="icon-btn" id="kbd-toggle" aria-label="Toggle keyboard guide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"></rect><path d="M6 9h.01M10 9h.01M14 9h.01M18 9h.01M6 13h.01M18 13h.01M10 13h4"></path></svg>
+      </button>
+      <button class="icon-btn" id="sound-toggle" aria-label="Toggle sound effects">
+        <svg id="icon-sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.5 8.5a5 5 0 0 1 0 7"></path></svg>
+        <svg id="icon-sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+      </button>
       <button class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">
         <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
         <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
@@ -371,6 +511,18 @@
         <h1 class="page-title">Free Online Typing Speed Test</h1>
         <p class="lead">Pick a passage, set a timer, and start typing. Live WPM and accuracy update as you go — finish before the clock runs out and we'll let you know you nailed it.</p>
 
+        <div class="mode-toggle" role="tablist" aria-label="Test mode">
+          <button class="mode-btn active" id="mode-practice" type="button">Practice Mode</button>
+          <button class="mode-btn" id="mode-gov" type="button">Government Exam Mode</button>
+        </div>
+
+        <div class="gov-box" id="gov-box" hidden>
+          <p class="field-label" style="margin-bottom:8px;">Choose an exam preset</p>
+          <div class="chips-row" id="gov-chips"></div>
+          <p class="hint-text" id="gov-note"></p>
+          <p class="hint-text">Presets mirror common government typing-test formats (fixed duration, backspace disabled, a minimum WPM/accuracy to clear) for practice purposes only — always check your exam's official notification for the exact criteria.</p>
+        </div>
+
         <div class="panel-block">
           <p class="field-label">1. Choose a passage</p>
           <div class="chips-row" id="passage-chips"></div>
@@ -386,9 +538,14 @@
           </div>
         </div>
 
-        <div class="panel-block">
+        <div class="panel-block" id="timer-block">
           <p class="field-label">2. Set a timer</p>
           <div class="chips-row" id="timer-chips"></div>
+        </div>
+
+        <div class="panel-block" id="ghost-block" hidden>
+          <p class="field-label">3. Ghost race</p>
+          <label class="ghost-row"><input type="checkbox" id="ghost-toggle"> Race against your best run on this passage (<span id="ghost-best-wpm">0</span> WPM)</label>
         </div>
 
         <button class="button-primary" id="start-btn" type="button">Start Test</button>
@@ -396,15 +553,20 @@
 
       <!-- Typing panel -->
       <div id="panel-typing" hidden>
+        <div class="caps-warning" id="caps-warning">⚠ Caps Lock is on — this will cause typing errors.</div>
         <div class="stats-bar">
           <div class="stat-chip"><span class="stat-num" id="live-time">0:00</span><span class="stat-tag">Time</span></div>
           <div class="stat-chip"><span class="stat-num" id="live-wpm">0</span><span class="stat-tag">WPM</span></div>
           <div class="stat-chip"><span class="stat-num" id="live-acc">100%</span><span class="stat-tag">Accuracy</span></div>
           <div class="stat-chip"><span class="stat-num" id="live-err">0</span><span class="stat-tag">Errors</span></div>
         </div>
-        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        <p class="hint-text" id="ghost-status" hidden style="margin:-10px 0 14px;"></p>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div><div class="ghost-marker" id="ghost-marker"></div></div>
         <div class="passage-box" id="passage-display"></div>
         <input type="text" class="typing-input" id="typing-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Click here and start typing to begin...">
+        <div class="vkeyboard-wrap" id="vkeyboard-wrap">
+          <div class="vkeyboard" id="vkeyboard"></div>
+        </div>
         <div class="action-row">
           <button class="button-secondary" id="restart-btn" type="button">Restart</button>
           <button class="button-text-link" id="quit-btn" type="button">‹ BACK TO PASSAGES</button>
@@ -414,18 +576,24 @@
       <!-- Results panel -->
       <div id="panel-results" hidden aria-live="polite">
         <div class="result-badge" id="result-badge"></div>
+        <div class="result-badge" id="gov-badge" hidden></div>
+        <div><span class="best-badge" id="best-badge" hidden>🏆 New Best!</span></div>
         <div class="result-grid">
           <div class="result-card"><span class="stat-value" id="res-wpm">0</span><span class="stat-label">WPM</span></div>
           <div class="result-card"><span class="stat-value" id="res-acc">0%</span><span class="stat-label">Accuracy</span></div>
           <div class="result-card"><span class="stat-value" id="res-time">0:00</span><span class="stat-label">Time Taken</span></div>
           <div class="result-card"><span class="stat-value" id="res-err">0</span><span class="stat-label">Errors</span></div>
+          <div class="result-card"><span class="stat-value" id="res-consistency">0%</span><span class="stat-label">Consistency</span></div>
+          <div class="result-card"><span class="stat-value" id="res-xp">+0</span><span class="stat-label">XP Earned</span></div>
         </div>
         <p id="result-message"></p>
         <div class="action-row">
           <button class="button-primary" id="try-again-btn" type="button">Try Again</button>
           <button class="button-secondary" id="next-passage-btn" type="button">New Passage</button>
+          <button class="button-secondary" id="share-btn" type="button">Share Result</button>
           <button class="button-text-link" id="view-dashboard-btn" type="button">VIEW DASHBOARD ›</button>
         </div>
+        <canvas id="share-canvas" width="1200" height="630" style="display:none;"></canvas>
       </div>
 
       <!-- FAQ -->
@@ -445,7 +613,15 @@
         </div>
         <div class="faq-item">
           <p class="faq-q">Is my typing history saved?</p>
-          <p class="faq-a">Results are kept on the Dashboard for the current browser session so you can track progress across attempts. Closing or reloading the page clears the history.</p>
+          <p class="faq-a">Yes. Your history, best scores, achievements, XP, and level are saved in your browser using localStorage, so they persist across visits on the same device and browser. Clearing your browser data will reset them.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">What is Government Exam Mode?</p>
+          <p class="faq-a">It mirrors common government typing-test formats — a fixed duration, backspace disabled, and a minimum WPM plus accuracy needed to pass — useful for practicing before recruitment typing tests. Always confirm the exact criteria against your exam's official notification.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">What is Ghost Race mode?</p>
+          <p class="faq-a">Once you have a best score on a passage, you can race a "ghost" of that attempt — a marker that moves through the passage at your previous pace, so you can see in real time whether you're ahead or behind.</p>
         </div>
         <div class="faq-item">
           <p class="faq-q">Is this typing test free?</p>
@@ -481,11 +657,208 @@
           </thead>
           <tbody id="history-body"></tbody>
         </table>
-        <p class="empty-state" id="history-empty">No tests completed yet in this session — finish a typing test to see it here.</p>
+        <p class="empty-state" id="history-empty">No tests completed yet — finish a typing test to see it here.</p>
+      </div>
+
+      <div class="history-card">
+        <h2 class="section-title" style="margin-bottom:16px;">Achievements</h2>
+        <div class="badges-grid" id="badges-grid"></div>
+      </div>
+
+      <div class="history-card">
+        <h2 class="section-title" style="margin-bottom:8px;">Keystroke Heatmap</h2>
+        <p class="hint-text" style="margin:0 0 16px;">Darker keys are the ones you mistype most often — a good place to slow down and drill.</p>
+        <div class="vkeyboard" id="heatmap-keyboard"></div>
+      </div>
+
+      <div class="history-card">
+        <div class="history-header"><h2 class="section-title">Best Scores by Passage</h2></div>
+        <table class="history-table" id="best-table" hidden>
+          <thead><tr><th>Passage</th><th>Best WPM</th><th>Accuracy</th><th>Date</th></tr></thead>
+          <tbody id="best-body"></tbody>
+        </table>
+        <p class="empty-state" id="best-empty">No per-passage best scores yet.</p>
+      </div>
+
+      <div class="history-card">
+        <div class="history-header"><h2 class="section-title">Arcade History</h2></div>
+        <table class="history-table" id="arcade-table" hidden>
+          <thead><tr><th>Game</th><th>Mode</th><th>Score</th><th>Date</th></tr></thead>
+          <tbody id="arcade-body"></tbody>
+        </table>
+        <p class="empty-state" id="arcade-empty">No game sessions yet — play something from the Games tab.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== GAMES VIEW ===================== -->
+  <section class="view" id="view-games" hidden>
+    <div class="container">
+      <p class="eyebrow">Play &amp; Practice</p>
+      <h1 class="page-title">Typing Games</h1>
+      <p class="lead">Fourteen arcade-style drills that turn muscle memory into a game — pop bubbles, race the clouds, fight a boss, and more. All scores save to this device and feed your XP and achievements.</p>
+
+      <div class="games-grid" id="games-grid">
+        <div class="game-card daily-card" data-game="daily">
+          <div class="game-card-icon">📅</div>
+          <h3 class="game-card-title" id="daily-title">Daily Challenge</h3>
+          <p class="game-card-desc" id="daily-desc">One fixed challenge for everyone, every day. Same words, same seed — keep your streak alive.</p>
+          <p class="game-card-best daily-played-badge" id="daily-played-badge" hidden>Played today ✓</p>
+          <button class="button-primary game-play-btn" type="button">Play ›</button>
+        </div>
+
+        <div class="game-card" data-game="bubbles">
+          <div class="game-card-icon">🫧</div>
+          <h3 class="game-card-title">Bubbles</h3>
+          <p class="game-card-desc">Pop floating letter bubbles before they reach the top of the screen. Built for letter recognition and finger muscle memory.</p>
+          <p class="game-card-best" id="best-bubbles" hidden></p>
+          <button class="button-secondary game-play-btn" type="button">Play ›</button>
+        </div>
+
+        <div class="game-card" data-game="clouds">
+          <div class="game-card-icon">☁️</div>
+          <h3 class="game-card-title">Clouds</h3>
+          <p class="game-card-desc">Type target words drifting by on clouds. Miss six stormy clouds and your run ends.</p>
+          <p class="game-card-best" id="best-clouds" hidden></p>
+          <button class="button-secondary game-play-btn" type="button">Play ›</button>
+        </div>
+
+        <div class="game-card" data-game="wordtris">
+          <div class="game-card-icon">🧱</div>
+          <h3 class="game-card-title">Wordtris</h3>
+          <p class="game-card-desc">A Tetris-style arcade game — blocks holding words fall from the top. Type them before they stack to the ceiling.</p>
+          <p class="game-card-best" id="best-wordtris" hidden></p>
+          <button class="button-secondary game-play-btn" type="button">Play ›</button>
+        </div>
+
+        <div class="game-card" data-game="cloudrace">
+          <div class="game-card-icon">🏁</div>
+          <h3 class="game-card-title">Cloud Race</h3>
+          <p class="game-card-desc">A speed-focused race — your cloud moves across the sky at a pace matching your live WPM. A ghost of your best run races alongside you.</p>
+          <p class="game-card-best" id="best-cloudrace" hidden></p>
+          <button class="button-secondary game-play-btn" type="button">Play ›</button>
+        </div>
+
+        <div class="game-card" data-game="abc">
+          <div class="game-card-icon">🔤</div>
+          <h3 class="game-card-title">ABC</h3>
+          <p class="game-card-desc">A rapid-fire drill — type the alphabet sequentially from A to Z as fast as humanly possible.</p>
+          <p class="game-card-best" id="best-abc" hidden></p>
+          <button class="button-secondary game-play-btn" type="button">Play ›</button>
+        </div>
+
+        <div class="game-card" data-game="pipemaster">
+          <div class="game-card-icon">🔧</div>
+          <h3 class="game-card-title">Pipe Master</h3>
+          <p class="game-card-desc">A structural puzzle game — hitting correct character sequences aligns pipe segments, forcing you to use your weaker ring and little fingers.</p>
+          <p class="game-card-best" id="best-pipemaster" hidden></p>
+          <button class="button-secondary game-play-btn" type="button">Play ›</button>
+        </div>
+
+        <div class="game-card" data-game="concept">
+          <div class="game-card-icon">🐉</div>
+          <h3 class="game-card-title">The Concept</h3>
+          <p class="game-card-desc">Type full sentences to cast spells and strike a boss monster. Take too long and the boss attacks, draining your health bar.</p>
+          <p class="game-card-best" id="best-concept" hidden></p>
+          <button class="button-secondary game-play-btn" type="button">Play ›</button>
+        </div>
+
+        <div class="game-card" data-game="carrace">
+          <div class="game-card-icon">🏎️</div>
+          <h3 class="game-card-title">The Car</h3>
+          <p class="game-card-desc">Letters A, B, C, D... keep coming — keep typing to keep your car in the race. One wrong key or a missed beat and the race ends.</p>
+          <p class="game-card-best" id="best-carrace" hidden></p>
+          <button class="button-secondary game-play-btn" type="button">Play ›</button>
+        </div>
+
+        <div class="game-card" data-game="missile">
+          <div class="game-card-icon">🚀</div>
+          <h3 class="game-card-title">Missile Defense</h3>
+          <p class="game-card-desc">Words fall toward your city like missiles. Type each one to shoot it down before impact — waves get faster as you survive.</p>
+          <p class="game-card-best" id="best-missile" hidden></p>
+          <button class="button-secondary game-play-btn" type="button">Play ›</button>
+        </div>
+
+        <div class="game-card" data-game="piano">
+          <div class="game-card-icon">🎹</div>
+          <h3 class="game-card-title">Piano Tiles</h3>
+          <p class="game-card-desc">Letters scroll down four lanes like a rhythm game. Hit the right key as each tile crosses the strike line — miss it and it's a strike.</p>
+          <p class="game-card-best" id="best-piano" hidden></p>
+          <button class="button-secondary game-play-btn" type="button">Play ›</button>
+        </div>
+
+        <div class="game-card" data-game="sniper">
+          <div class="game-card-icon">🎯</div>
+          <h3 class="game-card-title">Sniper Mode</h3>
+          <p class="game-card-desc">One target word, one shrinking crosshair. Type it clean in a single burst before the window closes for a precision bonus.</p>
+          <p class="game-card-best" id="best-sniper" hidden></p>
+          <button class="button-secondary game-play-btn" type="button">Play ›</button>
+        </div>
+
+        <div class="game-card" data-game="ninja">
+          <div class="game-card-icon">🍉</div>
+          <h3 class="game-card-title">Ninja Slice</h3>
+          <p class="game-card-desc">Words arc across the screen like thrown fruit. Type one to slice it mid-air — let it fall and you take a strike.</p>
+          <p class="game-card-best" id="best-ninja" hidden></p>
+          <button class="button-secondary game-play-btn" type="button">Play ›</button>
+        </div>
+
+        <div class="game-card" data-game="codebreaker">
+          <div class="game-card-icon">🔐</div>
+          <h3 class="game-card-title">Code Breaker</h3>
+          <p class="game-card-desc">A vault locked behind a scrambled password. Type the unscrambling sequence before the countdown hits zero.</p>
+          <p class="game-card-best" id="best-codebreaker" hidden></p>
+          <button class="button-secondary game-play-btn" type="button">Play ›</button>
+        </div>
+
+        <div class="game-card" data-game="survival">
+          <div class="game-card-icon">🛡️</div>
+          <h3 class="game-card-title">Survival Mode</h3>
+          <p class="game-card-desc">Bubbles, clouds, and falling blocks all at once, escalating forever. An endless stress test — how long can you last?</p>
+          <p class="game-card-best" id="best-survival" hidden></p>
+          <button class="button-secondary game-play-btn" type="button">Play ›</button>
+        </div>
       </div>
     </div>
   </section>
 </main>
+
+<div class="game-overlay" id="game-overlay" hidden>
+  <div class="game-modal">
+    <div class="game-modal-head">
+      <div class="game-modal-title">
+        <span id="game-title-icon">🫧</span>
+        <span id="game-title-text">Bubbles</span>
+      </div>
+      <button class="icon-btn" id="game-close-btn" aria-label="Close game" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="game-diff-row" id="game-diff-row">
+      <button class="game-diff-btn" data-diff="easy" type="button">Easy</button>
+      <button class="game-diff-btn active" data-diff="medium" type="button">Medium</button>
+      <button class="game-diff-btn" data-diff="hard" type="button">Hard</button>
+    </div>
+    <div class="game-hud" id="game-hud">
+      <div class="game-hud-item"><span class="game-hud-num" id="game-score">0</span><span class="game-hud-tag">Score</span></div>
+      <div class="game-hud-item"><span class="game-hud-num" id="game-lives">—</span><span class="game-hud-tag" id="game-lives-tag">Lives</span></div>
+      <div class="game-hud-item"><span class="game-hud-num" id="game-timer">—</span><span class="game-hud-tag">Time</span></div>
+    </div>
+    <div class="game-stage-wrap">
+      <canvas id="game-canvas" width="640" height="360"></canvas>
+      <div class="game-overlay-msg" id="game-msg" hidden>
+        <p class="game-msg-title" id="game-msg-title">Game Over</p>
+        <p class="game-msg-sub" id="game-msg-sub"></p>
+        <ul class="game-recent-runs" id="game-recent-runs"></ul>
+        <div class="game-msg-actions">
+          <button class="button-primary" id="game-retry-btn" type="button">Play Again</button>
+          <button class="button-secondary" id="game-back-btn" type="button">Back to Games</button>
+        </div>
+      </div>
+      <div class="game-instructions" id="game-instructions">Just start typing — no need to click into a box.</div>
+    </div>
+  </div>
+</div>
 
 <footer>
   <div class="container">
@@ -519,16 +892,40 @@
 (function () {
   "use strict";
 
-  /* ============== THEME (session only — see note at bottom) ============== */
+  /* ============== STORAGE ============== */
+  var STORAGE_PREFIX = 'ts_typing_';
+  function loadJSON(key, fallback) {
+    try {
+      var raw = localStorage.getItem(STORAGE_PREFIX + key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (e) { return fallback; }
+  }
+  function saveJSON(key, value) {
+    try { localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value)); } catch (e) {}
+  }
+  function loadStr(key, fallback) {
+    try { return localStorage.getItem(STORAGE_PREFIX + key) || fallback; } catch (e) { return fallback; }
+  }
+  function saveStr(key, value) {
+    try { localStorage.setItem(STORAGE_PREFIX + key, value); } catch (e) {}
+  }
+
+  /* ============== THEME (persisted) ============== */
   var root = document.documentElement;
   var themeToggle = document.getElementById('theme-toggle');
   var iconSun = document.getElementById('icon-sun');
   var iconMoon = document.getElementById('icon-moon');
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    iconSun.style.display = theme === 'dark' ? 'none' : 'block';
+    iconMoon.style.display = theme === 'dark' ? 'block' : 'none';
+  }
+  applyTheme(loadStr('theme', 'light'));
   themeToggle.addEventListener('click', function () {
-    var isDark = root.getAttribute('data-theme') === 'dark';
-    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    iconSun.style.display = isDark ? 'block' : 'none';
-    iconMoon.style.display = isDark ? 'none' : 'block';
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    saveStr('theme', next);
+    if (chartInstance) renderChart(history);
   });
 
   /* ============== LOADER ============== */
@@ -536,13 +933,48 @@
   window.addEventListener('DOMContentLoaded', hideLoader);
   setTimeout(hideLoader, 1500);
 
+  /* ============== SOUND EFFECTS ============== */
+  var soundOn = loadJSON('sound', true);
+  var soundToggle = document.getElementById('sound-toggle');
+  var iconSoundOn = document.getElementById('icon-sound-on');
+  var iconSoundOff = document.getElementById('icon-sound-off');
+  function refreshSoundIcon() {
+    iconSoundOn.style.display = soundOn ? 'block' : 'none';
+    iconSoundOff.style.display = soundOn ? 'none' : 'block';
+  }
+  refreshSoundIcon();
+  soundToggle.addEventListener('click', function () {
+    soundOn = !soundOn;
+    saveJSON('sound', soundOn);
+    refreshSoundIcon();
+  });
+  var audioCtx = null;
+  function beep(freq, dur, type) {
+    if (!soundOn) return;
+    try {
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.type = type || 'sine';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(); osc.stop(audioCtx.currentTime + dur);
+    } catch (e) {}
+  }
+  function playKeySound() { beep(700, 0.03, 'square'); }
+  function playErrorSound() { beep(180, 0.1, 'sawtooth'); }
+  function playCompleteSound() { beep(880, 0.15, 'sine'); setTimeout(function () { beep(1175, 0.2, 'sine'); }, 120); }
+
   /* ============== DATA ============== */
   var PASSAGES = [
     { id: 'p1', title: 'Morning Calm', level: 'Easy', text: "The sun rises quietly over the hills every morning, painting the sky in soft shades of orange and pink. Birds begin to sing as the world slowly wakes up. A cup of warm tea and a few deep breaths are often the best way to start a calm and productive day." },
     { id: 'p2', title: 'Digital Learning', level: 'Easy-Medium', text: "Technology has changed the way people learn, work, and communicate with one another. A single smartphone today holds more computing power than the machines that once filled entire rooms. Students can now access course material, video lessons, and practice tests from almost anywhere in the world. While these tools make learning more convenient, they also demand a new kind of discipline, since endless notifications and distractions are only a tap away. Building strong digital habits has become just as important as building strong study habits." },
     { id: 'p3', title: 'Exam Consistency', level: 'Medium', text: "Consistent practice is the quiet foundation behind every strong exam result. Students who revise a little every day, rather than cramming everything before a test, tend to retain concepts far longer and recall them with less stress. Breaking a large syllabus into small daily goals turns an overwhelming subject into a manageable routine. Mock tests play an important role in this process, since they reveal weak areas long before the real exam does. Progress rarely feels dramatic day to day, but when measured over weeks and months, small consistent efforts add up to real, lasting improvement." },
     { id: 'p4', title: 'The Cosmos', level: 'Hard', text: "The universe is far older and larger than the human mind can comfortably imagine. Light from some of the most distant galaxies has been traveling toward Earth for over thirteen billion years, meaning astronomers observing these galaxies are essentially looking back in time. Within our own solar system, moons orbiting distant planets show surprising signs of subsurface oceans, hidden beneath thick layers of ice, raising fascinating questions about where else life might exist. Every new telescope and space mission adds another piece to this enormous puzzle, yet each answer tends to raise several new questions. Studying the cosmos requires patience, precision, and a willingness to be endlessly surprised by what lies beyond our own small corner of space." },
-    { id: 'p5', title: 'Growth & Patience', level: 'Hard', text: "Growth rarely follows a straight or predictable line; it tends to arrive in uneven bursts, separated by long stretches that can feel like standing still. Many people quit during these quiet stretches, mistaking a lack of visible progress for a lack of real progress. Yet skill, much like compound interest, often works silently in the background before producing a noticeable result. The habits practiced during difficult, unremarkable days are usually the ones that matter most in the long run, even though they rarely feel significant at the time. Patience, in this sense, is not simply about waiting; it is about continuing to show up and put in deliberate effort long after the initial motivation has quietly faded away." }
+    { id: 'p5', title: 'Growth & Patience', level: 'Hard', text: "Growth rarely follows a straight or predictable line; it tends to arrive in uneven bursts, separated by long stretches that can feel like standing still. Many people quit during these quiet stretches, mistaking a lack of visible progress for a lack of real progress. Yet skill, much like compound interest, often works silently in the background before producing a noticeable result. The habits practiced during difficult, unremarkable days are usually the ones that matter most in the long run, even though they rarely feel significant at the time. Patience, in this sense, is not simply about waiting; it is about continuing to show up and put in deliberate effort long after the initial motivation has quietly faded away." },
+    { id: 'hindi1', title: 'हिंदी अभ्यास (Hindi Practice)', level: 'Medium', text: "निरंतर अभ्यास किसी भी परीक्षा में सफलता की सबसे बड़ी कुंजी है। जो विद्यार्थी हर दिन थोड़ा-थोड़ा अध्ययन करते हैं, वे अंतिम समय में सब कुछ याद करने की कोशिश करने वालों की तुलना में कहीं अधिक आत्मविश्वास के साथ परीक्षा देते हैं। बड़े पाठ्यक्रम को छोटे दैनिक लक्ष्यों में बाँटने से पढ़ाई आसान और व्यवस्थित लगने लगती है। नियमित मॉक टेस्ट देने से कमजोर विषयों का समय रहते पता चल जाता है, जिससे सुधार का पर्याप्त अवसर मिलता है।" }
   ];
 
   var TIMER_OPTIONS = [
@@ -554,14 +986,61 @@
     { label: '5 min', seconds: 300 }
   ];
 
-  var history = []; // in-memory session history
+  var GOV_PRESETS = [
+    { id: 'ssc-en', label: 'SSC CHSL (English)', duration: 600, thresholdWpm: 35, thresholdAcc: 95, passageId: null, note: '10 minutes · English · Backspace disabled · needs roughly 35 WPM and 95% accuracy to clear.' },
+    { id: 'ssc-hi', label: 'SSC CHSL (Hindi)', duration: 600, thresholdWpm: 30, thresholdAcc: 95, passageId: 'hindi1', note: '10 minutes · Hindi · Backspace disabled · needs roughly 30 WPM and 95% accuracy to clear.' },
+    { id: 'court', label: 'Court Typing Test', duration: 600, thresholdWpm: 35, thresholdAcc: 95, passageId: null, note: '10 minutes · English · Backspace disabled · needs roughly 35 WPM and 95% accuracy to clear.' }
+  ];
+
+  var ACHIEVEMENTS = [
+    { id: 'first_step', icon: '🎯', name: 'First Steps', desc: 'Complete your first test' },
+    { id: 'speedster', icon: '🚀', name: 'Speedster', desc: 'Reach 60 WPM in a test' },
+    { id: 'lightning', icon: '⚡', name: 'Lightning Fingers', desc: 'Reach 100 WPM in a test' },
+    { id: 'perfectionist', icon: '💯', name: 'Perfectionist', desc: '100% accuracy on a test' },
+    { id: 'marathoner', icon: '🏃', name: 'Marathoner', desc: 'Complete 10 tests total' },
+    { id: 'centurion', icon: '💪', name: 'Centurion', desc: 'Complete 50 tests total' },
+    { id: 'exam_ready', icon: '🏛️', name: 'Exam Ready', desc: 'Pass a Government Exam Mode test' },
+    { id: 'night_owl', icon: '🦉', name: 'Night Owl', desc: 'Finish a test between midnight and 5am' },
+    { id: 'streak_3', icon: '🔥', name: '3-Day Streak', desc: 'Practice 3 days in a row' },
+    { id: 'streak_7', icon: '🔥', name: 'Week Warrior', desc: 'Practice 7 days in a row' },
+    { id: 'arcade_rookie', icon: '🕹️', name: 'Arcade Rookie', desc: 'Play any typing game for the first time' },
+    { id: 'arcade_regular', icon: '🎮', name: 'Arcade Regular', desc: 'Complete 10 game sessions' },
+    { id: 'boss_slayer', icon: '🗡️', name: 'Boss Slayer', desc: "Defeat the boss in The Concept" },
+    { id: 'alphabet_blitz', icon: '🔤', name: 'Alphabet Blitz', desc: 'Finish ABC in under 5 seconds' },
+    { id: 'survivor', icon: '🛡️', name: 'Survivor', desc: 'Last 60 seconds in Survival Mode' },
+    { id: 'sniper_elite', icon: '🎯', name: 'Sniper Elite', desc: 'Hit 10 targets in a row in Sniper Mode' },
+    { id: 'code_cracked', icon: '🔓', name: 'Code Cracked', desc: 'Crack a Hard vault in Code Breaker' },
+    { id: 'ace_pilot', icon: '🚀', name: 'Ace Pilot', desc: 'Survive 5 waves in Missile Defense' },
+    { id: 'daily_champion', icon: '📅', name: 'Daily Champion', desc: 'Complete a Daily Challenge' }
+  ];
+
+  var KB_ROWS = [
+    ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
+    ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+    ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+    ['z', 'x', 'c', 'v', 'b', 'n', 'm']
+  ];
+
+  /* ============== PERSISTED STATE ============== */
+  var history = loadJSON('history', []).map(function (h) { h.time = new Date(h.time); return h; });
+  var bestScores = loadJSON('best', {});
+  var ghostData = loadJSON('ghosts', {});
+  var heatmap = loadJSON('heatmap', {});
+  var unlocked = loadJSON('achievements', []);
+  var xpState = loadJSON('xp', { total: 0 });
+  var streakState = loadJSON('streak', { last: null, count: 0 });
+  var showKeyboard = loadJSON('showKeyboard', true);
+
   var customText = null;
   var selectedPassageId = 'p1';
   var selectedSeconds = null;
   var chartInstance = null;
+  var testMode = 'practice'; // 'practice' | 'government'
+  var activeGovPreset = null;
+  var racingGhost = false;
 
   /* ============== STATE FOR ACTIVE TEST ============== */
-  var test = null; // { text, durationSeconds, startTime, timerId, correctChars, typedLength, finished }
+  var test = null;
 
   /* ============== ELEMENTS ============== */
   var passageChipsEl = document.getElementById('passage-chips');
@@ -579,6 +1058,17 @@
   var liveWpm = document.getElementById('live-wpm');
   var liveAcc = document.getElementById('live-acc');
   var liveErr = document.getElementById('live-err');
+  var capsWarning = document.getElementById('caps-warning');
+  var vkeyboardEl = document.getElementById('vkeyboard');
+  var vkeyboardWrap = document.getElementById('vkeyboard-wrap');
+  var kbdToggle = document.getElementById('kbd-toggle');
+  var ghostMarkerEl = document.getElementById('ghost-marker');
+  var ghostStatusEl = document.getElementById('ghost-status');
+  var levelBadge = document.getElementById('level-badge');
+  var xpFill = document.getElementById('xp-fill');
+  var timerBlock = document.getElementById('timer-block');
+  var ghostBlock = document.getElementById('ghost-block');
+  var ghostToggle = document.getElementById('ghost-toggle');
 
   /* ============== HELPERS ============== */
   function fmtTime(totalSeconds) {
@@ -588,20 +1078,125 @@
     return m + ':' + (s < 10 ? '0' : '') + s;
   }
   function wordCount(text) { return text.trim().split(/\s+/).length; }
+  function todayStr(d) { d = d || new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+
+  /* ============== TOAST ============== */
+  var toastEl = document.createElement('div');
+  toastEl.className = 'ts-toast';
+  document.body.appendChild(toastEl);
+  var toastTimer = null;
+  function showToast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 2800);
+  }
+
+  /* ============== XP / LEVEL ============== */
+  function levelFromXp(xp) { return Math.floor(xp / 150) + 1; }
+  function renderXp() {
+    var lvl = levelFromXp(xpState.total);
+    var into = xpState.total % 150;
+    levelBadge.textContent = lvl;
+    xpFill.style.width = Math.round((into / 150) * 100) + '%';
+  }
+  function awardXp(amount) {
+    var prevLevel = levelFromXp(xpState.total);
+    xpState.total += amount;
+    saveJSON('xp', xpState);
+    renderXp();
+    var newLevel = levelFromXp(xpState.total);
+    if (newLevel > prevLevel) showToast('🎉 Level up! You reached Level ' + newLevel);
+    return amount;
+  }
+  renderXp();
+
+  /* ============== ACHIEVEMENTS ============== */
+  function unlockAchievement(id) {
+    if (unlocked.indexOf(id) !== -1) return;
+    unlocked.push(id);
+    saveJSON('achievements', unlocked);
+    var def = ACHIEVEMENTS.filter(function (a) { return a.id === id; })[0];
+    if (def) showToast(def.icon + ' Achievement unlocked: ' + def.name);
+  }
+  function checkAchievements(ctx) {
+    if (history.length >= 1) unlockAchievement('first_step');
+    if (ctx.wpm >= 60) unlockAchievement('speedster');
+    if (ctx.wpm >= 100) unlockAchievement('lightning');
+    if (ctx.accuracy === 100) unlockAchievement('perfectionist');
+    if (history.length >= 10) unlockAchievement('marathoner');
+    if (history.length >= 50) unlockAchievement('centurion');
+    if (ctx.govPass) unlockAchievement('exam_ready');
+    var hr = new Date().getHours();
+    if (hr >= 0 && hr < 5) unlockAchievement('night_owl');
+    if (streakState.count >= 3) unlockAchievement('streak_3');
+    if (streakState.count >= 7) unlockAchievement('streak_7');
+  }
+
+  /* ============== STREAK ============== */
+  function bumpStreak() {
+    var today = todayStr();
+    if (streakState.last === today) return;
+    var y = new Date(); y.setDate(y.getDate() - 1);
+    streakState.count = (streakState.last === todayStr(y)) ? streakState.count + 1 : 1;
+    streakState.last = today;
+    saveJSON('streak', streakState);
+  }
+
+  /* ============== VIRTUAL KEYBOARD ============== */
+  function renderKeyboard(container, opts) {
+    opts = opts || {};
+    var html = '';
+    KB_ROWS.forEach(function (row) {
+      html += '<div class="krow">';
+      row.forEach(function (k) {
+        var cls = 'vkey';
+        var style = '';
+        if (opts.next && k === opts.next) cls += ' next';
+        if (opts.heat) {
+          var count = heatmap[k] || 0;
+          var intensity = opts.maxHeat ? Math.min(1, count / opts.maxHeat) : 0;
+          if (intensity > 0) {
+            style = ' style="background:rgba(220,38,38,' + (0.12 + intensity * 0.6).toFixed(2) + ');' + (intensity > 0.35 ? 'color:#fff;' : '') + '"';
+          }
+        }
+        html += '<span class="' + cls + '"' + style + '>' + k + '</span>';
+      });
+      html += '</div>';
+    });
+    html += '<div class="krow"><span class="vkey space">space</span></div>';
+    container.innerHTML = html;
+  }
 
   /* ============== RENDER SELECTION CHIPS ============== */
+  function refreshGhostAvailability() {
+    var ghost = ghostData[selectedPassageId];
+    if (testMode === 'practice' && ghost && selectedPassageId !== 'custom') {
+      ghostBlock.hidden = false;
+      document.getElementById('ghost-best-wpm').textContent = ghost.wpm;
+    } else {
+      ghostBlock.hidden = true;
+      ghostToggle.checked = false;
+    }
+  }
+
   function renderPassageChips() {
     var html = '';
+    var lockedId = (testMode === 'government' && activeGovPreset && activeGovPreset.passageId) ? activeGovPreset.passageId : null;
     PASSAGES.forEach(function (p) {
       var sel = p.id === selectedPassageId ? ' selected' : '';
-      html += '<button type="button" class="chip' + sel + '" data-passage="' + p.id + '">' +
+      var locked = (lockedId && lockedId !== p.id) ? ' disabled style="opacity:.4;pointer-events:none;"' : '';
+      var best = bestScores[p.id];
+      var bestMeta = best ? (' · Best ' + best.wpm + ' WPM') : '';
+      html += '<button type="button" class="chip' + sel + '"' + locked + ' data-passage="' + p.id + '">' +
         '<span class="chip-title">' + p.title + '</span>' +
-        '<span class="chip-meta">' + wordCount(p.text) + ' words</span>' +
+        '<span class="chip-meta">' + wordCount(p.text) + ' words' + bestMeta + '</span>' +
         '<span class="level-pill level-' + p.level + '">' + p.level + '</span>' +
         '</button>';
     });
-    var sel = selectedPassageId === 'custom' ? ' selected' : '';
-    html += '<button type="button" class="chip' + sel + '" data-passage="custom">' +
+    var selc = selectedPassageId === 'custom' ? ' selected' : '';
+    var customLocked = lockedId ? ' disabled style="opacity:.4;pointer-events:none;"' : '';
+    html += '<button type="button" class="chip' + selc + '"' + customLocked + ' data-passage="custom">' +
       '<span class="chip-title">Custom Text</span>' +
       '<span class="chip-meta">Paste or upload your own</span>' +
       '</button>';
@@ -614,6 +1209,7 @@
         renderPassageChips();
       });
     });
+    refreshGhostAvailability();
   }
 
   function renderTimerChips() {
@@ -646,6 +1242,60 @@
       }
     });
   }
+
+  /* ============== MODE TOGGLE (Practice / Government) ============== */
+  var modePracticeBtn = document.getElementById('mode-practice');
+  var modeGovBtn = document.getElementById('mode-gov');
+  var govBox = document.getElementById('gov-box');
+  var govChipsEl = document.getElementById('gov-chips');
+  var govNote = document.getElementById('gov-note');
+
+  function renderGovChips() {
+    var html = '';
+    GOV_PRESETS.forEach(function (g) {
+      var sel = activeGovPreset && activeGovPreset.id === g.id ? ' selected' : '';
+      html += '<button type="button" class="chip' + sel + '" data-gov="' + g.id + '"><span class="chip-title">' + g.label + '</span></button>';
+    });
+    govChipsEl.innerHTML = html;
+    Array.prototype.forEach.call(govChipsEl.querySelectorAll('.chip'), function (btn) {
+      btn.addEventListener('click', function () {
+        var preset = GOV_PRESETS.filter(function (g) { return g.id === btn.getAttribute('data-gov'); })[0];
+        activeGovPreset = preset;
+        selectedSeconds = preset.duration;
+        if (preset.passageId) { selectedPassageId = preset.passageId; customBox.hidden = true; }
+        govNote.textContent = preset.note;
+        renderGovChips();
+        renderPassageChips();
+        renderTimerChips();
+      });
+    });
+  }
+
+  modePracticeBtn.addEventListener('click', function () {
+    testMode = 'practice';
+    activeGovPreset = null;
+    modePracticeBtn.classList.add('active');
+    modeGovBtn.classList.remove('active');
+    govBox.hidden = true;
+    timerBlock.hidden = false;
+    renderPassageChips();
+    refreshGhostAvailability();
+  });
+  modeGovBtn.addEventListener('click', function () {
+    testMode = 'government';
+    modeGovBtn.classList.add('active');
+    modePracticeBtn.classList.remove('active');
+    govBox.hidden = false;
+    timerBlock.hidden = true;
+    if (!activeGovPreset) activeGovPreset = GOV_PRESETS[0];
+    selectedSeconds = activeGovPreset.duration;
+    govNote.textContent = activeGovPreset.note;
+    if (activeGovPreset.passageId) { selectedPassageId = activeGovPreset.passageId; customBox.hidden = true; }
+    renderGovChips();
+    renderPassageChips();
+    renderTimerChips();
+    refreshGhostAvailability();
+  });
 
   /* ============== CUSTOM TEXT ============== */
   document.getElementById('use-custom-btn').addEventListener('click', function () {
@@ -706,9 +1356,28 @@
     beginTest();
   });
 
+  function ghostIndexAtTime(timeline, ms) {
+    if (!timeline || !timeline.length) return 0;
+    if (ms <= timeline[0].t) return timeline[0].i;
+    for (var i = 1; i < timeline.length; i++) {
+      if (ms <= timeline[i].t) {
+        var t0 = timeline[i - 1].t, t1 = timeline[i].t, i0 = timeline[i - 1].i, i1 = timeline[i].i;
+        var frac = t1 > t0 ? (ms - t0) / (t1 - t0) : 0;
+        return Math.round(i0 + (i1 - i0) * frac);
+      }
+    }
+    return timeline[timeline.length - 1].i;
+  }
+
   function beginTest() {
     var text = getSelectedText();
-    test = { text: text, durationSeconds: selectedSeconds, startTime: null, timerId: null, correctChars: 0, typedLength: 0, finished: false };
+    racingGhost = ghostToggle.checked && !!ghostData[selectedPassageId] && selectedPassageId !== 'custom';
+    test = {
+      text: text, durationSeconds: selectedSeconds, startTime: null, timerId: null,
+      correctChars: 0, typedLength: 0, finished: false,
+      timeline: [], mistakes: {}, wpmSamples: [],
+      ghostTimeline: racingGhost ? ghostData[selectedPassageId].timeline : null
+    };
     renderPassageSpans(text);
     typingInput.value = '';
     typingInput.disabled = false;
@@ -717,6 +1386,15 @@
     liveAcc.textContent = '100%';
     liveErr.textContent = '0';
     progressFill.style.width = '0%';
+    capsWarning.classList.remove('show');
+
+    ghostMarkerEl.style.display = racingGhost ? 'block' : 'none';
+    ghostMarkerEl.style.left = '0%';
+    ghostStatusEl.hidden = !racingGhost;
+    ghostStatusEl.textContent = racingGhost ? 'Racing your ghost — start typing to see the gap.' : '';
+
+    vkeyboardWrap.hidden = !showKeyboard;
+    if (showKeyboard) renderKeyboard(vkeyboardEl, { next: text[0] ? text[0].toLowerCase() : null });
 
     panelSelect.hidden = true;
     panelResults.hidden = true;
@@ -738,41 +1416,74 @@
 
   typingInput.addEventListener('paste', function (e) { e.preventDefault(); });
 
+  typingInput.addEventListener('keydown', function (e) {
+    if (e.getModifierState && e.getModifierState('CapsLock')) {
+      capsWarning.classList.add('show');
+    } else {
+      capsWarning.classList.remove('show');
+    }
+    if (testMode === 'government' && activeGovPreset && (e.key === 'Backspace' || e.key === 'Delete')) {
+      e.preventDefault();
+    }
+  });
+
   typingInput.addEventListener('input', function () {
     if (!test || test.finished) return;
     if (test.startTime === null) {
       test.startTime = Date.now();
       test.timerId = setInterval(tick, 100);
     }
+    var text = test.text;
     var value = typingInput.value;
-    if (value.length > test.text.length) value = value.slice(0, test.text.length);
+    if (value.length > text.length) value = value.slice(0, text.length);
+
+    var wordStart = value.length, wordEnd = value.length;
+    while (wordStart > 0 && text[wordStart - 1] !== ' ') wordStart--;
+    while (wordEnd < text.length && text[wordEnd] !== ' ') wordEnd++;
 
     var spans = passageDisplay.children;
     var correct = 0;
+    var newMistake = false;
     for (var i = 0; i < spans.length; i++) {
-      spans[i].classList.remove('current');
+      spans[i].classList.remove('current', 'current-word');
       if (i < value.length) {
-        if (value[i] === test.text[i]) {
+        if (value[i] === text[i]) {
           spans[i].classList.add('correct');
           spans[i].classList.remove('incorrect');
           correct++;
         } else {
+          if (!spans[i].classList.contains('incorrect')) {
+            newMistake = true;
+            var badKey = (text[i] || '').toLowerCase();
+            if (/[a-z0-9]/.test(badKey)) test.mistakes[badKey] = (test.mistakes[badKey] || 0) + 1;
+          }
           spans[i].classList.add('incorrect');
           spans[i].classList.remove('correct');
         }
       } else {
         spans[i].classList.remove('correct', 'incorrect');
+        if (i >= wordStart && i < wordEnd) spans[i].classList.add('current-word');
       }
     }
     if (value.length < spans.length) spans[value.length].classList.add('current');
 
+    if (value.length > test.typedLength) {
+      if (newMistake) playErrorSound(); else playKeySound();
+    }
+
     test.correctChars = correct;
     test.typedLength = value.length;
-    progressFill.style.width = Math.round((value.length / test.text.length) * 100) + '%';
+    if (test.startTime) test.timeline.push({ t: Date.now() - test.startTime, i: value.length });
+    progressFill.style.width = Math.round((value.length / text.length) * 100) + '%';
+
+    if (showKeyboard) {
+      var nextChar = text[value.length] ? text[value.length].toLowerCase() : null;
+      renderKeyboard(vkeyboardEl, { next: nextChar });
+    }
 
     updateLiveStats();
 
-    if (value.length >= test.text.length) {
+    if (value.length >= text.length) {
       finishTest('completed');
     }
   });
@@ -780,20 +1491,31 @@
   function tick() {
     if (!test || test.startTime === null || test.finished) return;
     updateLiveStats();
+    var elapsedMs = Date.now() - test.startTime;
     if (test.durationSeconds) {
-      var elapsed = (Date.now() - test.startTime) / 1000;
-      if (elapsed >= test.durationSeconds) finishTest('timeout');
+      var elapsed = elapsedMs / 1000;
+      if (elapsed >= test.durationSeconds) { finishTest('timeout'); return; }
+    }
+    if (racingGhost && test.ghostTimeline) {
+      var ghostIdx = ghostIndexAtTime(test.ghostTimeline, elapsedMs);
+      var pct = Math.min(100, (ghostIdx / test.text.length) * 100);
+      ghostMarkerEl.style.left = pct + '%';
+      var diff = test.typedLength - ghostIdx;
+      ghostStatusEl.textContent = diff >= 0
+        ? ('👻 You are ' + diff + ' characters ahead of your ghost')
+        : ('👻 Your ghost is ' + (-diff) + ' characters ahead — catch up!');
     }
   }
 
   function updateLiveStats() {
     if (!test || test.startTime === null) return;
     var elapsedSec = (Date.now() - test.startTime) / 1000;
-    var minutes = Math.max(elapsedSec / 60, 1 / 600); // guard against divide-by-near-zero
+    var minutes = Math.max(elapsedSec / 60, 1 / 600);
     var wpm = Math.round((test.correctChars / 5) / minutes);
     var accuracy = test.typedLength > 0 ? Math.round((test.correctChars / test.typedLength) * 100) : 100;
     var errors = test.typedLength - test.correctChars;
 
+    test.wpmSamples.push(Math.max(0, wpm));
     liveWpm.textContent = Math.max(0, wpm);
     liveAcc.textContent = accuracy + '%';
     liveErr.textContent = errors;
@@ -819,6 +1541,15 @@
     var errors = test.typedLength - test.correctChars;
     var remaining = test.durationSeconds ? Math.max(0, test.durationSeconds - elapsedSec) : null;
 
+    var samples = test.wpmSamples.slice(3);
+    var consistency = 100;
+    if (samples.length > 1) {
+      var mean = samples.reduce(function (s, v) { return s + v; }, 0) / samples.length;
+      var variance = samples.reduce(function (s, v) { return s + (v - mean) * (v - mean); }, 0) / samples.length;
+      var stdev = Math.sqrt(variance);
+      consistency = Math.round(Math.max(0, Math.min(100, 100 - stdev * 1.4)));
+    }
+
     var status, badgeClass, message;
     if (reason === 'timeout') {
       status = "Time's Up";
@@ -840,17 +1571,61 @@
     document.getElementById('res-acc').textContent = accuracy + '%';
     document.getElementById('res-time').textContent = fmtTime(elapsedSec);
     document.getElementById('res-err').textContent = errors;
+    document.getElementById('res-consistency').textContent = consistency + '%';
     document.getElementById('result-message').textContent = message;
 
+    var govBadge = document.getElementById('gov-badge');
+    var govPass = false;
+    if (testMode === 'government' && activeGovPreset) {
+      govPass = wpm >= activeGovPreset.thresholdWpm && accuracy >= activeGovPreset.thresholdAcc;
+      govBadge.hidden = false;
+      govBadge.className = 'result-badge ' + (govPass ? 'badge-success' : 'badge-warning');
+      govBadge.textContent = (govPass ? 'PASSED' : 'NOT CLEARED') + ' — ' + activeGovPreset.label +
+        ' (needs ' + activeGovPreset.thresholdWpm + ' WPM / ' + activeGovPreset.thresholdAcc + '% accuracy)';
+    } else {
+      govBadge.hidden = true;
+    }
+
+    var bestBadge = document.getElementById('best-badge');
+    var isNewBest = false;
+    if (selectedPassageId !== 'custom') {
+      var existing = bestScores[selectedPassageId];
+      if (!existing || wpm > existing.wpm) {
+        isNewBest = true;
+        bestScores[selectedPassageId] = { wpm: wpm, accuracy: accuracy, date: new Date().toISOString() };
+        saveJSON('best', bestScores);
+        if (test.timeline.length > 1) {
+          var tl = test.timeline;
+          if (tl.length > 150) {
+            var sampled = [];
+            var step = Math.ceil(tl.length / 150);
+            for (var si = 0; si < tl.length; si += step) sampled.push(tl[si]);
+            tl = sampled;
+          }
+          ghostData[selectedPassageId] = { timeline: tl, wpm: wpm };
+          saveJSON('ghosts', ghostData);
+        }
+      }
+    }
+    bestBadge.hidden = !isNewBest;
+
+    Object.keys(test.mistakes).forEach(function (k) { heatmap[k] = (heatmap[k] || 0) + test.mistakes[k]; });
+    saveJSON('heatmap', heatmap);
+
+    var xpGain = Math.round(wpm * 0.5 + accuracy * 0.5) + (reason === 'completed' ? 10 : 0) + (govPass ? 25 : 0) + (isNewBest ? 15 : 0);
+    awardXp(xpGain);
+    document.getElementById('res-xp').textContent = '+' + xpGain;
+
+    bumpStreak();
+
     var passageTitle = selectedPassageId === 'custom' ? 'Custom Text' : PASSAGES.filter(function (p) { return p.id === selectedPassageId; })[0].title;
-    history.push({
-      time: new Date(),
-      passage: passageTitle,
-      wpm: wpm,
-      accuracy: accuracy,
-      duration: elapsedSec,
-      status: status
-    });
+    var entry = { time: new Date(), passage: passageTitle, wpm: wpm, accuracy: accuracy, duration: elapsedSec, status: status, consistency: consistency, mode: testMode };
+    history.push(entry);
+    if (history.length > 200) history = history.slice(history.length - 200);
+    saveJSON('history', history);
+
+    checkAchievements({ wpm: wpm, accuracy: accuracy, govPass: govPass });
+    playCompleteSound();
 
     panelTyping.hidden = true;
     panelResults.hidden = false;
@@ -866,29 +1641,91 @@
     panelTyping.hidden = true;
     panelResults.hidden = true;
     panelSelect.hidden = false;
+    renderPassageChips();
   }
 
   document.getElementById('view-dashboard-btn').addEventListener('click', function () {
     switchView('dashboard');
   });
 
+  /* ============== KEYBOARD GUIDE TOGGLE ============== */
+  if (showKeyboard) kbdToggle.classList.add('active');
+  kbdToggle.addEventListener('click', function () {
+    showKeyboard = !showKeyboard;
+    saveJSON('showKeyboard', showKeyboard);
+    kbdToggle.classList.toggle('active', showKeyboard);
+    if (test && !panelTyping.hidden) vkeyboardWrap.hidden = !showKeyboard;
+  });
+
+  /* ============== KEYBOARD SHORTCUTS ============== */
+  document.addEventListener('keydown', function (e) {
+    if (!panelResults.hidden) {
+      if (e.key === 'Tab') { e.preventDefault(); document.getElementById('try-again-btn').click(); }
+      else if (e.key === 'Enter') { e.preventDefault(); document.getElementById('next-passage-btn').click(); }
+    } else if (!panelTyping.hidden) {
+      if (e.key === 'Escape') { document.getElementById('quit-btn').click(); }
+    } else if (!panelSelect.hidden && !viewTest.hidden) {
+      var tag = document.activeElement ? document.activeElement.tagName : '';
+      if (e.key === 'Enter' && tag !== 'TEXTAREA') {
+        e.preventDefault();
+        document.getElementById('start-btn').click();
+      }
+    }
+  });
+
+  /* ============== SHARE RESULT ============== */
+  document.getElementById('share-btn').addEventListener('click', function () {
+    var canvas = document.getElementById('share-canvas');
+    var ctx = canvas.getContext('2d');
+    var isDark = root.getAttribute('data-theme') === 'dark';
+    ctx.fillStyle = isDark ? '#0e0e10' : '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = isDark ? '#f5f5f7' : '#1d1d1f';
+    ctx.font = '700 30px Inter, sans-serif';
+    ctx.fillText('ThunderType — Typing Result', 60, 90);
+    ctx.font = '700 130px Inter, sans-serif';
+    ctx.fillStyle = '#6699FB';
+    ctx.fillText(document.getElementById('res-wpm').textContent + ' WPM', 60, 270);
+    ctx.font = '400 26px Inter, sans-serif';
+    ctx.fillStyle = isDark ? '#d1d1d6' : '#3c3c3c';
+    ctx.fillText(
+      'Accuracy ' + document.getElementById('res-acc').textContent +
+      '  ·  Time ' + document.getElementById('res-time').textContent +
+      '  ·  Errors ' + document.getElementById('res-err').textContent,
+      60, 330
+    );
+    ctx.font = '600 18px Inter, sans-serif';
+    ctx.fillStyle = isDark ? '#8e8e93' : '#6b6b6b';
+    ctx.fillText('thunderstudy.in · Free typing speed test', 60, 580);
+    var link = document.createElement('a');
+    link.download = 'thundertype-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+
   /* ============== TABS ============== */
   var tabTest = document.getElementById('tab-test');
+  var tabGames = document.getElementById('tab-games');
   var tabDashboard = document.getElementById('tab-dashboard');
   var viewTest = document.getElementById('view-test');
+  var viewGames = document.getElementById('view-games');
   var viewDashboard = document.getElementById('view-dashboard');
 
   function switchView(name) {
-    var toTest = name === 'test';
-    viewTest.hidden = !toTest;
-    viewDashboard.hidden = toTest;
-    tabTest.classList.toggle('active', toTest);
-    tabDashboard.classList.toggle('active', !toTest);
-    tabTest.setAttribute('aria-selected', String(toTest));
-    tabDashboard.setAttribute('aria-selected', String(!toTest));
-    if (!toTest) renderDashboard();
+    viewTest.hidden = name !== 'test';
+    viewGames.hidden = name !== 'games';
+    viewDashboard.hidden = name !== 'dashboard';
+    tabTest.classList.toggle('active', name === 'test');
+    tabGames.classList.toggle('active', name === 'games');
+    tabDashboard.classList.toggle('active', name === 'dashboard');
+    tabTest.setAttribute('aria-selected', String(name === 'test'));
+    tabGames.setAttribute('aria-selected', String(name === 'games'));
+    tabDashboard.setAttribute('aria-selected', String(name === 'dashboard'));
+    if (name === 'dashboard') renderDashboard();
+    if (name === 'games' && window.renderGameBests) window.renderGameBests();
   }
   tabTest.addEventListener('click', function () { switchView('test'); });
+  tabGames.addEventListener('click', function () { switchView('games'); });
   tabDashboard.addEventListener('click', function () { switchView('dashboard'); });
 
   /* ============== DASHBOARD ============== */
@@ -898,46 +1735,84 @@
     var bodyEl = document.getElementById('history-body');
     var emptyEl = document.getElementById('history-empty');
 
+    var lvl = levelFromXp(xpState.total);
+    var extraCards =
+      '<div class="summary-card"><span class="stat-value">' + streakState.count + '</span><span class="stat-label">Day Streak 🔥</span></div>' +
+      '<div class="summary-card"><span class="stat-value">Lv ' + lvl + '</span><span class="stat-label">' + xpState.total + ' XP total</span></div>';
+
     if (history.length === 0) {
       summaryEl.innerHTML =
         '<div class="summary-card"><span class="stat-value">0</span><span class="stat-label">Tests Completed</span></div>' +
         '<div class="summary-card"><span class="stat-value">–</span><span class="stat-label">Best WPM</span></div>' +
         '<div class="summary-card"><span class="stat-value">–</span><span class="stat-label">Average WPM</span></div>' +
-        '<div class="summary-card"><span class="stat-value">–</span><span class="stat-label">Average Accuracy</span></div>';
+        '<div class="summary-card"><span class="stat-value">–</span><span class="stat-label">Average Accuracy</span></div>' +
+        extraCards;
       tableEl.hidden = true;
       emptyEl.hidden = false;
       renderChart([]);
-      return;
+    } else {
+      var best = Math.max.apply(null, history.map(function (h) { return h.wpm; }));
+      var avgWpm = Math.round(history.reduce(function (s, h) { return s + h.wpm; }, 0) / history.length);
+      var avgAcc = Math.round(history.reduce(function (s, h) { return s + h.accuracy; }, 0) / history.length);
+
+      summaryEl.innerHTML =
+        '<div class="summary-card"><span class="stat-value">' + history.length + '</span><span class="stat-label">Tests Completed</span></div>' +
+        '<div class="summary-card"><span class="stat-value">' + best + '</span><span class="stat-label">Best WPM</span></div>' +
+        '<div class="summary-card"><span class="stat-value">' + avgWpm + '</span><span class="stat-label">Average WPM</span></div>' +
+        '<div class="summary-card"><span class="stat-value">' + avgAcc + '%</span><span class="stat-label">Average Accuracy</span></div>' +
+        extraCards;
+
+      tableEl.hidden = false;
+      emptyEl.hidden = true;
+
+      var rowsHtml = '';
+      history.slice().reverse().slice(0, 20).forEach(function (h) {
+        var pillClass = h.status === 'Finished Early' ? 'badge-success' : (h.status === "Time's Up" ? 'badge-warning' : 'badge-primary');
+        rowsHtml += '<tr>' +
+          '<td>' + h.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + '</td>' +
+          '<td>' + h.passage + '</td>' +
+          '<td>' + h.wpm + '</td>' +
+          '<td>' + h.accuracy + '%</td>' +
+          '<td>' + fmtTime(h.duration) + '</td>' +
+          '<td><span class="status-pill ' + pillClass + '">' + h.status + '</span></td>' +
+          '</tr>';
+      });
+      bodyEl.innerHTML = rowsHtml;
+
+      renderChart(history);
     }
 
-    var best = Math.max.apply(null, history.map(function (h) { return h.wpm; }));
-    var avgWpm = Math.round(history.reduce(function (s, h) { return s + h.wpm; }, 0) / history.length);
-    var avgAcc = Math.round(history.reduce(function (s, h) { return s + h.accuracy; }, 0) / history.length);
+    var badgesGrid = document.getElementById('badges-grid');
+    badgesGrid.innerHTML = ACHIEVEMENTS.map(function (a) {
+      var isUnlocked = unlocked.indexOf(a.id) !== -1;
+      return '<div class="badge-card' + (isUnlocked ? ' unlocked' : '') + '">' +
+        '<span class="badge-icon">' + a.icon + '</span>' +
+        '<span class="badge-name">' + a.name + '</span>' +
+        '<span class="badge-desc">' + a.desc + '</span>' +
+        '</div>';
+    }).join('');
 
-    summaryEl.innerHTML =
-      '<div class="summary-card"><span class="stat-value">' + history.length + '</span><span class="stat-label">Tests Completed</span></div>' +
-      '<div class="summary-card"><span class="stat-value">' + best + '</span><span class="stat-label">Best WPM</span></div>' +
-      '<div class="summary-card"><span class="stat-value">' + avgWpm + '</span><span class="stat-label">Average WPM</span></div>' +
-      '<div class="summary-card"><span class="stat-value">' + avgAcc + '%</span><span class="stat-label">Average Accuracy</span></div>';
+    var maxHeat = 1;
+    Object.keys(heatmap).forEach(function (k) { if (heatmap[k] > maxHeat) maxHeat = heatmap[k]; });
+    renderKeyboard(document.getElementById('heatmap-keyboard'), { heat: true, maxHeat: maxHeat });
 
-    tableEl.hidden = false;
-    emptyEl.hidden = true;
-
-    var rowsHtml = '';
-    history.slice().reverse().slice(0, 20).forEach(function (h) {
-      var pillClass = h.status === 'Finished Early' ? 'badge-success' : (h.status === "Time's Up" ? 'badge-warning' : 'badge-primary');
-      rowsHtml += '<tr>' +
-        '<td>' + h.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + '</td>' +
-        '<td>' + h.passage + '</td>' +
-        '<td>' + h.wpm + '</td>' +
-        '<td>' + h.accuracy + '%</td>' +
-        '<td>' + fmtTime(h.duration) + '</td>' +
-        '<td><span class="status-pill ' + pillClass + '">' + h.status + '</span></td>' +
-        '</tr>';
-    });
-    bodyEl.innerHTML = rowsHtml;
-
-    renderChart(history);
+    var bestTableEl = document.getElementById('best-table');
+    var bestBodyEl = document.getElementById('best-body');
+    var bestEmptyEl = document.getElementById('best-empty');
+    var keys = Object.keys(bestScores);
+    if (keys.length === 0) {
+      bestTableEl.hidden = true;
+      bestEmptyEl.hidden = false;
+    } else {
+      bestTableEl.hidden = false;
+      bestEmptyEl.hidden = true;
+      bestBodyEl.innerHTML = keys.map(function (pid) {
+        var p = PASSAGES.filter(function (x) { return x.id === pid; })[0];
+        var b = bestScores[pid];
+        return '<tr><td>' + (p ? p.title : pid) + '</td><td>' + b.wpm + '</td><td>' + b.accuracy + '%</td><td>' + new Date(b.date).toLocaleDateString() + '</td></tr>';
+      }).join('');
+    }
+    if (window.renderArcadeHistory) window.renderArcadeHistory();
   }
 
   function renderChart(data) {
@@ -975,28 +1850,652 @@
   }
 
   document.getElementById('reset-history-btn').addEventListener('click', function () {
-    if (history.length === 0) return;
-    if (confirm('Clear all typing history for this session? This cannot be undone.')) {
-      history = [];
+    if (history.length === 0 && unlocked.length === 0 && Object.keys(bestScores).length === 0) return;
+    if (confirm('Reset all saved typing progress — history, best scores, achievements, XP, ghosts, and the heatmap? This cannot be undone.')) {
+      history = []; bestScores = {}; ghostData = {}; heatmap = {}; unlocked = []; xpState = { total: 0 }; streakState = { last: null, count: 0 };
+      saveJSON('history', history);
+      saveJSON('best', bestScores);
+      saveJSON('ghosts', ghostData);
+      saveJSON('heatmap', heatmap);
+      saveJSON('achievements', unlocked);
+      saveJSON('xp', xpState);
+      saveJSON('streak', streakState);
+      renderXp();
       renderDashboard();
+      renderPassageChips();
     }
   });
+
+  /* ============== TYPING GAMES ============== */
+  (function () {
+    var gameBests = loadJSON('games_best', {});
+    function saveBest(id, value, higherBetter) {
+      var cur = gameBests[id];
+      var better = cur === undefined || (higherBetter ? value > cur : value < cur);
+      if (better) { gameBests[id] = value; saveJSON('games_best', gameBests); }
+      return better;
+    }
+    var BEST_FORMAT = {
+      bubbles: function (v) { return 'Best: ' + v + ' pts'; },
+      clouds: function (v) { return 'Best: ' + v + ' pts'; },
+      wordtris: function (v) { return 'Best: ' + v + ' pts'; },
+      cloudrace: function (v) { return 'Best: ' + v.toFixed(1) + 's'; },
+      abc: function (v) { return 'Best: ' + (v / 1000).toFixed(2) + 's'; },
+      pipemaster: function (v) { return 'Best: ' + v + ' pts'; },
+      concept: function (v) { return 'Best: ' + v + ' pts'; },
+      carrace: function (v) { return 'Best: ' + v + 'm'; }
+    };
+    window.renderGameBests = function () {
+      Object.keys(BEST_FORMAT).forEach(function (id) {
+        var el = document.getElementById('best-' + id);
+        if (!el) return;
+        if (gameBests[id] !== undefined) {
+          el.textContent = BEST_FORMAT[id](gameBests[id]);
+          el.hidden = false;
+        }
+      });
+    };
+    window.renderGameBests();
+
+    var WORD_BANK = ['time', 'people', 'water', 'world', 'school', 'money', 'story', 'friend', 'music', 'light', 'happy', 'dream', 'power', 'peace', 'learn', 'write', 'speed', 'focus', 'brave', 'quiet', 'dance', 'smile', 'trust', 'shine', 'climb', 'voice', 'trace', 'flame', 'ocean', 'cloud', 'paper', 'river', 'stone', 'table', 'plant', 'sound', 'field', 'forest', 'signal', 'pencil'];
+    var SENTENCE_BANK = [
+      'the quick fox jumps high',
+      'practice makes typing perfect',
+      'stay calm and keep typing',
+      'every word builds your speed',
+      'focus on accuracy not speed',
+      'small steps lead to big wins',
+      'type fast but stay accurate',
+      'keep your eyes on the screen'
+    ];
+    var LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    var WEAK_FINGER_CHARS = ['q', 'a', 'z', 'w', 's', 'x', 'p', 'l', 'o'];
+    function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function randInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+    function roundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    }
+    function drawCloudShape(ctx, x, y) {
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(x - 26, y + 6, 20, 0, Math.PI * 2);
+      ctx.arc(x, y - 4, 26, 0, Math.PI * 2);
+      ctx.arc(x + 28, y + 6, 18, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillRect(x - 40, y + 6, 80, 20);
+    }
+
+    /* ---- overlay elements ---- */
+    var overlay = document.getElementById('game-overlay');
+    var canvas = document.getElementById('game-canvas');
+    var ctx = canvas.getContext('2d');
+    var titleIcon = document.getElementById('game-title-icon');
+    var titleText = document.getElementById('game-title-text');
+    var scoreEl = document.getElementById('game-score');
+    var livesEl = document.getElementById('game-lives');
+    var livesTag = document.getElementById('game-lives-tag');
+    var timerEl = document.getElementById('game-timer');
+    var msgEl = document.getElementById('game-msg');
+    var msgTitle = document.getElementById('game-msg-title');
+    var msgSub = document.getElementById('game-msg-sub');
+    var instructionsEl = document.getElementById('game-instructions');
+    var retryBtn = document.getElementById('game-retry-btn');
+    var backBtn = document.getElementById('game-back-btn');
+    var closeBtn = document.getElementById('game-close-btn');
+
+    var W = canvas.width, H = canvas.height;
+    var currentGameId = null;
+    var rafId = null;
+    var lastTs = null;
+    var g = null;
+    var Games = {};
+
+    var GAME_META = {
+      bubbles: { icon: '🫧', title: 'Bubbles', instructions: 'Type the letter shown on a bubble to pop it before it reaches the top. 60 seconds, 5 lives.' },
+      clouds: { icon: '☁️', title: 'Clouds', instructions: 'Type the highlighted word before its cloud drifts off screen. 6 misses ends the run.' },
+      wordtris: { icon: '🧱', title: 'Wordtris', instructions: "Type the falling word before the block lands. Unlanded blocks stack up — don't let the stack reach the top." },
+      cloudrace: { icon: '🏁', title: 'Cloud Race', instructions: 'Type each word correctly to push your cloud toward the finish line. 45 second race.' },
+      abc: { icon: '🔤', title: 'ABC', instructions: 'Type A through Z in order, as fast as you can.' },
+      pipemaster: { icon: '🔧', title: 'Pipe Master', instructions: 'Type each character to align the next pipe segment. Uses your ring and pinky finger keys on purpose.' },
+      concept: { icon: '🐉', title: 'The Concept', instructions: 'Type the full sentence before the cast bar empties to strike the boss. Too slow and it strikes back.' },
+      carrace: { icon: '🏎️', title: 'The Car', instructions: 'Letters appear one at a time — type each before the beat runs out to keep your car racing.' }
+    };
+
+    function setHud(opts) {
+      scoreEl.textContent = opts.score;
+      if (opts.lives === null || opts.lives === undefined) { livesEl.textContent = '—'; livesTag.textContent = 'Lives'; }
+      else { livesEl.textContent = opts.lives; livesTag.textContent = opts.livesTag || 'Lives'; }
+      timerEl.textContent = (opts.timer === null || opts.timer === undefined) ? '—' : opts.timer;
+    }
+
+    function endGame(win, title, sub) {
+      g.running = false;
+      cancelAnimationFrame(rafId);
+      document.removeEventListener('keydown', onKeyDown);
+      msgTitle.textContent = title;
+      msgSub.textContent = sub;
+      msgEl.hidden = false;
+      if (win) playCompleteSound(); else playErrorSound();
+      window.renderGameBests();
+    }
+
+    function startGame(id) {
+      msgEl.hidden = true;
+      ctx.clearRect(0, 0, W, H);
+      g = { running: true, score: 0, misses: 0, elapsed: 0 };
+      Games[id].init(g);
+      lastTs = null;
+      document.removeEventListener('keydown', onKeyDown);
+      document.addEventListener('keydown', onKeyDown);
+      rafId = requestAnimationFrame(loop);
+    }
+
+    function openGame(id) {
+      currentGameId = id;
+      var meta = GAME_META[id];
+      titleIcon.textContent = meta.icon;
+      titleText.textContent = meta.title;
+      instructionsEl.textContent = meta.instructions;
+      overlay.hidden = false;
+      msgEl.hidden = true;
+      startGame(id);
+    }
+
+    function closeGame() {
+      overlay.hidden = true;
+      if (g) g.running = false;
+      cancelAnimationFrame(rafId);
+      document.removeEventListener('keydown', onKeyDown);
+    }
+
+    function onKeyDown(e) {
+      if (!g || !g.running) return;
+      if (e.key === 'Escape') { closeGame(); return; }
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.key === ' ' || e.key.length === 1) e.preventDefault();
+      Games[currentGameId].key(g, e.key);
+    }
+
+    function loop(ts) {
+      if (!g || !g.running) return;
+      if (lastTs === null) lastTs = ts;
+      var dt = Math.min(0.05, (ts - lastTs) / 1000);
+      lastTs = ts;
+      g.elapsed += dt;
+      Games[currentGameId].update(g, dt);
+      ctx.clearRect(0, 0, W, H);
+      Games[currentGameId].render(g, ctx);
+      if (g.running) rafId = requestAnimationFrame(loop);
+    }
+
+    retryBtn.addEventListener('click', function () { startGame(currentGameId); });
+    backBtn.addEventListener('click', function () { closeGame(); switchView('games'); });
+    closeBtn.addEventListener('click', closeGame);
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) closeGame(); });
+
+    Array.prototype.forEach.call(document.querySelectorAll('.game-play-btn'), function (btn) {
+      btn.addEventListener('click', function () {
+        var card = btn.closest('.game-card');
+        openGame(card.getAttribute('data-game'));
+      });
+    });
+
+    /* ---------------- Bubbles ---------------- */
+    Games.bubbles = {
+      init: function (g) {
+        g.lives = 5; g.timeLeft = 60; g.bubbles = []; g.spawnTimer = 0;
+        setHud({ score: 0, lives: 5, livesTag: 'Lives', timer: 60 });
+      },
+      key: function (g, key) {
+        if (key.length !== 1) return;
+        var ch = key.toUpperCase();
+        if (!/[A-Z]/.test(ch)) return;
+        var best = null;
+        g.bubbles.forEach(function (b) { if (!b.popped && b.char === ch && (!best || b.y < best.y)) best = b; });
+        if (best) { best.popped = true; best.scale = 1; g.score += 10; playKeySound(); }
+      },
+      update: function (g, dt) {
+        g.timeLeft -= dt;
+        if (g.timeLeft <= 0) {
+          g.timeLeft = 0;
+          setHud({ score: g.score, lives: g.lives, livesTag: 'Lives', timer: 0 });
+          saveBest('bubbles', g.score, true);
+          endGame(true, "Time's Up!", 'Final score: ' + g.score + ' pts');
+          return;
+        }
+        g.spawnTimer -= dt;
+        if (g.spawnTimer <= 0) {
+          g.spawnTimer = Math.max(0.45, 1.1 - g.elapsed / 90);
+          g.bubbles.push({ char: rand(LETTERS), x: randInt(30, W - 30), y: H + 20, r: 22, speed: randInt(40, 70) });
+        }
+        var survivors = [];
+        g.bubbles.forEach(function (b) {
+          if (b.popped) { b.scale -= dt * 6; if (b.scale > 0) survivors.push(b); return; }
+          b.y -= b.speed * dt;
+          if (b.y - b.r <= 0) { g.lives -= 1; } else { survivors.push(b); }
+        });
+        g.bubbles = survivors;
+        setHud({ score: g.score, lives: g.lives, livesTag: 'Lives', timer: Math.ceil(g.timeLeft) });
+        if (g.lives <= 0) {
+          saveBest('bubbles', g.score, true);
+          endGame(false, 'Bubbles Popped You!', 'Final score: ' + g.score + ' pts');
+        }
+      },
+      render: function (g, ctx) {
+        ctx.fillStyle = '#eaf2ff'; ctx.fillRect(0, 0, W, H);
+        ctx.strokeStyle = '#c9d9f7'; ctx.beginPath(); ctx.moveTo(0, 4); ctx.lineTo(W, 4); ctx.stroke();
+        g.bubbles.forEach(function (b) {
+          var scale = b.popped ? Math.max(0, b.scale) : 1;
+          ctx.save();
+          ctx.globalAlpha = scale;
+          ctx.beginPath();
+          ctx.arc(b.x, b.y, b.r * (b.popped ? (1.4 - scale) : 1), 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(102,153,251,0.85)';
+          ctx.fill();
+          ctx.fillStyle = '#fff';
+          ctx.font = 'bold 18px Inter, sans-serif';
+          ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillText(b.char, b.x, b.y);
+          ctx.restore();
+        });
+      }
+    };
+
+    /* ---------------- Clouds ---------------- */
+    Games.clouds = {
+      init: function (g) {
+        g.misses = 0; g.clouds = []; g.spawnTimer = 0;
+        setHud({ score: 0, lives: 6, livesTag: 'Misses left', timer: null });
+      },
+      key: function (g, key) {
+        if (key.length !== 1) return;
+        var ch = key.toLowerCase();
+        var target = null;
+        g.clouds.forEach(function (c) { if (!c.done && (!target || c.x > target.x)) target = c; });
+        if (!target) return;
+        var expected = target.word[target.typed.length];
+        if (expected === ch) {
+          target.typed += ch;
+          playKeySound();
+          if (target.typed.length === target.word.length) { target.done = true; target.fade = 1; g.score += target.word.length * 5; }
+        }
+      },
+      update: function (g, dt) {
+        g.spawnTimer -= dt;
+        if (g.spawnTimer <= 0 && g.clouds.length < 3) {
+          g.spawnTimer = randInt(2, 3);
+          g.clouds.push({ word: rand(WORD_BANK), typed: '', x: -100, y: randInt(50, H - 90), speed: randInt(35, 55), done: false });
+        }
+        var survivors = [];
+        g.clouds.forEach(function (c) {
+          if (c.done) { c.x += c.speed * dt * 2; c.fade -= dt * 2.5; if (c.fade > 0) survivors.push(c); return; }
+          c.x += c.speed * dt;
+          if (c.x > W + 100) { g.misses += 1; } else { survivors.push(c); }
+        });
+        g.clouds = survivors;
+        setHud({ score: g.score, lives: Math.max(0, 6 - g.misses), livesTag: 'Misses left', timer: null });
+        if (g.misses >= 6) {
+          saveBest('clouds', g.score, true);
+          endGame(false, 'Storm Rolled In', 'Final score: ' + g.score + ' pts');
+        }
+      },
+      render: function (g, ctx) {
+        ctx.fillStyle = '#dceafe'; ctx.fillRect(0, 0, W, H);
+        g.clouds.forEach(function (c) {
+          ctx.save();
+          ctx.globalAlpha = c.done ? Math.max(0, c.fade) : 1;
+          drawCloudShape(ctx, c.x, c.y);
+          ctx.font = '15px Inter, sans-serif'; ctx.textBaseline = 'middle';
+          var totalW = ctx.measureText(c.word).width;
+          var startX = c.x - totalW / 2;
+          var typedPart = c.word.slice(0, c.typed.length);
+          var restPart = c.word.slice(c.typed.length);
+          ctx.textAlign = 'left';
+          ctx.fillStyle = '#2f8f4e'; ctx.fillText(typedPart, startX, c.y + 32);
+          ctx.fillStyle = '#1d1d1f'; ctx.fillText(restPart, startX + ctx.measureText(typedPart).width, c.y + 32);
+          ctx.restore();
+        });
+      }
+    };
+
+    /* ---------------- Wordtris ---------------- */
+    var SHORT_WORDS = WORD_BANK.filter(function (w) { return w.length <= 8; });
+    function wtSpawn() { return { word: rand(SHORT_WORDS), typed: '', x: W / 2, y: -20 }; }
+    Games.wordtris = {
+      init: function (g) {
+        g.stackHeight = 0; g.speed = 40; g.block = wtSpawn();
+        setHud({ score: 0, lives: null, timer: null });
+      },
+      key: function (g, key) {
+        if (key.length !== 1 || !g.block) return;
+        var ch = key.toLowerCase();
+        var b = g.block;
+        if (b.word[b.typed.length] === ch) {
+          b.typed += ch;
+          playKeySound();
+          if (b.typed.length === b.word.length) {
+            g.score += b.word.length * 8;
+            g.speed = Math.min(160, g.speed + 3);
+            g.block = wtSpawn();
+          }
+        }
+      },
+      update: function (g, dt) {
+        if (!g.block) return;
+        var b = g.block;
+        b.y += g.speed * dt;
+        var floorY = H - g.stackHeight - 30;
+        if (b.y >= floorY) {
+          g.stackHeight += 46;
+          g.block = wtSpawn();
+        }
+        setHud({ score: g.score, lives: null, timer: null });
+        if (g.stackHeight >= H - 40) {
+          saveBest('wordtris', g.score, true);
+          endGame(false, 'Stack Overflowed', 'Final score: ' + g.score + ' pts');
+        }
+      },
+      render: function (g, ctx) {
+        ctx.fillStyle = '#f4f0ff'; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = '#c9c2f0';
+        ctx.fillRect(0, H - g.stackHeight, W, g.stackHeight);
+        if (g.block) {
+          var b = g.block;
+          ctx.font = 'bold 17px Inter, sans-serif';
+          var textW = ctx.measureText(b.word).width;
+          var blockW = textW + 40, blockH = 40;
+          ctx.fillStyle = '#6699FB';
+          roundRect(ctx, b.x - blockW / 2, b.y - blockH / 2, blockW, blockH, 10);
+          ctx.fill();
+          ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+          var typedPart = b.word.slice(0, b.typed.length);
+          var restPart = b.word.slice(b.typed.length);
+          var startX = b.x - textW / 2;
+          ctx.fillStyle = '#c8ff9e'; ctx.fillText(typedPart, startX, b.y);
+          ctx.fillStyle = '#ffffff'; ctx.fillText(restPart, startX + ctx.measureText(typedPart).width, b.y);
+        }
+      }
+    };
+
+    /* ---------------- Cloud Race ---------------- */
+    Games.cloudrace = {
+      init: function (g) {
+        g.timeLeft = 45; g.finished = false; g.progress = 0;
+        g.targetChars = 220; g.currentWord = rand(WORD_BANK); g.typed = ''; g.correctChars = 0;
+        setHud({ score: 0, lives: null, timer: 45 });
+      },
+      key: function (g, key) {
+        if (g.finished || key.length !== 1) return;
+        var ch = key.toLowerCase();
+        if (ch === ' ') {
+          if (g.typed.length === g.currentWord.length && g.typed.length > 0) {
+            g.correctChars += 1;
+            g.currentWord = rand(WORD_BANK);
+            g.typed = '';
+          }
+          return;
+        }
+        if (g.currentWord[g.typed.length] === ch) {
+          g.typed += ch;
+          g.correctChars += 1;
+          playKeySound();
+          g.progress = Math.min(1, g.correctChars / g.targetChars);
+          g.score = Math.round(g.progress * 100);
+          if (g.progress >= 1 && !g.finished) {
+            g.finished = true;
+            var timeTaken = 45 - g.timeLeft;
+            saveBest('cloudrace', timeTaken, false);
+            endGame(true, 'You Win the Race!', 'Finished in ' + timeTaken.toFixed(1) + 's');
+          }
+        }
+      },
+      update: function (g, dt) {
+        if (g.finished) return;
+        g.timeLeft -= dt;
+        setHud({ score: g.score, lives: null, timer: Math.max(0, Math.ceil(g.timeLeft)) });
+        if (g.timeLeft <= 0) {
+          endGame(false, 'Race Over', 'You covered ' + Math.round(g.progress * 100) + '% of the track');
+        }
+      },
+      render: function (g, ctx) {
+        ctx.fillStyle = '#eaf2ff'; ctx.fillRect(0, 0, W, H);
+        var trackY = 90;
+        ctx.strokeStyle = '#b9cdf5'; ctx.setLineDash([10, 8]); ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(30, trackY); ctx.lineTo(W - 30, trackY); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#1d1d1f'; ctx.fillRect(W - 34, trackY - 30, 4, 40);
+        ctx.fillStyle = '#dc2626'; ctx.fillRect(W - 30, trackY - 30, 16, 10);
+        var cx = 46 + g.progress * (W - 90);
+        drawCloudShape(ctx, cx, trackY - 24);
+        ctx.font = 'bold 26px Inter, sans-serif'; ctx.textBaseline = 'middle';
+        var textW = ctx.measureText(g.currentWord).width;
+        var startX = W / 2 - textW / 2;
+        var typedPart = g.currentWord.slice(0, g.typed.length);
+        var restPart = g.currentWord.slice(g.typed.length);
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#2f8f4e'; ctx.fillText(typedPart, startX, H - 90);
+        ctx.fillStyle = '#1d1d1f'; ctx.fillText(restPart, startX + ctx.measureText(typedPart).width, H - 90);
+        ctx.textAlign = 'center';
+        ctx.font = '13px Inter, sans-serif'; ctx.fillStyle = '#6b6b6b';
+        ctx.fillText('Type each word, press space to continue', W / 2, H - 50);
+      }
+    };
+
+    /* ---------------- ABC ---------------- */
+    Games.abc = {
+      init: function (g) {
+        g.idx = 0; g.startTime = null; g.finished = false;
+        setHud({ score: 0, lives: null, timer: null });
+      },
+      key: function (g, key) {
+        if (g.finished || key.length !== 1) return;
+        if (g.startTime === null) g.startTime = performance.now();
+        var expected = LETTERS[g.idx].toLowerCase();
+        if (key.toLowerCase() === expected) {
+          g.idx += 1;
+          playKeySound();
+          if (g.idx === LETTERS.length) {
+            g.finished = true;
+            var ms = performance.now() - g.startTime;
+            g.score = Math.round(ms);
+            var improved = saveBest('abc', ms, false);
+            endGame(true, 'A to Z Complete!', 'Time: ' + (ms / 1000).toFixed(2) + 's' + (improved ? ' — New best!' : ''));
+          }
+        } else {
+          playErrorSound();
+        }
+      },
+      update: function (g, dt) {
+        var elapsed = g.startTime === null ? 0 : (performance.now() - g.startTime) / 1000;
+        setHud({ score: g.idx, lives: null, timer: elapsed.toFixed(1) });
+      },
+      render: function (g, ctx) {
+        ctx.fillStyle = '#fbfbfd'; ctx.fillRect(0, 0, W, H);
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.font = '16px Inter, sans-serif'; ctx.fillStyle = '#9a9a9a';
+        ctx.fillText(g.idx + ' / 26 typed', W / 2, 50);
+        ctx.font = 'bold 120px Inter, sans-serif'; ctx.fillStyle = '#6699FB';
+        ctx.fillText(g.finished ? '✓' : LETTERS[g.idx], W / 2, H / 2 + 10);
+        ctx.font = '14px Inter, sans-serif'; ctx.fillStyle = '#6b6b6b';
+        ctx.fillText('Press the key that matches the letter above', W / 2, H - 40);
+      }
+    };
+
+    /* ---------------- Pipe Master ---------------- */
+    Games.pipemaster = {
+      init: function (g) {
+        g.sequence = [];
+        for (var i = 0; i < 10; i++) g.sequence.push(rand(WEAK_FINGER_CHARS));
+        g.idx = 0; g.mistakes = 0;
+        setHud({ score: 0, lives: null, timer: null });
+      },
+      key: function (g, key) {
+        if (key.length !== 1) return;
+        var ch = key.toLowerCase();
+        if (ch === g.sequence[g.idx]) {
+          g.idx += 1;
+          g.score += 10;
+          playKeySound();
+          if (g.idx === g.sequence.length) {
+            saveBest('pipemaster', g.score, true);
+            endGame(true, 'Pipes Aligned!', 'Score: ' + g.score + ' pts · ' + g.mistakes + ' mistakes');
+          }
+        } else {
+          g.mistakes += 1;
+          playErrorSound();
+        }
+        setHud({ score: g.score, lives: null, timer: null });
+      },
+      update: function (g, dt) {},
+      render: function (g, ctx) {
+        ctx.fillStyle = '#f0f4fb'; ctx.fillRect(0, 0, W, H);
+        var segW = (W - 80) / g.sequence.length;
+        var y = H / 2 - 20;
+        for (var i = 0; i < g.sequence.length; i++) {
+          var x = 40 + i * segW;
+          ctx.fillStyle = i < g.idx ? '#22c55e' : (i === g.idx ? '#6699FB' : '#d6d6d6');
+          roundRect(ctx, x + 4, y, segW - 8, 40, 8);
+          ctx.fill();
+          ctx.fillStyle = '#fff';
+          ctx.font = 'bold 16px Inter, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillText(g.sequence[i], x + segW / 2, y + 20);
+        }
+        ctx.font = '13px Inter, sans-serif'; ctx.fillStyle = '#6b6b6b'; ctx.textAlign = 'center';
+        ctx.fillText('These keys train your ring & pinky fingers', W / 2, y + 80);
+      }
+    };
+
+    /* ---------------- The Concept ---------------- */
+    Games.concept = {
+      init: function (g) {
+        g.bossHp = 100; g.playerHp = 100;
+        g.sentence = rand(SENTENCE_BANK); g.typed = '';
+        g.barMax = 1.2 + g.sentence.length * 0.09; g.bar = g.barMax;
+        setHud({ score: 0, lives: 100, livesTag: 'HP', timer: null });
+      },
+      key: function (g, key) {
+        if (key.length !== 1) return;
+        var ch = key.toLowerCase();
+        var expected = g.sentence[g.typed.length];
+        if (ch === expected) {
+          g.typed += ch;
+          playKeySound();
+          if (g.typed.length === g.sentence.length) {
+            var dmg = 18 + Math.round((g.bar / g.barMax) * 12);
+            g.bossHp -= dmg; g.score += dmg;
+            g.sentence = rand(SENTENCE_BANK); g.typed = '';
+            g.barMax = 1.2 + g.sentence.length * 0.09; g.bar = g.barMax;
+            if (g.bossHp <= 0) {
+              g.bossHp = 0;
+              saveBest('concept', g.score, true);
+              endGame(true, 'Boss Defeated!', 'Score: ' + g.score + ' pts');
+            }
+          }
+        }
+      },
+      update: function (g, dt) {
+        g.bar -= dt;
+        if (g.bar <= 0) {
+          g.playerHp -= 20;
+          g.sentence = rand(SENTENCE_BANK); g.typed = '';
+          g.barMax = 1.2 + g.sentence.length * 0.09; g.bar = g.barMax;
+          playErrorSound();
+          if (g.playerHp <= 0) {
+            g.playerHp = 0;
+            saveBest('concept', g.score, true);
+            endGame(false, 'You Were Defeated', 'Score: ' + g.score + ' pts');
+          }
+        }
+        setHud({ score: g.score, lives: Math.max(0, g.playerHp), livesTag: 'HP', timer: null });
+      },
+      render: function (g, ctx) {
+        ctx.fillStyle = '#1c1030'; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = '#3a2a55'; ctx.fillRect(W / 2 - 150, 30, 300, 14);
+        ctx.fillStyle = '#dc2626'; ctx.fillRect(W / 2 - 150, 30, 300 * (g.bossHp / 100), 14);
+        ctx.font = 'bold 60px Inter, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText('🐉', W / 2, 130);
+        ctx.fillStyle = '#3a2a55'; ctx.fillRect(W / 2 - 200, H - 110, 400, 10);
+        ctx.fillStyle = '#89B4FF'; ctx.fillRect(W / 2 - 200, H - 110, 400 * Math.max(0, g.bar / g.barMax), 10);
+        ctx.font = '20px Inter, sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+        var textW = ctx.measureText(g.sentence).width;
+        var startX = W / 2 - textW / 2;
+        var typedPart = g.sentence.slice(0, g.typed.length);
+        var restPart = g.sentence.slice(g.typed.length);
+        ctx.fillStyle = '#7CE38B'; ctx.fillText(typedPart, startX, H - 60);
+        ctx.fillStyle = '#ffffff'; ctx.fillText(restPart, startX + ctx.measureText(typedPart).width, H - 60);
+      }
+    };
+
+    /* ---------------- The Car ---------------- */
+    function crash(g, reason) {
+      g.finished = true;
+      saveBest('carrace', g.distance, true);
+      endGame(false, 'Crash! ' + reason, 'You covered ' + g.distance + 'm before crashing');
+    }
+    Games.carrace = {
+      init: function (g) {
+        g.distance = 0; g.beat = 1.4; g.beatLeft = g.beat; g.finished = false;
+        g.current = LETTERS[randInt(0, 25)];
+        setHud({ score: 0, lives: null, timer: null });
+      },
+      key: function (g, key) {
+        if (g.finished || key.length !== 1) return;
+        if (key.toUpperCase() === g.current) {
+          g.distance += 1; g.score = g.distance;
+          playKeySound();
+          g.beat = Math.max(0.55, g.beat - 0.01);
+          g.beatLeft = g.beat;
+          g.current = LETTERS[randInt(0, 25)];
+        } else {
+          crash(g, 'Wrong key!');
+        }
+      },
+      update: function (g, dt) {
+        if (g.finished) return;
+        g.beatLeft -= dt;
+        setHud({ score: g.score, lives: null, timer: null });
+        if (g.beatLeft <= 0) crash(g, 'Too slow!');
+      },
+      render: function (g, ctx) {
+        ctx.fillStyle = '#e9edf5'; ctx.fillRect(0, 0, W, H);
+        var trackY = H - 90;
+        ctx.strokeStyle = '#c7cede'; ctx.setLineDash([12, 10]); ctx.lineWidth = 4;
+        ctx.beginPath(); ctx.moveTo(20, trackY); ctx.lineTo(W - 20, trackY); ctx.stroke();
+        ctx.setLineDash([]);
+        var cx = 40 + Math.min(1, g.distance / 40) * (W - 100);
+        ctx.font = '46px Inter, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText('🏎️', cx, trackY - 20);
+        ctx.fillStyle = '#d6d6d6'; ctx.fillRect(W / 2 - 120, 40, 240, 10);
+        ctx.fillStyle = g.beatLeft / g.beat < 0.3 ? '#dc2626' : '#6699FB';
+        ctx.fillRect(W / 2 - 120, 40, 240 * Math.max(0, g.beatLeft / g.beat), 10);
+        ctx.font = 'bold 90px Inter, sans-serif'; ctx.fillStyle = '#1d1d1f';
+        ctx.fillText(g.current, W / 2, H / 2 - 10);
+        ctx.font = '13px Inter, sans-serif'; ctx.fillStyle = '#6b6b6b';
+        ctx.fillText('Distance: ' + g.distance + 'm', W / 2, H - 30);
+      }
+    };
+  })();
 
   /* ============== INIT ============== */
   renderPassageChips();
   renderTimerChips();
+  renderGovChips();
+  refreshGhostAvailability();
+  if (window.renderGameBests) window.renderGameBests();
 
   /*
-    NOTE ON PERSISTENCE (for deployment on your own domain):
-    This preview keeps theme + history in memory only, so it works safely in
-    any sandboxed preview. Once you deploy this file on wondermayank.in /
-    commercesehoga.github.io, you can make both persist across visits with a
-    few lines, matching your ts_ prefix convention, e.g.:
-
-      localStorage.setItem('ts_typing_theme', theme);
-      localStorage.setItem('ts_typing_history', JSON.stringify(history));
-
-    and reading them back on load with localStorage.getItem(...).
+    PERSISTENCE NOTE:
+    Theme, history, per-passage best scores, ghost runs, the keystroke
+    heatmap, achievements, XP/level, and daily streak are all saved to
+    this browser's localStorage under the "ts_typing_" prefix, so they
+    persist across visits on this device. They are not synced across
+    devices or browsers. "Reset Progress" on the Dashboard clears all of it.
   */
 })();
 </script>
