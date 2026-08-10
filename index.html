@@ -526,6 +526,7 @@
         <div class="panel-block">
           <p class="field-label">1. Choose a passage</p>
           <div class="chips-row" id="passage-chips"></div>
+          <p class="hint-text" style="margin:10px 0 0;">Looking for Hindi typing practice? Try <a href="https://wondermayank.github.io/hindi" target="_blank" rel="noopener">wondermayank.github.io/hindi</a>.</p>
           <div class="custom-text-box" id="custom-box" hidden>
             <p class="field-label" style="margin-bottom:8px;">Paste or upload your own text</p>
             <textarea id="custom-textarea" placeholder="Paste at least a sentence or two here..."></textarea>
@@ -973,8 +974,7 @@
     { id: 'p2', title: 'Digital Learning', level: 'Easy-Medium', text: "Technology has changed the way people learn, work, and communicate with one another. A single smartphone today holds more computing power than the machines that once filled entire rooms. Students can now access course material, video lessons, and practice tests from almost anywhere in the world. While these tools make learning more convenient, they also demand a new kind of discipline, since endless notifications and distractions are only a tap away. Building strong digital habits has become just as important as building strong study habits." },
     { id: 'p3', title: 'Exam Consistency', level: 'Medium', text: "Consistent practice is the quiet foundation behind every strong exam result. Students who revise a little every day, rather than cramming everything before a test, tend to retain concepts far longer and recall them with less stress. Breaking a large syllabus into small daily goals turns an overwhelming subject into a manageable routine. Mock tests play an important role in this process, since they reveal weak areas long before the real exam does. Progress rarely feels dramatic day to day, but when measured over weeks and months, small consistent efforts add up to real, lasting improvement." },
     { id: 'p4', title: 'The Cosmos', level: 'Hard', text: "The universe is far older and larger than the human mind can comfortably imagine. Light from some of the most distant galaxies has been traveling toward Earth for over thirteen billion years, meaning astronomers observing these galaxies are essentially looking back in time. Within our own solar system, moons orbiting distant planets show surprising signs of subsurface oceans, hidden beneath thick layers of ice, raising fascinating questions about where else life might exist. Every new telescope and space mission adds another piece to this enormous puzzle, yet each answer tends to raise several new questions. Studying the cosmos requires patience, precision, and a willingness to be endlessly surprised by what lies beyond our own small corner of space." },
-    { id: 'p5', title: 'Growth & Patience', level: 'Hard', text: "Growth rarely follows a straight or predictable line; it tends to arrive in uneven bursts, separated by long stretches that can feel like standing still. Many people quit during these quiet stretches, mistaking a lack of visible progress for a lack of real progress. Yet skill, much like compound interest, often works silently in the background before producing a noticeable result. The habits practiced during difficult, unremarkable days are usually the ones that matter most in the long run, even though they rarely feel significant at the time. Patience, in this sense, is not simply about waiting; it is about continuing to show up and put in deliberate effort long after the initial motivation has quietly faded away." },
-    { id: 'hindi1', title: 'हिंदी अभ्यास (Hindi Practice)', level: 'Medium', text: "निरंतर अभ्यास किसी भी परीक्षा में सफलता की सबसे बड़ी कुंजी है। जो विद्यार्थी हर दिन थोड़ा-थोड़ा अध्ययन करते हैं, वे अंतिम समय में सब कुछ याद करने की कोशिश करने वालों की तुलना में कहीं अधिक आत्मविश्वास के साथ परीक्षा देते हैं। बड़े पाठ्यक्रम को छोटे दैनिक लक्ष्यों में बाँटने से पढ़ाई आसान और व्यवस्थित लगने लगती है। नियमित मॉक टेस्ट देने से कमजोर विषयों का समय रहते पता चल जाता है, जिससे सुधार का पर्याप्त अवसर मिलता है।" }
+    { id: 'p5', title: 'Growth & Patience', level: 'Hard', text: "Growth rarely follows a straight or predictable line; it tends to arrive in uneven bursts, separated by long stretches that can feel like standing still. Many people quit during these quiet stretches, mistaking a lack of visible progress for a lack of real progress. Yet skill, much like compound interest, often works silently in the background before producing a noticeable result. The habits practiced during difficult, unremarkable days are usually the ones that matter most in the long run, even though they rarely feel significant at the time. Patience, in this sense, is not simply about waiting; it is about continuing to show up and put in deliberate effort long after the initial motivation has quietly faded away." }
   ];
 
   var TIMER_OPTIONS = [
@@ -988,7 +988,6 @@
 
   var GOV_PRESETS = [
     { id: 'ssc-en', label: 'SSC CHSL (English)', duration: 600, thresholdWpm: 35, thresholdAcc: 95, passageId: null, note: '10 minutes · English · Backspace disabled · needs roughly 35 WPM and 95% accuracy to clear.' },
-    { id: 'ssc-hi', label: 'SSC CHSL (Hindi)', duration: 600, thresholdWpm: 30, thresholdAcc: 95, passageId: 'hindi1', note: '10 minutes · Hindi · Backspace disabled · needs roughly 30 WPM and 95% accuracy to clear.' },
     { id: 'court', label: 'Court Typing Test', duration: 600, thresholdWpm: 35, thresholdAcc: 95, passageId: null, note: '10 minutes · English · Backspace disabled · needs roughly 35 WPM and 95% accuracy to clear.' }
   ];
 
@@ -1816,7 +1815,20 @@
   }
 
   function renderChart(data) {
-    var ctx = document.getElementById('wpm-chart').getContext('2d');
+    var chartEl = document.getElementById('wpm-chart');
+    if (typeof Chart === 'undefined') {
+      var wrap = chartEl.parentElement;
+      if (wrap && !document.getElementById('chart-unavailable-msg')) {
+        var msg = document.createElement('p');
+        msg.id = 'chart-unavailable-msg';
+        msg.className = 'empty-state';
+        msg.textContent = 'Chart library failed to load (offline or blocked), so the WPM graph can\'t render. Your test history is still saved.';
+        wrap.appendChild(msg);
+      }
+      chartEl.hidden = true;
+      return;
+    }
+    var ctx = chartEl.getContext('2d');
     if (chartInstance) chartInstance.destroy();
     var styles = getComputedStyle(document.documentElement);
     var primary = styles.getPropertyValue('--primary').trim();
@@ -1883,7 +1895,13 @@
       abc: function (v) { return 'Best: ' + (v / 1000).toFixed(2) + 's'; },
       pipemaster: function (v) { return 'Best: ' + v + ' pts'; },
       concept: function (v) { return 'Best: ' + v + ' pts'; },
-      carrace: function (v) { return 'Best: ' + v + 'm'; }
+      carrace: function (v) { return 'Best: ' + v + 'm'; },
+      missile: function (v) { return 'Best: ' + v + ' pts'; },
+      piano: function (v) { return 'Best: ' + v + ' pts'; },
+      sniper: function (v) { return 'Best: ' + v + ' pts'; },
+      ninja: function (v) { return 'Best: ' + v + ' pts'; },
+      codebreaker: function (v) { return 'Best: ' + v + ' pts'; },
+      survival: function (v) { return 'Best: ' + v + ' pts'; }
     };
     window.renderGameBests = function () {
       Object.keys(BEST_FORMAT).forEach(function (id) {
@@ -1894,9 +1912,10 @@
           el.hidden = false;
         }
       });
+      renderDailyCard();
     };
-    window.renderGameBests();
 
+    /* ---------------- shared data ---------------- */
     var WORD_BANK = ['time', 'people', 'water', 'world', 'school', 'money', 'story', 'friend', 'music', 'light', 'happy', 'dream', 'power', 'peace', 'learn', 'write', 'speed', 'focus', 'brave', 'quiet', 'dance', 'smile', 'trust', 'shine', 'climb', 'voice', 'trace', 'flame', 'ocean', 'cloud', 'paper', 'river', 'stone', 'table', 'plant', 'sound', 'field', 'forest', 'signal', 'pencil'];
     var SENTENCE_BANK = [
       'the quick fox jumps high',
@@ -1910,8 +1929,23 @@
     ];
     var LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     var WEAK_FINGER_CHARS = ['q', 'a', 'z', 'w', 's', 'x', 'p', 'l', 'o'];
-    function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-    function randInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+    var PIANO_KEYS = ['a', 's', 'k', 'l'];
+    var NINJA_EMOJI = ['🍉', '🍎', '🍊', '🍋', '🍇', '🍓', '🍍'];
+
+    /* ---------------- RNG (default random, seeded for daily) ---------------- */
+    var RNG = Math.random;
+    function mulberry32(seed) {
+      var a = seed >>> 0;
+      return function () {
+        a = (a + 0x6D2B79F5) | 0;
+        var t = Math.imul(a ^ (a >>> 15), 1 | a);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+    function hashStr(s) { var h = 0; for (var i = 0; i < s.length; i++) { h = (h << 5) - h + s.charCodeAt(i); h |= 0; } return Math.abs(h); }
+    function rand(arr) { return arr[Math.floor(RNG() * arr.length)]; }
+    function randInt(min, max) { return Math.floor(RNG() * (max - min + 1)) + min; }
     function roundRect(ctx, x, y, w, h, r) {
       ctx.beginPath();
       ctx.moveTo(x + r, y);
@@ -1931,7 +1965,84 @@
       ctx.fillRect(x - 40, y + 6, 80, 20);
     }
 
-    /* ---- overlay elements ---- */
+    /* ---------------- difficulty ---------------- */
+    var difficulty = loadStr('games_difficulty', 'medium');
+    var activeDifficulty = difficulty;
+    function D(easy, medium, hard) { return activeDifficulty === 'easy' ? easy : (activeDifficulty === 'hard' ? hard : medium); }
+
+    /* ---------------- distinct game sounds ---------------- */
+    function gsound(kind) {
+      try {
+        if (kind === 'pop') beep(760, 0.05, 'square');
+        else if (kind === 'hit') beep(650, 0.06, 'square');
+        else if (kind === 'shot') beep(1000, 0.05, 'square');
+        else if (kind === 'slice') beep(900, 0.04, 'triangle');
+        else if (kind === 'lock') beep(500, 0.08, 'square');
+        else if (kind === 'miss') beep(220, 0.12, 'sawtooth');
+        else if (kind === 'crash') beep(140, 0.25, 'sawtooth');
+        else if (kind === 'unlock') beep(1200, 0.1, 'sine');
+        else playKeySound();
+      } catch (e) {}
+    }
+
+    /* ---------------- arcade history + XP + achievements ---------------- */
+    var arcadeHistory = loadJSON('games_arcade_history', []);
+    var gamesPlayedCount = loadJSON('games_played_count', 0);
+    var dailyState = loadJSON('games_daily', { date: null, gameId: null, score: null });
+
+    function pushArcadeHistory(gameId, isDaily, score) {
+      arcadeHistory.unshift({ gameId: gameId, mode: isDaily ? 'Daily' : (activeDifficulty.charAt(0).toUpperCase() + activeDifficulty.slice(1)), score: score, date: Date.now() });
+      arcadeHistory = arcadeHistory.slice(0, 20);
+      saveJSON('games_arcade_history', arcadeHistory);
+      if (window.renderArcadeHistory) window.renderArcadeHistory();
+    }
+    window.renderArcadeHistory = function () {
+      var tableEl = document.getElementById('arcade-table');
+      var bodyEl = document.getElementById('arcade-body');
+      var emptyEl = document.getElementById('arcade-empty');
+      if (!tableEl) return;
+      if (arcadeHistory.length === 0) { tableEl.hidden = true; emptyEl.hidden = false; return; }
+      tableEl.hidden = false; emptyEl.hidden = true;
+      bodyEl.innerHTML = arcadeHistory.map(function (h) {
+        var meta = GAME_META[h.gameId] || { icon: '🎮', title: h.gameId };
+        return '<tr><td>' + meta.icon + ' ' + meta.title + '</td><td>' + h.mode + '</td><td>' + h.score + '</td><td>' + new Date(h.date).toLocaleDateString() + '</td></tr>';
+      }).join('');
+    };
+    function renderRecentRuns(gameId) {
+      var el = document.getElementById('game-recent-runs');
+      if (!el) return;
+      var runs = arcadeHistory.filter(function (h) { return h.gameId === gameId; }).slice(0, 5);
+      if (runs.length === 0) { el.innerHTML = ''; return; }
+      el.innerHTML = '<li style="font-weight:700;margin-bottom:4px;">Recent runs</li>' + runs.map(function (r) {
+        return '<li>' + r.score + ' pts · ' + r.mode + ' · ' + new Date(r.date).toLocaleDateString() + '</li>';
+      }).join('');
+    }
+
+    /* ---------------- daily challenge ---------------- */
+    function resolveDailyGameId() {
+      var ids = Object.keys(GAME_META);
+      var h = hashStr(todayStr());
+      return ids[h % ids.length];
+    }
+    function renderDailyCard() {
+      var titleEl = document.getElementById('daily-title');
+      if (!titleEl) return;
+      var dailyId = resolveDailyGameId();
+      var meta = GAME_META[dailyId];
+      var descEl = document.getElementById('daily-desc');
+      var badge = document.getElementById('daily-played-badge');
+      titleEl.textContent = 'Daily Challenge: ' + meta.title;
+      descEl.textContent = "Today's fixed challenge — " + meta.title + '. Same seed for everyone today, keep your streak alive.';
+      var today = todayStr();
+      if (dailyState.date === today) {
+        badge.hidden = false;
+        badge.textContent = 'Played today · best ' + dailyState.score + ' pts ✓';
+      } else {
+        badge.hidden = true;
+      }
+    }
+
+    /* ---------------- overlay elements ---------------- */
     var overlay = document.getElementById('game-overlay');
     var canvas = document.getElementById('game-canvas');
     var ctx = canvas.getContext('2d');
@@ -1948,23 +2059,31 @@
     var retryBtn = document.getElementById('game-retry-btn');
     var backBtn = document.getElementById('game-back-btn');
     var closeBtn = document.getElementById('game-close-btn');
+    var diffRow = document.getElementById('game-diff-row');
 
     var W = canvas.width, H = canvas.height;
     var currentGameId = null;
+    var currentIsDaily = false;
     var rafId = null;
     var lastTs = null;
     var g = null;
     var Games = {};
 
     var GAME_META = {
-      bubbles: { icon: '🫧', title: 'Bubbles', instructions: 'Type the letter shown on a bubble to pop it before it reaches the top. 60 seconds, 5 lives.' },
-      clouds: { icon: '☁️', title: 'Clouds', instructions: 'Type the highlighted word before its cloud drifts off screen. 6 misses ends the run.' },
-      wordtris: { icon: '🧱', title: 'Wordtris', instructions: "Type the falling word before the block lands. Unlanded blocks stack up — don't let the stack reach the top." },
-      cloudrace: { icon: '🏁', title: 'Cloud Race', instructions: 'Type each word correctly to push your cloud toward the finish line. 45 second race.' },
+      bubbles: { icon: '🫧', title: 'Bubbles', instructions: 'Type the letter shown on a bubble to pop it before it reaches the top.' },
+      clouds: { icon: '☁️', title: 'Clouds', instructions: 'Type the highlighted word before its cloud drifts off screen.' },
+      wordtris: { icon: '🧱', title: 'Wordtris', instructions: "Type the falling word before the block lands. Unlanded blocks stack up." },
+      cloudrace: { icon: '🏁', title: 'Cloud Race', instructions: 'Type each word correctly to push your cloud toward the finish line. Race your own ghost.' },
       abc: { icon: '🔤', title: 'ABC', instructions: 'Type A through Z in order, as fast as you can.' },
-      pipemaster: { icon: '🔧', title: 'Pipe Master', instructions: 'Type each character to align the next pipe segment. Uses your ring and pinky finger keys on purpose.' },
-      concept: { icon: '🐉', title: 'The Concept', instructions: 'Type the full sentence before the cast bar empties to strike the boss. Too slow and it strikes back.' },
-      carrace: { icon: '🏎️', title: 'The Car', instructions: 'Letters appear one at a time — type each before the beat runs out to keep your car racing.' }
+      pipemaster: { icon: '🔧', title: 'Pipe Master', instructions: 'Type each character to align the next pipe segment. Trains your ring and pinky fingers.' },
+      concept: { icon: '🐉', title: 'The Concept', instructions: 'Type the full sentence before the cast bar empties to strike the boss.' },
+      carrace: { icon: '🏎️', title: 'The Car', instructions: 'Letters appear one at a time — type each before the beat runs out.' },
+      missile: { icon: '🚀', title: 'Missile Defense', instructions: 'Type the falling word to shoot it down before it hits your city.' },
+      piano: { icon: '🎹', title: 'Piano Tiles', instructions: 'Press A / S / K / L as tiles cross the strike line in their lane.' },
+      sniper: { icon: '🎯', title: 'Sniper Mode', instructions: 'Type the target word cleanly before the crosshair closes in.' },
+      ninja: { icon: '🍉', title: 'Ninja Slice', instructions: 'Type the word before the fruit falls off screen to slice it.' },
+      codebreaker: { icon: '🔐', title: 'Code Breaker', instructions: 'Type the unscrambled word before the vault timer runs out.' },
+      survival: { icon: '🛡️', title: 'Survival Mode', instructions: 'Bubbles, clouds, and falling blocks all at once. Survive as long as you can.' }
     };
 
     function setHud(opts) {
@@ -1978,17 +2097,39 @@
       g.running = false;
       cancelAnimationFrame(rafId);
       document.removeEventListener('keydown', onKeyDown);
+
+      gamesPlayedCount += 1;
+      saveJSON('games_played_count', gamesPlayedCount);
+      unlockAchievement('arcade_rookie');
+      if (gamesPlayedCount >= 10) unlockAchievement('arcade_regular');
+      var xpAmount = Math.max(5, Math.round(g.score / 4)) + (win ? 15 : 0);
+      awardXp(xpAmount);
+      bumpStreak();
+      pushArcadeHistory(currentGameId, g.isDaily, g.score);
+
+      if (g.isDaily) {
+        var today = todayStr();
+        if (dailyState.date !== today || (dailyState.score || 0) < g.score) {
+          dailyState = { date: today, gameId: currentGameId, score: g.score };
+          saveJSON('games_daily', dailyState);
+        }
+        unlockAchievement('daily_champion');
+      }
+
       msgTitle.textContent = title;
       msgSub.textContent = sub;
+      renderRecentRuns(currentGameId);
       msgEl.hidden = false;
       if (win) playCompleteSound(); else playErrorSound();
       window.renderGameBests();
     }
 
-    function startGame(id) {
+    function startGame(id, isDaily) {
       msgEl.hidden = true;
       ctx.clearRect(0, 0, W, H);
-      g = { running: true, score: 0, misses: 0, elapsed: 0 };
+      if (isDaily) { RNG = mulberry32(hashStr(todayStr() + id)); activeDifficulty = 'medium'; }
+      else { RNG = Math.random; activeDifficulty = difficulty; }
+      g = { running: true, score: 0, misses: 0, elapsed: 0, isDaily: !!isDaily };
       Games[id].init(g);
       lastTs = null;
       document.removeEventListener('keydown', onKeyDown);
@@ -1997,14 +2138,19 @@
     }
 
     function openGame(id) {
-      currentGameId = id;
-      var meta = GAME_META[id];
+      var isDaily = id === 'daily';
+      var realId = isDaily ? resolveDailyGameId() : id;
+      currentGameId = realId;
+      currentIsDaily = isDaily;
+      var meta = GAME_META[realId];
       titleIcon.textContent = meta.icon;
-      titleText.textContent = meta.title;
+      titleText.textContent = (isDaily ? 'Daily: ' : '') + meta.title;
       instructionsEl.textContent = meta.instructions;
+      diffRow.style.opacity = isDaily ? '0.4' : '1';
+      diffRow.style.pointerEvents = isDaily ? 'none' : 'auto';
       overlay.hidden = false;
       msgEl.hidden = true;
-      startGame(id);
+      startGame(realId, isDaily);
     }
 
     function closeGame() {
@@ -2034,7 +2180,7 @@
       if (g.running) rafId = requestAnimationFrame(loop);
     }
 
-    retryBtn.addEventListener('click', function () { startGame(currentGameId); });
+    retryBtn.addEventListener('click', function () { startGame(currentGameId, currentIsDaily); });
     backBtn.addEventListener('click', function () { closeGame(); switchView('games'); });
     closeBtn.addEventListener('click', closeGame);
     overlay.addEventListener('click', function (e) { if (e.target === overlay) closeGame(); });
@@ -2046,11 +2192,24 @@
       });
     });
 
+    Array.prototype.forEach.call(diffRow.querySelectorAll('.game-diff-btn'), function (btn) {
+      btn.addEventListener('click', function () {
+        if (currentIsDaily) return;
+        difficulty = btn.getAttribute('data-diff');
+        saveStr('games_difficulty', difficulty);
+        Array.prototype.forEach.call(diffRow.querySelectorAll('.game-diff-btn'), function (b) { b.classList.toggle('active', b === btn); });
+        if (currentGameId) startGame(currentGameId, false);
+      });
+    });
+    Array.prototype.forEach.call(diffRow.querySelectorAll('.game-diff-btn'), function (b) {
+      b.classList.toggle('active', b.getAttribute('data-diff') === difficulty);
+    });
+
     /* ---------------- Bubbles ---------------- */
     Games.bubbles = {
       init: function (g) {
-        g.lives = 5; g.timeLeft = 60; g.bubbles = []; g.spawnTimer = 0;
-        setHud({ score: 0, lives: 5, livesTag: 'Lives', timer: 60 });
+        g.lives = D(7, 5, 3); g.timeLeft = D(75, 60, 45); g.bubbles = []; g.spawnTimer = 0;
+        setHud({ score: 0, lives: g.lives, livesTag: 'Lives', timer: g.timeLeft });
       },
       key: function (g, key) {
         if (key.length !== 1) return;
@@ -2058,7 +2217,7 @@
         if (!/[A-Z]/.test(ch)) return;
         var best = null;
         g.bubbles.forEach(function (b) { if (!b.popped && b.char === ch && (!best || b.y < best.y)) best = b; });
-        if (best) { best.popped = true; best.scale = 1; g.score += 10; playKeySound(); }
+        if (best) { best.popped = true; best.scale = 1; g.score += 10; gsound('pop'); }
       },
       update: function (g, dt) {
         g.timeLeft -= dt;
@@ -2071,14 +2230,14 @@
         }
         g.spawnTimer -= dt;
         if (g.spawnTimer <= 0) {
-          g.spawnTimer = Math.max(0.45, 1.1 - g.elapsed / 90);
-          g.bubbles.push({ char: rand(LETTERS), x: randInt(30, W - 30), y: H + 20, r: 22, speed: randInt(40, 70) });
+          g.spawnTimer = Math.max(D(0.7, 0.45, 0.3), D(1.6, 1.1, 0.75) - g.elapsed / 90);
+          g.bubbles.push({ char: rand(LETTERS), x: randInt(30, W - 30), y: H + 20, r: 22, speed: randInt(D(30, 40, 55), D(50, 70, 90)) });
         }
         var survivors = [];
         g.bubbles.forEach(function (b) {
           if (b.popped) { b.scale -= dt * 6; if (b.scale > 0) survivors.push(b); return; }
           b.y -= b.speed * dt;
-          if (b.y - b.r <= 0) { g.lives -= 1; } else { survivors.push(b); }
+          if (b.y - b.r <= 0) { g.lives -= 1; gsound('miss'); } else { survivors.push(b); }
         });
         g.bubbles = survivors;
         setHud({ score: g.score, lives: g.lives, livesTag: 'Lives', timer: Math.ceil(g.timeLeft) });
@@ -2110,8 +2269,8 @@
     /* ---------------- Clouds ---------------- */
     Games.clouds = {
       init: function (g) {
-        g.misses = 0; g.clouds = []; g.spawnTimer = 0;
-        setHud({ score: 0, lives: 6, livesTag: 'Misses left', timer: null });
+        g.misses = 0; g.maxMisses = D(8, 6, 4); g.clouds = []; g.spawnTimer = 0;
+        setHud({ score: 0, lives: g.maxMisses, livesTag: 'Misses left', timer: null });
       },
       key: function (g, key) {
         if (key.length !== 1) return;
@@ -2122,25 +2281,25 @@
         var expected = target.word[target.typed.length];
         if (expected === ch) {
           target.typed += ch;
-          playKeySound();
+          gsound('hit');
           if (target.typed.length === target.word.length) { target.done = true; target.fade = 1; g.score += target.word.length * 5; }
         }
       },
       update: function (g, dt) {
         g.spawnTimer -= dt;
         if (g.spawnTimer <= 0 && g.clouds.length < 3) {
-          g.spawnTimer = randInt(2, 3);
-          g.clouds.push({ word: rand(WORD_BANK), typed: '', x: -100, y: randInt(50, H - 90), speed: randInt(35, 55), done: false });
+          g.spawnTimer = randInt(D(2, 2, 1), D(4, 3, 2));
+          g.clouds.push({ word: rand(WORD_BANK), typed: '', x: -100, y: randInt(50, H - 90), speed: randInt(D(28, 35, 45), D(45, 55, 70)), done: false });
         }
         var survivors = [];
         g.clouds.forEach(function (c) {
           if (c.done) { c.x += c.speed * dt * 2; c.fade -= dt * 2.5; if (c.fade > 0) survivors.push(c); return; }
           c.x += c.speed * dt;
-          if (c.x > W + 100) { g.misses += 1; } else { survivors.push(c); }
+          if (c.x > W + 100) { g.misses += 1; gsound('miss'); } else { survivors.push(c); }
         });
         g.clouds = survivors;
-        setHud({ score: g.score, lives: Math.max(0, 6 - g.misses), livesTag: 'Misses left', timer: null });
-        if (g.misses >= 6) {
+        setHud({ score: g.score, lives: Math.max(0, g.maxMisses - g.misses), livesTag: 'Misses left', timer: null });
+        if (g.misses >= g.maxMisses) {
           saveBest('clouds', g.score, true);
           endGame(false, 'Storm Rolled In', 'Final score: ' + g.score + ' pts');
         }
@@ -2169,7 +2328,7 @@
     function wtSpawn() { return { word: rand(SHORT_WORDS), typed: '', x: W / 2, y: -20 }; }
     Games.wordtris = {
       init: function (g) {
-        g.stackHeight = 0; g.speed = 40; g.block = wtSpawn();
+        g.stackHeight = 0; g.speed = D(28, 40, 55); g.block = wtSpawn();
         setHud({ score: 0, lives: null, timer: null });
       },
       key: function (g, key) {
@@ -2178,10 +2337,10 @@
         var b = g.block;
         if (b.word[b.typed.length] === ch) {
           b.typed += ch;
-          playKeySound();
+          gsound('lock');
           if (b.typed.length === b.word.length) {
             g.score += b.word.length * 8;
-            g.speed = Math.min(160, g.speed + 3);
+            g.speed = Math.min(180, g.speed + D(2, 3, 4));
             g.block = wtSpawn();
           }
         }
@@ -2193,6 +2352,7 @@
         var floorY = H - g.stackHeight - 30;
         if (b.y >= floorY) {
           g.stackHeight += 46;
+          gsound('crash');
           g.block = wtSpawn();
         }
         setHud({ score: g.score, lives: null, timer: null });
@@ -2223,12 +2383,27 @@
       }
     };
 
-    /* ---------------- Cloud Race ---------------- */
+    /* ---------------- Cloud Race (with personal-best ghost) ---------------- */
+    function ghostProgressAt(samples, t) {
+      if (!samples || samples.length === 0) return 0;
+      if (t <= samples[0].t) return samples[0].p;
+      for (var i = 1; i < samples.length; i++) {
+        if (t <= samples[i].t) {
+          var a = samples[i - 1], b = samples[i];
+          var span = (b.t - a.t) || 1;
+          var f = (t - a.t) / span;
+          return a.p + (b.p - a.p) * f;
+        }
+      }
+      return samples[samples.length - 1].p;
+    }
     Games.cloudrace = {
       init: function (g) {
-        g.timeLeft = 45; g.finished = false; g.progress = 0;
-        g.targetChars = 220; g.currentWord = rand(WORD_BANK); g.typed = ''; g.correctChars = 0;
-        setHud({ score: 0, lives: null, timer: 45 });
+        g.timeLeft = D(60, 45, 35); g.finished = false; g.progress = 0;
+        g.targetChars = D(160, 220, 280); g.currentWord = rand(WORD_BANK); g.typed = ''; g.correctChars = 0;
+        g.ghost = loadJSON('games_ghost_cloudrace', null);
+        g.samples = []; g.sampleTimer = 0;
+        setHud({ score: 0, lives: null, timer: g.timeLeft });
       },
       key: function (g, key) {
         if (g.finished || key.length !== 1) return;
@@ -2244,12 +2419,15 @@
         if (g.currentWord[g.typed.length] === ch) {
           g.typed += ch;
           g.correctChars += 1;
-          playKeySound();
+          gsound('hit');
           g.progress = Math.min(1, g.correctChars / g.targetChars);
           g.score = Math.round(g.progress * 100);
           if (g.progress >= 1 && !g.finished) {
             g.finished = true;
-            var timeTaken = 45 - g.timeLeft;
+            var timeTaken = (D(60, 45, 35)) - g.timeLeft;
+            if (!g.ghost || timeTaken < g.ghost.bestTime) {
+              saveJSON('games_ghost_cloudrace', { samples: g.samples, bestTime: timeTaken });
+            }
             saveBest('cloudrace', timeTaken, false);
             endGame(true, 'You Win the Race!', 'Finished in ' + timeTaken.toFixed(1) + 's');
           }
@@ -2258,6 +2436,8 @@
       update: function (g, dt) {
         if (g.finished) return;
         g.timeLeft -= dt;
+        g.sampleTimer -= dt;
+        if (g.sampleTimer <= 0) { g.sampleTimer = 0.4; g.samples.push({ t: (D(60, 45, 35)) - g.timeLeft, p: g.progress }); }
         setHud({ score: g.score, lives: null, timer: Math.max(0, Math.ceil(g.timeLeft)) });
         if (g.timeLeft <= 0) {
           endGame(false, 'Race Over', 'You covered ' + Math.round(g.progress * 100) + '% of the track');
@@ -2271,6 +2451,14 @@
         ctx.setLineDash([]);
         ctx.fillStyle = '#1d1d1f'; ctx.fillRect(W - 34, trackY - 30, 4, 40);
         ctx.fillStyle = '#dc2626'; ctx.fillRect(W - 30, trackY - 30, 16, 10);
+        if (g.ghost) {
+          var elapsed = (D(60, 45, 35)) - g.timeLeft;
+          var gp = ghostProgressAt(g.ghost.samples, elapsed);
+          var gx = 46 + gp * (W - 90);
+          ctx.save(); ctx.globalAlpha = 0.4; drawCloudShape(ctx, gx, trackY - 24); ctx.restore();
+          ctx.font = '11px Inter, sans-serif'; ctx.fillStyle = '#6b6b6b'; ctx.textAlign = 'center';
+          ctx.fillText('Ghost (best)', gx, trackY - 52);
+        }
         var cx = 46 + g.progress * (W - 90);
         drawCloudShape(ctx, cx, trackY - 24);
         ctx.font = 'bold 26px Inter, sans-serif'; ctx.textBaseline = 'middle';
@@ -2299,16 +2487,17 @@
         var expected = LETTERS[g.idx].toLowerCase();
         if (key.toLowerCase() === expected) {
           g.idx += 1;
-          playKeySound();
+          gsound('shot');
           if (g.idx === LETTERS.length) {
             g.finished = true;
             var ms = performance.now() - g.startTime;
             g.score = Math.round(ms);
             var improved = saveBest('abc', ms, false);
+            if (ms < 5000) unlockAchievement('alphabet_blitz');
             endGame(true, 'A to Z Complete!', 'Time: ' + (ms / 1000).toFixed(2) + 's' + (improved ? ' — New best!' : ''));
           }
         } else {
-          playErrorSound();
+          gsound('miss');
         }
       },
       update: function (g, dt) {
@@ -2331,7 +2520,8 @@
     Games.pipemaster = {
       init: function (g) {
         g.sequence = [];
-        for (var i = 0; i < 10; i++) g.sequence.push(rand(WEAK_FINGER_CHARS));
+        var len = D(7, 10, 14);
+        for (var i = 0; i < len; i++) g.sequence.push(rand(WEAK_FINGER_CHARS));
         g.idx = 0; g.mistakes = 0;
         setHud({ score: 0, lives: null, timer: null });
       },
@@ -2341,14 +2531,14 @@
         if (ch === g.sequence[g.idx]) {
           g.idx += 1;
           g.score += 10;
-          playKeySound();
+          gsound('lock');
           if (g.idx === g.sequence.length) {
             saveBest('pipemaster', g.score, true);
             endGame(true, 'Pipes Aligned!', 'Score: ' + g.score + ' pts · ' + g.mistakes + ' mistakes');
           }
         } else {
           g.mistakes += 1;
-          playErrorSound();
+          gsound('miss');
         }
         setHud({ score: g.score, lives: null, timer: null });
       },
@@ -2374,9 +2564,9 @@
     /* ---------------- The Concept ---------------- */
     Games.concept = {
       init: function (g) {
-        g.bossHp = 100; g.playerHp = 100;
+        g.bossHp = D(70, 100, 140); g.maxBossHp = g.bossHp; g.playerHp = 100;
         g.sentence = rand(SENTENCE_BANK); g.typed = '';
-        g.barMax = 1.2 + g.sentence.length * 0.09; g.bar = g.barMax;
+        g.barMax = (1.2 + g.sentence.length * 0.09) * D(1.4, 1, 0.75); g.bar = g.barMax;
         setHud({ score: 0, lives: 100, livesTag: 'HP', timer: null });
       },
       key: function (g, key) {
@@ -2385,15 +2575,16 @@
         var expected = g.sentence[g.typed.length];
         if (ch === expected) {
           g.typed += ch;
-          playKeySound();
+          gsound('hit');
           if (g.typed.length === g.sentence.length) {
             var dmg = 18 + Math.round((g.bar / g.barMax) * 12);
             g.bossHp -= dmg; g.score += dmg;
             g.sentence = rand(SENTENCE_BANK); g.typed = '';
-            g.barMax = 1.2 + g.sentence.length * 0.09; g.bar = g.barMax;
+            g.barMax = (1.2 + g.sentence.length * 0.09) * D(1.4, 1, 0.75); g.bar = g.barMax;
             if (g.bossHp <= 0) {
               g.bossHp = 0;
               saveBest('concept', g.score, true);
+              unlockAchievement('boss_slayer');
               endGame(true, 'Boss Defeated!', 'Score: ' + g.score + ' pts');
             }
           }
@@ -2404,8 +2595,8 @@
         if (g.bar <= 0) {
           g.playerHp -= 20;
           g.sentence = rand(SENTENCE_BANK); g.typed = '';
-          g.barMax = 1.2 + g.sentence.length * 0.09; g.bar = g.barMax;
-          playErrorSound();
+          g.barMax = (1.2 + g.sentence.length * 0.09) * D(1.4, 1, 0.75); g.bar = g.barMax;
+          gsound('crash');
           if (g.playerHp <= 0) {
             g.playerHp = 0;
             saveBest('concept', g.score, true);
@@ -2417,7 +2608,7 @@
       render: function (g, ctx) {
         ctx.fillStyle = '#1c1030'; ctx.fillRect(0, 0, W, H);
         ctx.fillStyle = '#3a2a55'; ctx.fillRect(W / 2 - 150, 30, 300, 14);
-        ctx.fillStyle = '#dc2626'; ctx.fillRect(W / 2 - 150, 30, 300 * (g.bossHp / 100), 14);
+        ctx.fillStyle = '#dc2626'; ctx.fillRect(W / 2 - 150, 30, 300 * (g.bossHp / g.maxBossHp), 14);
         ctx.font = 'bold 60px Inter, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         ctx.fillText('🐉', W / 2, 130);
         ctx.fillStyle = '#3a2a55'; ctx.fillRect(W / 2 - 200, H - 110, 400, 10);
@@ -2435,12 +2626,13 @@
     /* ---------------- The Car ---------------- */
     function crash(g, reason) {
       g.finished = true;
+      gsound('crash');
       saveBest('carrace', g.distance, true);
       endGame(false, 'Crash! ' + reason, 'You covered ' + g.distance + 'm before crashing');
     }
     Games.carrace = {
       init: function (g) {
-        g.distance = 0; g.beat = 1.4; g.beatLeft = g.beat; g.finished = false;
+        g.distance = 0; g.beat = D(1.9, 1.5, 1.1); g.minBeat = D(0.75, 0.55, 0.4); g.beatLeft = g.beat; g.finished = false;
         g.current = LETTERS[randInt(0, 25)];
         setHud({ score: 0, lives: null, timer: null });
       },
@@ -2448,8 +2640,8 @@
         if (g.finished || key.length !== 1) return;
         if (key.toUpperCase() === g.current) {
           g.distance += 1; g.score = g.distance;
-          playKeySound();
-          g.beat = Math.max(0.55, g.beat - 0.01);
+          gsound('shot');
+          g.beat = Math.max(g.minBeat, g.beat - 0.01);
           g.beatLeft = g.beat;
           g.current = LETTERS[randInt(0, 25)];
         } else {
@@ -2480,6 +2672,385 @@
         ctx.fillText('Distance: ' + g.distance + 'm', W / 2, H - 30);
       }
     };
+
+    /* ---------------- Missile Defense ---------------- */
+    Games.missile = {
+      init: function (g) {
+        g.lives = 5; g.missiles = []; g.spawnTimer = 0; g.wave = 1; g.waveTimer = D(25, 20, 15);
+        setHud({ score: 0, lives: 5, livesTag: 'Cities', timer: null });
+      },
+      key: function (g, key) {
+        if (key.length !== 1) return;
+        var ch = key.toLowerCase();
+        var target = null;
+        g.missiles.forEach(function (m) { if (!m.dead && (!target || m.y > target.y)) target = m; });
+        if (!target) return;
+        if (target.word[target.typed.length] === ch) {
+          target.typed += ch;
+          gsound('shot');
+          if (target.typed.length === target.word.length) { target.dead = true; target.boom = 0; g.score += target.word.length * 6; }
+        }
+      },
+      update: function (g, dt) {
+        g.waveTimer -= dt;
+        if (g.waveTimer <= 0) { g.wave += 1; g.waveTimer = D(25, 20, 15); }
+        g.spawnTimer -= dt;
+        var spawnEvery = Math.max(D(0.95, 0.7, 0.5), D(1.7, 1.35, 1.0) - g.wave * 0.08);
+        if (g.spawnTimer <= 0) {
+          g.spawnTimer = spawnEvery;
+          g.missiles.push({ word: rand(WORD_BANK), typed: '', x: randInt(40, W - 40), y: -20, speed: randInt(D(18, 26, 34), D(30, 42, 54)) + g.wave * 2 });
+        }
+        var survivors = [];
+        g.missiles.forEach(function (m) {
+          if (m.dead) { m.boom += dt; if (m.boom < 0.3) survivors.push(m); return; }
+          m.y += m.speed * dt;
+          if (m.y > H - 40) { g.lives -= 1; gsound('crash'); } else { survivors.push(m); }
+        });
+        g.missiles = survivors;
+        setHud({ score: g.score, lives: Math.max(0, g.lives), livesTag: 'Cities', timer: null });
+        if (g.lives <= 0) {
+          saveBest('missile', g.score, true);
+          if (g.wave >= 5) unlockAchievement('ace_pilot');
+          endGame(false, 'City Overrun', 'Final score: ' + g.score + ' pts · reached wave ' + g.wave);
+        }
+      },
+      render: function (g, ctx) {
+        ctx.fillStyle = '#101826'; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = '#1c2b40'; ctx.fillRect(0, H - 30, W, 30);
+        for (var i = 0; i < 5; i++) {
+          ctx.fillStyle = i < g.lives ? '#6699FB' : '#33455c';
+          ctx.fillRect(30 + i * ((W - 60) / 5), H - 60, (W - 60) / 5 - 10, 30);
+        }
+        g.missiles.forEach(function (m) {
+          ctx.save();
+          if (m.dead) ctx.globalAlpha = Math.max(0, 1 - m.boom / 0.3);
+          ctx.beginPath(); ctx.arc(m.x, m.y, 5, 0, Math.PI * 2); ctx.fillStyle = '#ff8a3d'; ctx.fill();
+          ctx.font = '13px Inter, sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+          var typedPart = m.word.slice(0, m.typed.length), restPart = m.word.slice(m.typed.length);
+          var tw = ctx.measureText(m.word).width; var sx = m.x - tw / 2;
+          ctx.fillStyle = '#7CE38B'; ctx.fillText(typedPart, sx, m.y - 14);
+          ctx.fillStyle = '#fff'; ctx.fillText(restPart, sx + ctx.measureText(typedPart).width, m.y - 14);
+          ctx.restore();
+        });
+        ctx.font = '12px Inter, sans-serif'; ctx.fillStyle = '#8ea0bb'; ctx.textAlign = 'right';
+        ctx.fillText('Wave ' + g.wave, W - 14, 20);
+      }
+    };
+
+    /* ---------------- Piano Tiles ---------------- */
+    Games.piano = {
+      init: function (g) {
+        g.lives = 5; g.tiles = []; g.spawnTimer = 0; g.speed = D(110, 150, 200); g.lineY = H - 70;
+        setHud({ score: 0, lives: 5, livesTag: 'Lives', timer: null });
+      },
+      key: function (g, key) {
+        if (key.length !== 1) return;
+        var ch = key.toLowerCase();
+        var lane = PIANO_KEYS.indexOf(ch);
+        if (lane === -1) return;
+        var hitTile = null;
+        g.tiles.forEach(function (t) {
+          if (t.lane === lane && !t.done && Math.abs(t.y - g.lineY) < 34) {
+            if (!hitTile || Math.abs(t.y - g.lineY) < Math.abs(hitTile.y - g.lineY)) hitTile = t;
+          }
+        });
+        if (hitTile) { hitTile.done = true; hitTile.hit = true; hitTile.fade = 1; g.score += 10; gsound('hit'); }
+      },
+      update: function (g, dt) {
+        g.spawnTimer -= dt;
+        if (g.spawnTimer <= 0) { g.spawnTimer = D(0.9, 0.68, 0.5); g.tiles.push({ lane: randInt(0, 3), y: -30, done: false, hit: false }); }
+        var survivors = [];
+        g.tiles.forEach(function (t) {
+          if (t.done) { t.fade -= dt * 4; if (t.fade > 0) survivors.push(t); return; }
+          t.y += g.speed * dt;
+          if (t.y > H) { g.lives -= 1; gsound('miss'); } else { survivors.push(t); }
+        });
+        g.tiles = survivors;
+        g.speed = Math.min(D(220, 320, 420), g.speed + dt * 4);
+        setHud({ score: g.score, lives: Math.max(0, g.lives), livesTag: 'Lives', timer: null });
+        if (g.lives <= 0) { saveBest('piano', g.score, true); endGame(false, 'Off Beat', 'Final score: ' + g.score + ' pts'); }
+      },
+      render: function (g, ctx) {
+        ctx.fillStyle = '#101014'; ctx.fillRect(0, 0, W, H);
+        var laneW = W / 4;
+        for (var i = 0; i < 4; i++) {
+          ctx.strokeStyle = '#26262c'; ctx.beginPath(); ctx.moveTo(i * laneW, 0); ctx.lineTo(i * laneW, H); ctx.stroke();
+          ctx.font = '13px Inter, sans-serif'; ctx.fillStyle = '#5c5c66'; ctx.textAlign = 'center';
+          ctx.fillText(PIANO_KEYS[i].toUpperCase(), i * laneW + laneW / 2, H - 16);
+        }
+        ctx.strokeStyle = '#6699FB'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, g.lineY); ctx.lineTo(W, g.lineY); ctx.stroke();
+        g.tiles.forEach(function (t) {
+          ctx.save();
+          if (t.done) ctx.globalAlpha = Math.max(0, t.fade);
+          ctx.fillStyle = t.done ? '#22c55e' : '#89B4FF';
+          roundRect(ctx, t.lane * laneW + 10, t.y - 16, laneW - 20, 32, 6); ctx.fill();
+          ctx.restore();
+        });
+      }
+    };
+
+    /* ---------------- Sniper Mode ---------------- */
+    function sniperNext(g) {
+      var pool = WORD_BANK.filter(function (w) { return w.length >= 4 && w.length <= 7; });
+      g.word = rand(pool);
+      g.typed = ''; g.windowMax = D(4.6, 3.2, 2.2); g.timeLeft = g.windowMax;
+    }
+    function sniperMiss(g) {
+      g.lives -= 1; g.streak = 0; gsound('miss');
+      if (g.lives <= 0) { saveBest('sniper', g.score, true); endGame(false, 'Target Missed', 'Final score: ' + g.score + ' pts · best streak ' + g.bestStreak); return; }
+      sniperNext(g);
+    }
+    Games.sniper = {
+      init: function (g) {
+        g.lives = 3; g.streak = 0; g.bestStreak = 0;
+        sniperNext(g);
+        setHud({ score: 0, lives: 3, livesTag: 'Lives', timer: null });
+      },
+      key: function (g, key) {
+        if (key.length !== 1) return;
+        var ch = key.toLowerCase();
+        if (g.word[g.typed.length] === ch) {
+          g.typed += ch; gsound('shot');
+          if (g.typed.length === g.word.length) {
+            var bonus = Math.round((g.timeLeft / g.windowMax) * 50);
+            g.score += 20 + bonus; g.streak += 1; g.bestStreak = Math.max(g.bestStreak, g.streak);
+            if (g.streak >= 10) unlockAchievement('sniper_elite');
+            sniperNext(g);
+          }
+        } else {
+          sniperMiss(g);
+        }
+      },
+      update: function (g, dt) {
+        g.timeLeft -= dt;
+        setHud({ score: g.score, lives: Math.max(0, g.lives), livesTag: 'Lives', timer: g.timeLeft.toFixed(1) });
+        if (g.timeLeft <= 0) sniperMiss(g);
+      },
+      render: function (g, ctx) {
+        ctx.fillStyle = '#111318'; ctx.fillRect(0, 0, W, H);
+        var r = 20 + (g.timeLeft / g.windowMax) * 120;
+        ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(W / 2, H / 2, r, 0, Math.PI * 2); ctx.stroke();
+        ctx.strokeStyle = '#6699FB'; ctx.beginPath(); ctx.moveTo(W / 2 - 16, H / 2); ctx.lineTo(W / 2 + 16, H / 2); ctx.moveTo(W / 2, H / 2 - 16); ctx.lineTo(W / 2, H / 2 + 16); ctx.stroke();
+        ctx.font = 'bold 24px Inter, sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+        var tw = ctx.measureText(g.word).width; var sx = W / 2 - tw / 2;
+        var typedPart = g.word.slice(0, g.typed.length), restPart = g.word.slice(g.typed.length);
+        ctx.fillStyle = '#7CE38B'; ctx.fillText(typedPart, sx, H / 2 + 70);
+        ctx.fillStyle = '#fff'; ctx.fillText(restPart, sx + ctx.measureText(typedPart).width, H / 2 + 70);
+        ctx.font = '13px Inter, sans-serif'; ctx.fillStyle = '#8ea0bb'; ctx.textAlign = 'center';
+        ctx.fillText('Streak: ' + g.streak, W / 2, H - 30);
+      }
+    };
+
+    /* ---------------- Ninja Slice ---------------- */
+    function ninjaSpawn(g) {
+      var fromLeft = RNG() < 0.5;
+      g.fruit = {
+        word: rand(WORD_BANK), typed: '', emoji: rand(NINJA_EMOJI), t: 0, sliced: false,
+        x0: fromLeft ? 60 : W - 60, x1: fromLeft ? W - 60 : 60, arcHeight: randInt(140, 200), dur: D(3.6, 2.6, 1.9)
+      };
+    }
+    Games.ninja = {
+      init: function (g) {
+        g.misses = 0; g.fruit = null; ninjaSpawn(g);
+        setHud({ score: 0, lives: 5, livesTag: 'Misses left', timer: null });
+      },
+      key: function (g, key) {
+        if (key.length !== 1 || !g.fruit) return;
+        var ch = key.toLowerCase();
+        var f = g.fruit;
+        if (f.sliced) return;
+        if (f.word[f.typed.length] === ch) {
+          f.typed += ch; gsound('slice');
+          if (f.typed.length === f.word.length) { f.sliced = true; g.score += f.word.length * 7; }
+        }
+      },
+      update: function (g, dt) {
+        var f = g.fruit;
+        if (f) {
+          if (f.sliced) {
+            f.t += dt * 3;
+            if (f.t >= 1) { g.fruit = null; ninjaSpawn(g); }
+          } else {
+            f.t += dt / f.dur;
+            if (f.t >= 1) { g.misses += 1; gsound('miss'); g.fruit = null; ninjaSpawn(g); }
+          }
+        }
+        setHud({ score: g.score, lives: Math.max(0, 5 - g.misses), livesTag: 'Misses left', timer: null });
+        if (g.misses >= 5) { saveBest('ninja', g.score, true); endGame(false, 'Sliced Too Slow', 'Final score: ' + g.score + ' pts'); }
+      },
+      render: function (g, ctx) {
+        ctx.fillStyle = '#1a1420'; ctx.fillRect(0, 0, W, H);
+        var f = g.fruit;
+        if (f) {
+          var x = f.x0 + (f.x1 - f.x0) * Math.min(1, f.t);
+          var y = H - 60 - Math.sin(Math.PI * Math.min(1, f.t)) * f.arcHeight;
+          ctx.save();
+          if (f.sliced) ctx.globalAlpha = Math.max(0, 1 - f.t);
+          ctx.font = '38px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillText(f.emoji, x, y);
+          ctx.font = '15px Inter, sans-serif'; ctx.textBaseline = 'middle';
+          var tw = ctx.measureText(f.word).width; var sx = x - tw / 2;
+          var typedPart = f.word.slice(0, f.typed.length), restPart = f.word.slice(f.typed.length);
+          ctx.textAlign = 'left';
+          ctx.fillStyle = '#7CE38B'; ctx.fillText(typedPart, sx, y + 34);
+          ctx.fillStyle = '#fff'; ctx.fillText(restPart, sx + ctx.measureText(typedPart).width, y + 34);
+          ctx.restore();
+        }
+      }
+    };
+
+    /* ---------------- Code Breaker ---------------- */
+    function shuffleStr(s) {
+      var a = s.split('');
+      for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(RNG() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+      var res = a.join('');
+      return (res === s && s.length > 1) ? a.reverse().join('') : res;
+    }
+    function cbNext(g) {
+      var minLen = D(4, 5, 7), maxLen = D(6, 7, 9);
+      var pool = WORD_BANK.filter(function (w) { return w.length >= minLen && w.length <= maxLen; });
+      if (pool.length === 0) pool = WORD_BANK;
+      g.target = rand(pool);
+      g.scrambled = shuffleStr(g.target);
+      g.typed = '';
+      g.windowMax = D(15, 10, 7); g.timeLeft = g.windowMax;
+    }
+    Games.codebreaker = {
+      init: function (g) {
+        g.lives = 3; g.level = 1; cbNext(g);
+        setHud({ score: 0, lives: 3, livesTag: 'Attempts', timer: null });
+      },
+      key: function (g, key) {
+        if (key.length !== 1) return;
+        var ch = key.toLowerCase();
+        if (g.target[g.typed.length] === ch) {
+          g.typed += ch; gsound('hit');
+          if (g.typed.length === g.target.length) {
+            var bonus = Math.round((g.timeLeft / g.windowMax) * 40);
+            g.score += 30 + bonus; g.level += 1;
+            if (g.target.length >= 8) unlockAchievement('code_cracked');
+            gsound('unlock');
+            cbNext(g);
+          }
+        }
+      },
+      update: function (g, dt) {
+        g.timeLeft -= dt;
+        setHud({ score: g.score, lives: Math.max(0, g.lives), livesTag: 'Attempts', timer: Math.ceil(g.timeLeft) });
+        if (g.timeLeft <= 0) {
+          g.lives -= 1; gsound('miss');
+          if (g.lives <= 0) { saveBest('codebreaker', g.score, true); endGame(false, 'Vault Locked', 'Final score: ' + g.score + ' pts · reached level ' + g.level); return; }
+          cbNext(g);
+        }
+      },
+      render: function (g, ctx) {
+        ctx.fillStyle = '#141018'; ctx.fillRect(0, 0, W, H);
+        ctx.font = '13px Inter, sans-serif'; ctx.fillStyle = '#8ea0bb'; ctx.textAlign = 'center';
+        ctx.fillText('VAULT LEVEL ' + g.level, W / 2, 50);
+        ctx.font = 'bold 34px monospace'; ctx.fillStyle = '#89B4FF'; ctx.textBaseline = 'middle';
+        ctx.fillText(g.scrambled.toUpperCase(), W / 2, H / 2 - 40);
+        ctx.font = '24px Inter, sans-serif'; ctx.textBaseline = 'middle';
+        var tw = ctx.measureText(g.target).width; var sx = W / 2 - tw / 2;
+        var typedPart = g.target.slice(0, g.typed.length), restPart = g.target.slice(g.typed.length);
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#7CE38B'; ctx.fillText(typedPart, sx, H / 2 + 40);
+        ctx.fillStyle = '#fff'; ctx.fillText(restPart, sx + ctx.measureText(typedPart).width, H / 2 + 40);
+        ctx.fillStyle = '#2a2438'; ctx.fillRect(W / 2 - 150, H - 60, 300, 8);
+        ctx.fillStyle = g.timeLeft / g.windowMax < 0.3 ? '#dc2626' : '#6699FB';
+        ctx.fillRect(W / 2 - 150, H - 60, 300 * Math.max(0, g.timeLeft / g.windowMax), 8);
+      }
+    };
+
+    /* ---------------- Survival Mode ---------------- */
+    Games.survival = {
+      init: function (g) {
+        g.lives = 3; g.bubbles = []; g.clouds = []; g.stackHeight = 0; g.block = wtSpawn();
+        g.spawnBubble = 0; g.spawnCloud = 0; g.blockSpeed = 40;
+        setHud({ score: 0, lives: 3, livesTag: 'Lives', timer: 0 });
+      },
+      key: function (g, key) {
+        if (key.length !== 1) return;
+        var chUpper = key.toUpperCase(), chLower = key.toLowerCase();
+        if (/[A-Z]/.test(chUpper)) {
+          var bb = null;
+          g.bubbles.forEach(function (b) { if (!b.popped && b.char === chUpper && (!bb || b.y < bb.y)) bb = b; });
+          if (bb) { bb.popped = true; bb.scale = 1; g.score += 5; gsound('pop'); return; }
+        }
+        var cl = null;
+        g.clouds.forEach(function (c) { if (!c.done && (!cl || c.x > cl.x)) cl = c; });
+        if (cl && cl.word[cl.typed.length] === chLower) {
+          cl.typed += chLower; gsound('hit');
+          if (cl.typed.length === cl.word.length) { cl.done = true; cl.fade = 1; g.score += cl.word.length * 4; }
+          return;
+        }
+        if (g.block && g.block.word[g.block.typed.length] === chLower) {
+          g.block.typed += chLower; gsound('lock');
+          if (g.block.typed.length === g.block.word.length) { g.score += g.block.word.length * 6; g.blockSpeed = Math.min(150, g.blockSpeed + 3); g.block = wtSpawn(); }
+        }
+      },
+      update: function (g, dt) {
+        var t = g.elapsed;
+        g.spawnBubble -= dt;
+        if (g.spawnBubble <= 0) { g.spawnBubble = Math.max(0.4, 1.1 - t / 60); g.bubbles.push({ char: rand(LETTERS), x: randInt(20, W / 2 - 10), y: H + 20, r: 18, speed: randInt(40, 60) + t }); }
+        g.spawnCloud -= dt;
+        if (g.spawnCloud <= 0 && g.clouds.length < 2) { g.spawnCloud = Math.max(1.4, 3 - t / 40); g.clouds.push({ word: rand(WORD_BANK), typed: '', x: W / 2, y: randInt(30, 90), speed: randInt(30, 45) + t * 0.3, done: false }); }
+        var bsurv = [];
+        g.bubbles.forEach(function (b) { if (b.popped) { b.scale -= dt * 6; if (b.scale > 0) bsurv.push(b); return; } b.y -= b.speed * dt; if (b.y - b.r <= 0) { g.lives -= 1; gsound('miss'); } else bsurv.push(b); });
+        g.bubbles = bsurv;
+        var csurv = [];
+        g.clouds.forEach(function (c) { if (c.done) { c.x += c.speed * dt * 2; c.fade -= dt * 2.5; if (c.fade > 0) csurv.push(c); return; } c.x += c.speed * dt; if (c.x > W + 80) { g.lives -= 1; gsound('miss'); } else csurv.push(c); });
+        g.clouds = csurv;
+        if (g.block) {
+          g.block.y += g.blockSpeed * dt;
+          var floorY = H - g.stackHeight - 30;
+          if (g.block.y >= floorY) { g.stackHeight += 30; gsound('crash'); g.block = wtSpawn(); }
+        }
+        var finalScore = Math.round(t) + g.score;
+        setHud({ score: finalScore, lives: Math.max(0, g.lives), livesTag: 'Lives', timer: Math.round(t) });
+        if (t >= 60) unlockAchievement('survivor');
+        if (g.lives <= 0 || g.stackHeight >= H - 30) {
+          g.score = finalScore;
+          saveBest('survival', finalScore, true);
+          endGame(false, 'Overwhelmed!', 'Survived ' + Math.round(t) + 's · score ' + finalScore);
+        }
+      },
+      render: function (g, ctx) {
+        ctx.fillStyle = '#161a24'; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = '#2c2440'; ctx.fillRect(0, H - g.stackHeight, W, g.stackHeight);
+        g.bubbles.forEach(function (b) {
+          var s = b.popped ? Math.max(0, b.scale) : 1;
+          ctx.save(); ctx.globalAlpha = s;
+          ctx.beginPath(); ctx.arc(b.x, b.y, b.r * (b.popped ? (1.4 - s) : 1), 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(102,153,251,0.85)'; ctx.fill();
+          ctx.fillStyle = '#fff'; ctx.font = 'bold 14px Inter, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillText(b.char, b.x, b.y); ctx.restore();
+        });
+        g.clouds.forEach(function (c) {
+          ctx.save(); ctx.globalAlpha = c.done ? Math.max(0, c.fade) : 1;
+          drawCloudShape(ctx, c.x, c.y);
+          ctx.font = '13px Inter, sans-serif'; ctx.textBaseline = 'middle';
+          var tw = ctx.measureText(c.word).width; var sx = c.x - tw / 2;
+          var tp = c.word.slice(0, c.typed.length), rp = c.word.slice(c.typed.length);
+          ctx.textAlign = 'left';
+          ctx.fillStyle = '#7CE38B'; ctx.fillText(tp, sx, c.y + 28);
+          ctx.fillStyle = '#fff'; ctx.fillText(rp, sx + ctx.measureText(tp).width, c.y + 28);
+          ctx.restore();
+        });
+        if (g.block) {
+          var b = g.block;
+          ctx.font = 'bold 15px Inter, sans-serif';
+          var tw = ctx.measureText(b.word).width; var bw = tw + 30, bh = 32;
+          ctx.fillStyle = '#6699FB'; roundRect(ctx, b.x - bw / 2, b.y - bh / 2, bw, bh, 8); ctx.fill();
+          ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+          var tp = b.word.slice(0, b.typed.length), rp = b.word.slice(b.typed.length);
+          var sx = b.x - tw / 2;
+          ctx.fillStyle = '#c8ff9e'; ctx.fillText(tp, sx, b.y);
+          ctx.fillStyle = '#fff'; ctx.fillText(rp, sx + ctx.measureText(tp).width, b.y);
+        }
+      }
+    };
+
+    window.renderGameBests();
   })();
 
   /* ============== INIT ============== */
