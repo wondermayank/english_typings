@@ -2287,6 +2287,18 @@
     return html;
   }
 
+  // For the answer/typing box: only render characters actually typed so far —
+  // never pad out the untyped rest of the target word (that would reveal the
+  // answer before the user types it).
+  function cpctRenderTypedOnlyHtml(word, typed) {
+    var html = '';
+    for (var i = 0; i < typed.length; i++) {
+      var cls = (i < word.length && typed[i] === word[i]) ? 'char correct' : 'char incorrect';
+      html += '<span class="' + cls + '">' + cpctEsc(typed[i]) + '</span>';
+    }
+    return html;
+  }
+
   function cpctRenderAnswerBox() {
     if (!cpctTest) { cpctAnswerBox.innerHTML = ''; return; }
     var html = '';
@@ -2298,7 +2310,7 @@
       html += '<span class="' + (ok ? 'word-correct' : 'word-wrong') + '">' + cpctEsc(shown) + '</span> ';
     }
     var target = cpctTest.words[cpctTest.index] || '';
-    html += cpctRenderWordHtml(target, cpctTypingInput.value) + '<span class="cpct-caret"></span>';
+    html += cpctRenderTypedOnlyHtml(target, cpctTypingInput.value) + '<span class="cpct-caret"></span>';
     cpctAnswerBox.innerHTML = html;
   }
 
