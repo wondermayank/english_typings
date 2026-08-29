@@ -449,6 +449,250 @@
   .game-msg-sub { font-size: 14px; color: #d8d8dc; margin: 0 0 22px; max-width: 40ch; }
   .game-msg-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 
+  /* ---------- CPCT English (word-to-word mock tests) ---------- */
+  .cpct-mocks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
+  .cpct-mock-card {
+    background: var(--surface-card); border: 1px solid var(--hairline); border-radius: 18px;
+    padding: 22px; display: flex; flex-direction: column; align-items: flex-start;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .cpct-mock-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+  .cpct-mock-num {
+    width: 40px; height: 40px; border-radius: 12px; background: var(--surface-soft); color: var(--primary);
+    display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; margin-bottom: 14px;
+  }
+  .cpct-mock-title { font-size: 16px; font-weight: 700; color: var(--ink); margin: 0 0 6px; }
+  .cpct-mock-meta { font-size: 12px; color: var(--muted); margin: 0 0 10px; }
+  .cpct-mock-best { font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.6px; margin: 0 0 14px; }
+  .cpct-mock-card .button-secondary, .cpct-mock-card .button-primary { height: 40px; padding: 0 20px; font-size: 13px; width: 100%; margin-top: auto; }
+
+  .cpct-rules-box { background: var(--surface-soft); border: 1px solid var(--hairline); border-radius: 14px; padding: 16px; margin-bottom: 28px; }
+  .cpct-rules-box p { margin: 0 0 6px; font-size: 13px; color: var(--body); }
+  .cpct-rules-box p:last-child { margin-bottom: 0; }
+  .cpct-rules-box strong { color: var(--ink); }
+
+  .cpct-top-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+  .cpct-top-bar-left { display: flex; align-items: center; gap: 10px; }
+  .cpct-mock-badge { font-size: 12px; font-weight: 700; color: var(--primary); background: var(--surface-soft); padding: 5px 14px; border-radius: 9999px; }
+  .cpct-top-bar-right { display: flex; align-items: center; gap: 8px; }
+  .cpct-submit-btn { height: 44px; padding: 0 22px; font-size: 14px; }
+
+  .cpct-passage {
+    font-size: 19px; line-height: 2.3; letter-spacing: 0.2px;
+    padding: 24px; border: 1px solid var(--hairline); border-radius: 18px;
+    background: var(--surface-card); color: var(--muted-soft); margin-bottom: 16px;
+    user-select: none;
+  }
+  .cpct-word { display: inline-block; margin: 1px 2px; padding: 1px 3px; border-radius: 4px; color: var(--muted-soft); }
+  .cpct-word.cpct-current { background: var(--surface-soft); box-shadow: 0 0 0 2px var(--primary) inset; }
+  .cpct-word.cpct-done-correct { color: var(--success); }
+  .cpct-word.cpct-done-incorrect { color: var(--error); background: var(--error-soft); text-decoration: line-through; }
+  .cpct-word .char.correct, .cpct-exam-answerbox .char.correct { color: var(--ink); }
+  .cpct-word .char.incorrect, .cpct-exam-answerbox .char.incorrect { color: var(--error); background: var(--error-soft); border-radius: 2px; }
+  .cpct-word .char.extra, .cpct-exam-answerbox .char.extra { color: var(--error); text-decoration: underline; }
+
+  .cpct-wrong-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+  .cpct-wrong-chip { font-size: 13px; color: var(--error); background: var(--error-soft); padding: 5px 12px; border-radius: 9999px; }
+
+  /* ---------- CPCT Exam Mode (fullscreen, exam-software feel) ---------- */
+  .cpct-examroot { position: fixed; inset: 0; z-index: 400; background: var(--canvas); display: flex; flex-direction: column; }
+  .cpct-examroot[hidden] { display: none; }
+
+  .cpct-exam-topbar {
+    background: var(--surface-dark); color: var(--on-dark); min-height: 56px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; gap: 12px; flex-wrap: wrap;
+  }
+  .cpct-exam-topbar-left { display: flex; align-items: center; gap: 10px; min-width: 0; flex-wrap: wrap; }
+  .cpct-exam-back {
+    background: transparent; border: none; color: var(--on-dark); cursor: pointer;
+    display: flex; align-items: center; padding: 6px; border-radius: 8px; flex-shrink: 0;
+  }
+  .cpct-exam-back:hover { background: rgba(255,255,255,0.1); }
+  .cpct-exam-brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; white-space: nowrap; }
+  .cpct-exam-brand-mark {
+    width: 24px; height: 24px; border-radius: 7px; background: var(--primary); color: var(--on-primary);
+    display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0;
+  }
+  .cpct-exam-select {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16); color: var(--on-dark);
+    font-family: inherit; font-size: 12.5px; font-weight: 600; padding: 6px 10px; border-radius: 8px;
+    max-width: 200px; cursor: pointer;
+  }
+  .cpct-exam-select option { color: #1a1a1a; }
+  .cpct-exam-meta { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--on-dark-soft); white-space: nowrap; }
+  .cpct-exam-meta strong { color: var(--on-dark); font-weight: 700; }
+  .cpct-exam-wordcount-pill {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16); border-radius: 8px;
+    padding: 6px 12px; font-size: 12.5px; font-weight: 700; color: var(--on-dark); white-space: nowrap;
+  }
+  .cpct-exam-topbar-right { display: flex; align-items: center; gap: 6px; position: relative; flex-wrap: wrap; }
+  .cpct-exam-navlink {
+    display: flex; align-items: center; gap: 6px; background: transparent; border: 1px solid rgba(255,255,255,0.16);
+    color: var(--on-dark-soft); font-size: 11.5px; font-weight: 600; padding: 6px 10px; border-radius: 8px; white-space: nowrap;
+  }
+  .cpct-exam-navlink.accent { background: var(--warning); color: #1a1207; border-color: var(--warning); }
+  .cpct-exam-settings {
+    display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16);
+    color: var(--on-dark); font-family: inherit; font-size: 12.5px; font-weight: 600; padding: 7px 14px; border-radius: 8px; cursor: pointer;
+  }
+  .cpct-exam-settings:hover { background: rgba(255,255,255,0.16); }
+  .cpct-exam-settings-menu {
+    position: absolute; top: calc(100% + 8px); right: 0; background: var(--canvas); border: 1px solid var(--hairline-strong);
+    border-radius: 12px; box-shadow: 0 12px 30px rgba(0,0,0,0.25); overflow: hidden; z-index: 20; min-width: 190px;
+  }
+  .cpct-exam-settings-menu[hidden] { display: none; }
+  .cpct-exam-settings-menu button {
+    display: block; width: 100%; text-align: left; padding: 11px 16px; border: none; background: var(--canvas);
+    font-family: inherit; font-size: 13px; font-weight: 600; color: var(--ink); cursor: pointer;
+  }
+  .cpct-exam-settings-menu button:hover { background: var(--surface-soft); }
+  .cpct-exam-settings-menu button + button { border-top: 1px solid var(--hairline); }
+
+  .cpct-exam-sectionsbar { border-bottom: 1px solid var(--hairline); background: var(--canvas); padding: 12px 20px 0; flex-shrink: 0; }
+  .cpct-exam-sections-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .cpct-exam-sections-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); }
+  .cpct-exam-duration { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .cpct-exam-duration select {
+    font-family: inherit; font-size: 13px; font-weight: 600; padding: 5px 10px; border-radius: 8px;
+    border: 1px solid var(--hairline-strong); background: var(--canvas); color: var(--ink);
+  }
+  .cpct-exam-tabs-row { display: flex; align-items: center; gap: 8px; }
+  .cpct-exam-tab {
+    background: var(--primary); color: var(--on-primary); font-family: inherit; font-size: 13px; font-weight: 700;
+    padding: 9px 18px; border-radius: 8px 8px 0 0; border: none; cursor: default;
+  }
+  .cpct-exam-qtype-row {
+    display: flex; align-items: center; justify-content: space-between; font-size: 12.5px; color: var(--muted);
+    padding: 10px 2px; border-bottom: 3px solid var(--primary); margin-bottom: 0;
+  }
+
+  .cpct-exam-body { flex: 1; display: flex; min-height: 0; }
+  .cpct-exam-main { flex: 1; min-width: 0; padding: 20px; overflow-y: auto; }
+  .cpct-exam-passage {
+    font-size: 18px; line-height: 2.2; letter-spacing: 0.2px; padding: 18px;
+    border: 1px solid var(--hairline); border-radius: 10px; background: var(--surface-card); color: var(--muted-soft);
+    max-height: 220px; overflow-y: auto; margin-bottom: 16px; user-select: none;
+  }
+  .cpct-exam-passage .cpct-word.cpct-current { background: #FFE58A; box-shadow: none; color: #3a2e00; }
+  [data-theme="dark"] .cpct-exam-passage .cpct-word.cpct-current { background: #7a6420; color: #fff8e0; }
+  .cpct-exam-answerbox {
+    min-height: 200px; border: 1px solid var(--hairline-strong); border-radius: 10px; background: var(--canvas);
+    padding: 16px; font-size: 17px; line-height: 1.9; color: var(--ink); white-space: pre-wrap; word-break: break-word;
+    cursor: text; margin-bottom: 16px;
+  }
+  .cpct-exam-answerbox .cpct-caret {
+    display: inline-block; width: 1px; height: 1.1em; background: var(--ink); vertical-align: text-bottom;
+    animation: cpctblink 1s step-end infinite; margin-left: 1px;
+  }
+  @keyframes cpctblink { 50% { opacity: 0; } }
+  .cpct-exam-answerbox .word-wrong { color: var(--error); }
+  .cpct-exam-answerbox .word-correct { color: var(--body); }
+
+  .cpct-exam-sidebar {
+    width: 320px; flex-shrink: 0; border-left: 1px solid var(--hairline); background: var(--surface-card);
+    padding: 20px; overflow-y: auto; display: flex; flex-direction: column;
+  }
+  .cpct-exam-user-row { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .cpct-exam-avatar {
+    width: 42px; height: 42px; border-radius: 9999px; background: var(--surface-soft); color: var(--muted);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .cpct-exam-user-name { font-size: 15px; font-weight: 700; color: var(--ink); }
+  .cpct-exam-viewing { font-size: 13px; color: var(--muted); margin: 0 0 20px; line-height: 1.5; }
+  .cpct-exam-viewing strong { color: var(--primary); }
+  .cpct-exam-statlist { list-style: none; margin: 0 0 22px; padding: 0; }
+  .cpct-exam-statlist li { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--hairline); font-size: 13px; color: var(--muted); }
+  .cpct-exam-statlist li span.val { font-weight: 700; color: var(--ink); font-size: 14px; }
+  .cpct-exam-instructions-title { font-size: 13px; font-weight: 700; color: var(--ink); margin: 0 0 10px; }
+  .cpct-exam-instructions { list-style: disc; padding-left: 18px; margin: 0 0 auto; font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+  .cpct-exam-instructions li { margin-bottom: 8px; }
+  .cpct-exam-sidebar .button-primary { width: 100%; margin-top: 18px; }
+
+  /* ---------- CPCT Result Modal ---------- */
+  .cpct-result-overlay {
+    position: fixed; inset: 0; z-index: 410; background: rgba(15, 18, 24, 0.6);
+    display: flex; align-items: flex-start; justify-content: center; padding: 24px 16px; overflow-y: auto;
+  }
+  .cpct-result-overlay[hidden] { display: none; }
+  .cpct-result-modal {
+    background: var(--canvas); border-radius: 20px; width: 100%; max-width: 640px; padding: 22px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.35); margin: auto;
+  }
+  .cpct-result-status-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px;
+    border-radius: 14px; margin-bottom: 14px; flex-wrap: wrap;
+  }
+  .cpct-result-status-row.pass { background: var(--success-soft); }
+  .cpct-result-status-row.warn { background: var(--warning-soft); }
+  .cpct-result-status-row.fail { background: var(--error-soft); }
+  .cpct-result-status-left { display: flex; align-items: center; gap: 12px; }
+  .cpct-result-status-icon {
+    width: 40px; height: 40px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .cpct-result-status-row.pass .cpct-result-status-icon { background: var(--canvas); color: var(--success); border: 2px solid var(--success); }
+  .cpct-result-status-row.warn .cpct-result-status-icon { background: var(--canvas); color: var(--warning); border: 2px solid var(--warning); }
+  .cpct-result-status-row.fail .cpct-result-status-icon { background: var(--canvas); color: var(--error); border: 2px solid var(--error); }
+  .cpct-result-status-title { font-size: 19px; font-weight: 700; margin: 0; }
+  .cpct-result-status-row.pass .cpct-result-status-title { color: var(--success); }
+  .cpct-result-status-row.warn .cpct-result-status-title { color: var(--warning); }
+  .cpct-result-status-row.fail .cpct-result-status-title { color: var(--error); }
+  .cpct-result-status-sub { font-size: 12.5px; color: var(--muted); margin: 2px 0 0; }
+  .cpct-result-status-right { text-align: right; }
+  .cpct-result-score-big { font-size: 34px; font-weight: 700; line-height: 1; }
+  .cpct-result-status-row.pass .cpct-result-score-big { color: var(--success); }
+  .cpct-result-status-row.warn .cpct-result-score-big { color: var(--warning); }
+  .cpct-result-status-row.fail .cpct-result-score-big { color: var(--error); }
+  .cpct-result-score-tag { font-size: 12px; color: var(--muted); font-weight: 600; }
+
+  .cpct-collapse-row {
+    display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border: 1px solid var(--hairline);
+    border-radius: 12px; margin-bottom: 12px; cursor: pointer; background: var(--surface-card);
+  }
+  .cpct-collapse-row span.label { font-size: 13px; font-weight: 700; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+  .cpct-collapse-row svg:last-child { transition: transform 0.15s ease; flex-shrink: 0; }
+  .cpct-collapse-row.open svg:last-child { transform: rotate(90deg); }
+  .cpct-collapse-body { display: none; font-size: 12.5px; color: var(--muted); padding: 0 4px 14px; line-height: 1.6; }
+  .cpct-collapse-body.open { display: block; }
+
+  .cpct-result-grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+  .cpct-result-metric { border: 1px solid var(--hairline); border-radius: 12px; padding: 12px; text-align: left; }
+  .cpct-result-metric .metric-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); display: block; margin-bottom: 6px; }
+  .cpct-result-metric .metric-value { font-size: 22px; font-weight: 700; color: var(--ink); }
+  .cpct-result-metric .metric-sub { font-size: 10.5px; color: var(--muted-soft); display: block; margin-top: 4px; }
+  .cpct-result-metric.accent-success .metric-value { color: var(--success); }
+  .cpct-result-metric.accent-warning .metric-value { color: var(--warning); }
+  .cpct-result-metric.accent-error .metric-value { color: var(--error); }
+
+  .cpct-result-facts-row {
+    display: flex; flex-wrap: wrap; gap: 16px; padding: 14px 4px; border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline); margin-bottom: 14px;
+  }
+  .cpct-result-fact { font-size: 12.5px; color: var(--muted); }
+  .cpct-result-fact strong { color: var(--ink); font-size: 13px; margin-left: 4px; }
+
+  .cpct-result-promo { display: flex; align-items: center; gap: 12px; background: var(--surface-soft); border-radius: 12px; padding: 12px 14px; margin: 0 0 4px; }
+  .cpct-result-promo-icon {
+    width: 36px; height: 36px; border-radius: 9999px; background: var(--primary); color: var(--on-primary);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .cpct-result-promo-text { flex: 1; min-width: 0; }
+  .cpct-result-promo-title { font-size: 13px; font-weight: 700; color: var(--ink); margin: 0; }
+  .cpct-result-promo-sub { font-size: 11.5px; color: var(--muted); margin: 2px 0 0; }
+  .cpct-result-promo-btn {
+    width: 34px; height: 34px; border-radius: 9999px; background: var(--canvas); border: 1px solid var(--hairline-strong);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; color: var(--ink);
+  }
+
+  @media (max-width: 860px) {
+    .cpct-exam-body { flex-direction: column; }
+    .cpct-exam-sidebar { width: auto; border-left: none; border-top: 1px solid var(--hairline); }
+  }
+  @media (max-width: 640px) {
+    .cpct-exam-topbar-left, .cpct-exam-topbar-right { gap: 6px; }
+    .cpct-exam-select { max-width: 130px; }
+    .cpct-result-grid4 { grid-template-columns: repeat(2, 1fr); }
+  }
+
   /* ---------- Responsive ---------- */
   @media (max-width: 720px) {
     .stats-bar, .dashboard-summary { grid-template-columns: repeat(2, 1fr); }
@@ -477,6 +721,7 @@
     </a>
     <nav class="tabs" role="tablist" aria-label="Sections">
       <button class="tab-btn active" id="tab-test" role="tab" aria-selected="true">Test</button>
+      <button class="tab-btn" id="tab-cpct" role="tab" aria-selected="false">CPCT English</button>
       <button class="tab-btn" id="tab-games" role="tab" aria-selected="false">Games</button>
       <button class="tab-btn" id="tab-dashboard" role="tab" aria-selected="false">Dashboard</button>
     </nav>
@@ -688,6 +933,227 @@
           <tbody id="arcade-body"></tbody>
         </table>
         <p class="empty-state" id="arcade-empty">No game sessions yet — play something from the Games tab.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CPCT ENGLISH VIEW ===================== -->
+  <section class="view" id="view-cpct" hidden>
+    <div class="container">
+
+      <!-- Mock select panel -->
+      <div id="cpct-panel-select">
+        <p class="eyebrow">CPCT English Typing</p>
+        <h1 class="page-title">CPCT English Mock Tests</h1>
+        <p class="lead">Ten full-length mock tests built from real exam-style passages. Words appear one at a time — type the word and press space to lock it in and move to the next, just like the CPCT exam interface.</p>
+
+        <div class="cpct-rules-box">
+          <p><strong>Format:</strong> Word-to-word typing — the current word is highlighted; press <strong>Space</strong> to submit it and move on. Once a word is submitted it's locked and can't be edited.</p>
+          <p><strong>Duration:</strong> 15 minutes per mock, modeled on standard CPCT English typing test timing — always confirm exact criteria on your official exam notification.</p>
+          <p><strong>Scoring:</strong> WPM is correct words typed per minute; accuracy is correct words out of all words attempted.</p>
+        </div>
+
+        <div class="cpct-mocks-grid" id="cpct-mocks-grid"></div>
+      </div>
+
+      <!-- FAQ -->
+      <div style="margin-top:64px;">
+        <h2 class="section-title" style="margin-bottom:8px;">CPCT English Typing FAQ</h2>
+        <div class="faq-item">
+          <p class="faq-q">What is CPCT English typing?</p>
+          <p class="faq-a">CPCT (Chhattisgarh Professional Certification Test) English typing is a required certificate for many MP state government jobs. It tests how accurately and quickly you can type an English passage within a fixed time.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Why does the word lock after I press space?</p>
+          <p class="faq-a">This mirrors the interface used by most CPCT-style exam software — you commit to a word by pressing space, and can't go back to fix it, which trains you to type accurately the first time rather than relying on corrections.</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">How is WPM calculated here?</p>
+          <p class="faq-a">Words Per Minute is the number of correctly typed words divided by the minutes elapsed. Accuracy is correct words divided by total words attempted (correct + wrong).</p>
+        </div>
+        <div class="faq-item">
+          <p class="faq-q">Do these mock scores appear on my Dashboard?</p>
+          <p class="faq-a">Yes. Every completed CPCT mock is added to your Recent Tests history and counts toward your XP, level, and achievements, alongside your regular typing tests.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Typing panel (fullscreen exam-software interface) -->
+    <div class="cpct-examroot" id="cpct-panel-typing" hidden>
+      <div class="cpct-exam-topbar">
+        <div class="cpct-exam-topbar-left">
+          <button class="cpct-exam-back" id="cpct-quit-btn" type="button" title="Back to mock list" aria-label="Back to mock list">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg>
+          </button>
+          <div class="cpct-exam-brand">
+            <span class="cpct-exam-brand-mark">T</span>
+            <span>thunderstudy.indevs.in</span>
+          </div>
+          <select class="cpct-exam-select" id="cpct-mock-select" aria-label="Switch mock passage"></select>
+          <span class="cpct-exam-meta">Word Length: <strong id="cpct-word-length">0.00</strong></span>
+          <span class="cpct-exam-wordcount-pill" id="cpct-wordcount-pill">0w</span>
+        </div>
+        <div class="cpct-exam-topbar-right">
+          <span class="cpct-exam-wordcount-pill" id="cpct-live-time" title="Time Left">15:00</span>
+          <span class="cpct-exam-navlink">Daily</span>
+          <span class="cpct-exam-navlink">Current Affairs</span>
+          <span class="cpct-exam-navlink accent">PYQ</span>
+          <span class="cpct-exam-navlink">Syllabus</span>
+          <button class="cpct-exam-settings" id="cpct-settings-btn" type="button" aria-haspopup="true" aria-expanded="false">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            Settings
+          </button>
+          <div class="cpct-exam-settings-menu" id="cpct-settings-menu" hidden>
+            <button type="button" id="cpct-restart-btn">Restart this mock</button>
+            <button type="button" id="cpct-quit-from-settings-btn">Back to mock list</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cpct-exam-sectionsbar">
+        <div class="cpct-exam-sections-row">
+          <span class="cpct-exam-sections-label">Sections</span>
+          <div class="cpct-exam-duration">
+            Duration:
+            <select disabled aria-label="Test duration"><option>15 min</option></select>
+          </div>
+        </div>
+        <div class="cpct-exam-tabs-row">
+          <button class="cpct-exam-tab" type="button">English Typing Actual</button>
+        </div>
+        <div class="cpct-exam-qtype-row">
+          <span>Question Type: Typing</span>
+          <span id="cpct-live-words">0/0 words</span>
+        </div>
+      </div>
+
+      <div class="progress-track" style="margin: 0; border-radius: 0; height: 4px;"><div class="progress-fill" id="cpct-progress-fill" style="border-radius: 0;"></div></div>
+
+      <div class="cpct-exam-body">
+        <div class="cpct-exam-main">
+          <h1 class="page-title" id="cpct-typing-title" style="font-size: 20px; margin-bottom: 14px;"></h1>
+          <div class="caps-warning" id="cpct-caps-warning">⚠ Caps Lock is on — this will cause typing errors.</div>
+          <div class="cpct-exam-passage" id="cpct-passage-display"></div>
+          <div class="cpct-exam-answerbox" id="cpct-answerbox" tabindex="0"></div>
+          <input type="text" class="typing-input" id="cpct-typing-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="position: absolute; opacity: 0; height: 0; width: 0; padding: 0; border: 0; pointer-events: none;">
+        </div>
+        <aside class="cpct-exam-sidebar">
+          <div class="cpct-exam-user-row">
+            <div class="cpct-exam-avatar">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path></svg>
+            </div>
+            <div class="cpct-exam-user-name">Guest</div>
+          </div>
+          <p class="cpct-exam-viewing">You are viewing <strong id="cpct-mock-badge">Mock 1</strong></p>
+          <ul class="cpct-exam-statlist">
+            <li>Keystrokes Count <span class="val" id="cpct-stat-keystrokes">0</span></li>
+            <li>Error Count <span class="val" id="cpct-stat-errors">0</span></li>
+            <li>Backspace Count <span class="val" id="cpct-stat-backspace">0</span></li>
+            <li>Total Word Count <span class="val" id="cpct-stat-totalwords">0</span></li>
+            <li>Typed Word Count <span class="val" id="cpct-stat-typedwords">0</span></li>
+            <li>Pending Word Count <span class="val" id="cpct-stat-pendingwords">0</span></li>
+          </ul>
+          <p class="cpct-exam-instructions-title">Instructions</p>
+          <ul class="cpct-exam-instructions">
+            <li>Kindly type the highlighted word to proceed further.</li>
+            <li>Once a word is submitted with Space, it is locked and cannot be edited.</li>
+            <li>Correct/Wrong words turn Green/Red respectively.</li>
+            <li>It is recommended that you type the entire passage before submitting.</li>
+            <li>Upon timeout, the system will automatically submit your response.</li>
+          </ul>
+          <button class="button-primary cpct-submit-btn" id="cpct-submit-btn" type="button">Submit</button>
+        </aside>
+      </div>
+    </div>
+
+    <!-- Results modal -->
+    <div class="cpct-result-overlay" id="cpct-panel-results" hidden aria-live="polite">
+      <div class="cpct-result-modal">
+        <div class="cpct-result-status-row" id="cpct-result-status-row">
+          <div class="cpct-result-status-left">
+            <div class="cpct-result-status-icon" id="cpct-result-status-icon"></div>
+            <div>
+              <p class="cpct-result-status-title" id="cpct-result-status-title">Not Qualified</p>
+              <p class="cpct-result-status-sub" id="cpct-result-status-sub">thunderstudy.indevs.in · English · CPCT Mock</p>
+            </div>
+          </div>
+          <div class="cpct-result-status-right">
+            <div class="cpct-result-score-big" id="cpct-res-score">0</div>
+            <div class="cpct-result-score-tag" id="cpct-result-score-tag">Net WPM</div>
+          </div>
+        </div>
+
+        <div class="cpct-collapse-row" id="cpct-howcalc-row">
+          <span class="label">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 8h8M8 12h8M8 16h5"></path></svg>
+            How is this calculated?
+          </span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+        </div>
+        <div class="cpct-collapse-body" id="cpct-howcalc-body">
+          <strong>Net Speed (NWPM)</strong> = correct words ÷ minutes taken. <strong>Gross Speed (GWPM)</strong> = all attempted words ÷ minutes taken. <strong>Accuracy</strong> = correct words ÷ attempted words. Your score is your Net WPM itself — you qualify once it reaches <span id="cpct-howcalc-min">30</span> NWPM. <strong style="color:var(--success)">Green</strong> = typed the full passage before time ran out. <strong style="color:var(--warning)">Yellow</strong> = qualified but you submitted early, before finishing. <strong style="color:var(--error)">Red</strong> = Not Qualified, either because time ran out before you finished or Net Speed stayed below 30 NWPM.
+        </div>
+
+        <div class="cpct-result-grid4">
+          <div class="cpct-result-metric">
+            <span class="metric-label">Net Speed</span>
+            <span class="metric-value" id="cpct-res-netspeed">0</span>
+            <span class="metric-sub" id="cpct-res-netspeed-sub">need 30 NWPM</span>
+          </div>
+          <div class="cpct-result-metric">
+            <span class="metric-label">Gross Speed</span>
+            <span class="metric-value" id="cpct-res-grossspeed">0</span>
+          </div>
+          <div class="cpct-result-metric accent-success">
+            <span class="metric-label">Accuracy</span>
+            <span class="metric-value" id="cpct-res-acc">0%</span>
+          </div>
+          <div class="cpct-result-metric" id="cpct-res-score-card">
+            <span class="metric-label">Result</span>
+            <span class="metric-value" id="cpct-res-score2">—</span>
+          </div>
+        </div>
+
+        <div class="cpct-result-facts-row">
+          <div class="cpct-result-fact">Time Taken<strong id="cpct-res-time">0:00</strong></div>
+          <div class="cpct-result-fact">Characters<strong id="cpct-res-chars">0</strong></div>
+          <div class="cpct-result-fact">Backspaces<strong id="cpct-res-backspace">0</strong></div>
+          <div class="cpct-result-fact">Words (Correct/Typed)<strong id="cpct-res-wordsfrac">0/0</strong></div>
+          <div class="cpct-result-fact">XP Earned<strong id="cpct-res-xp">+0</strong></div>
+        </div>
+
+        <div class="cpct-collapse-row" id="cpct-mistakes-row" hidden>
+          <span class="label">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v4M12 16h.01"></path></svg>
+            See your mistakes
+          </span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+        </div>
+        <div class="cpct-collapse-body" id="cpct-mistakes-body">
+          <div class="cpct-wrong-list" id="cpct-wrong-list"></div>
+        </div>
+
+        <span class="best-badge" id="cpct-best-badge" hidden>New Best!</span>
+
+        <div class="cpct-result-promo">
+          <div class="cpct-result-promo-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          </div>
+          <div class="cpct-result-promo-text">
+            <p class="cpct-result-promo-title">Practice more CPCT mocks free</p>
+            <p class="cpct-result-promo-sub">9 more exam-style passages waiting on ThunderStudy — bilkul free.</p>
+          </div>
+          <button class="cpct-result-promo-btn" id="cpct-view-dashboard-btn" type="button" title="View dashboard" aria-label="View dashboard">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+          </button>
+        </div>
+
+        <p id="cpct-result-message" style="font-size: 13px; color: var(--muted); margin: 14px 0 0;"></p>
+
+        <div class="action-row" style="margin-top: 18px;">
+          <button class="button-primary" id="cpct-try-again-btn" type="button">Try Again</button>
+          <button class="button-secondary" id="cpct-back-btn" type="button">All Mock Tests</button>
+        </div>
       </div>
     </div>
   </section>
@@ -991,6 +1457,19 @@
     { id: 'court', label: 'Court Typing Test', duration: 600, thresholdWpm: 35, thresholdAcc: 95, passageId: null, note: '10 minutes · English · Backspace disabled · needs roughly 35 WPM and 95% accuracy to clear.' }
   ];
 
+  var CPCT_MOCKS = [
+    { id: 'cpct1', num: 1, title: 'Anatomy of a Knife', level: 'Easy', words: 550, duration: 900, text: 'Different knifes are used for different tasks. It will help to have a basic working knowledge of the different parts of a knife. The very end of the blade is called the point. This is usually sharpened to a fine point and can be used to pierce or score the surface of food. The blade is the name given to the part of the knife which is used for cutting. It is usually crafted from steel. Although it may also be ceramic or titanium or even plastic. The edge refers to the sharpened part of the blade. It is used for the majority of cutting work. The sharpness of the knife is dictated by how finely the edge is ground. This will depend on both the quality of the knife and how often you sharpen it. It may be serrated or it may be straight. The front part of the knifes edge just beneath the point is called the tip. It is the part of the blade which is normally used for delicate chopping and cutting work. The spine is the blunt upper side of the blade and is opposite to the cutting edge. The thickness of the spine gives strength to blade as a rule, the thicker the spine, the stronger the blade. Its also important for providing balance to the overall knife. The heel is the lower edge of the blade. It is furthest from the tip and is next to the bolster. It is often the widest part of the blade. This part of the edge is most commonly used when the chef needs more strength or pressure to cut through thicker or tougher foods. The tang is the unsharpened part of the blade which connects the blade edge to the handle. The tang is vital to the overall balance and weight. It is also vital for stability and strength of the knife. The best knives are often considered to be those with a full tang. The one which runs from the end of the blade all the way to the butt. The tang also functions as a handle is some designs. The handle is the part of the knife grasped by the chef during use. It is sometimes also called as scales. It can be made from a number of materials. It may be straight or designed with finger grooves and other ergonomic features that make it easier to hold. Some knife manufacturers will dispense of the handle altogether. Instead creating a knife using a single piece of steel so that the tang also functions as a handle. The bolster is the raised area between the blade and the handle. It puts a small space between the hand of the chef and the blade and to stop the fingers from slipping down onto the blade during cutting work. It also provides additional weight to help balance the knife. These are the rivets or screws which fix the handle parts to the tang. Less expensive designs may forego the rivets and attach the handle to the tang using resin or epoxy instead. Butt is the name given to the end of the handle and at the very bottom of the knife. Knifes can be forged or stamped. There is a difference in the making of these two.' },
+    { id: 'cpct2', num: 2, title: 'Software as a Service', level: 'Medium', words: 550, duration: 900, text: 'Software as a service works through the cloud delivery model. A software provider will either host the application and related data using its own servers and databases or it may be an independent software vendor that contracts a cloud provider to host the application in the providers data center. The application will be accessible to any device with a network connection. Software as a service applications are typically accessed via web browsers. As a result companies using software as a service applications are not tasked with the setup and maintenance of the software. Users simply pay a subscription fee to gain access to the software. Software as a service is closely related to the application service provider and on demand computing software delivery models where the provider hosts the customers software and delivers it to approved end users over the internet. In the software on demand model the provider gives customers network based access to a single copy of an application that the provider created specifically for distribution. The applications source code is the same for all customers. When new features or functionalities are released they are rolled out to all customers. Depending on the service level agreement the customers data for each model may be stored locally or in the cloud or both locally and in the cloud. Organizations can integrate these applications with other software using application programming interfaces. For example a business can write its own software tools and use the software as a service providers interface to integrate those tools with the cloud offering. Software as a service applications and services typically use a multi tenant approach. Which means a single instance of the application will be running on the host servers and that single instance will serve each subscribing customer or cloud tenant. The application will run on a single version and configuration across all customers or tenants. Though different subscribing customers will run on the same cloud instance with a common infrastructure and platform the data from different customers will still be segregated. The typical multi tenant architecture of these applications means the cloud service provider can manage maintenance and updates more efficiently. It also helps in fixing the bugs faster. Rather than having to implement changes in multiple instances engineers can make necessary changes for all customers by maintaining the one shared instance. Multi tenancy also allows a greater pool of resources to be available to a larger group of people without compromising important cloud functions such as security and speed and privacy. Software as a service removes the need for organizations to install and run applications on their own computers or in their own data centers. This eliminates the expense of hardware acquisition and provisioning and maintenance of it. It also eliminates the expenses on software licensing and their installation and support. Transitioning costs to a recurring operating expense allows many businesses to exercise better and more predictable budgeting. Users can also terminate software as a service offerings at any time to stop those recurring costs. These service provides high vertical scalability which gives customers the option to access more or fewer services or features on demand. Rather than purchasing new software customers can rely on the provider to automatically perform updates and patch management. This further reduces the burden on staff.' },
+    { id: 'cpct3', num: 3, title: 'The Origin of Numbers', level: 'Medium', words: 550, duration: 900, text: 'The origins of numbers are cloaked in mystery. But it is safe to say that as civilization advanced numbers advanced with it and it is equally safe to say that civilization could not have advanced without it. Common intuition and recently discovered evidence indicates that numbers and counting began with the number one. Even though in the beginning, they likely did not have a name for it. The first solid evidence of the existence of the number one and that someone was using it to count appears about twenty thousand years ago. It was just a unified series of unified lines cut into a bone. It is called the Ishango bone. The ishango bone was found in the Congo region of Africa in middle half of the twentieth century. The lines cut into the bone are too uniform to be accidental. Archaeologists believe the lines were tally marks to keep track of something. But what it kept track of was not clear. But numbers and counting did not truly come into being until the rise of cities. Indeed numbers and counting were not really needed until then. Numbers and counting began about four thousand before christ in Sumeria. It was one of the earliest civilizations. With large number of goods and people cities needed a way to organize and keep track of it all. Their method of counting began as a series of tokens. Each token a man held represented something tangible. This was a big step in the history of numbers and counting because with that step subtraction. This led to invention of arithmetic. In the beginning Sumerians kept a group of clay cones inside clay pouches. The pouches were then sealed up and secured. Then the number of cones that were inside the clay pouch was stamped on the outside of the pouch. There was one stamp for each cone inside. Someone soon hit upon the idea that cones were not needed at all. Instead of having a pouch filled with five cones just write those five marks on a clay tablet. This is exactly what happened. This development of keeping track on clay tablets had ramifications beyond arithmetic. With it the idea of writing was also born. But if you are keeping track of your wealth with marks made on a clay tablet what is to stop you from making your own clay tablet and stamping it with any number. To prevent this from happening the Sumerians needed an official method of keeping track and an official group of people who kept track. A select few were allowed to enter this group. They essentially became the first accountants of the world. It was the Egyptians who transformed the number one from a unit of counting things to a unit of measuring things. In three thousand before christ the number one became use as unit of measurement to measure length in Egypt. What they invented was the cubit which they considered to be sacred measurement. A cubit is the length of a forearm of man from elbow to fingertips. The width of the palm was also included. Considered sacred as they were they had officially ordained sticks which they kept in the temples. If copy cubits were needed they were made from original cubits kept in the temple.' },
+    { id: 'cpct4', num: 4, title: 'Cricket in India', level: 'Easy-Medium', words: 551, duration: 900, text: 'Our life starts with sports and it is essential to keep our brain and body healthy. I love playing cricket. In our country India almost every sport is played but the most popular of these is cricket which is liked by the age group of young children to older men. Whenever there is a big cricket match the match is seen by thousands of people on big TV screens with full joy. Cricket games are played mainly in Asian and European and African and Australian countries. Cricket started in the country of Great Britain. The first cricket match was played on eighteenth June seventeen forty four between Kent and London. With the expansion of the British Empire the game began to be played in foreign countries like India Australia and New Zealand etc. In the nineteenth century the first international match was organized by the ICC Cricket Club between two teams of ten members each. As the game of cricket was born in Britain the game was started in India by residents of England. In the early days cricket was played only in India by the King and the people of England but after independence it was played by everyone. The first cricket institution of India was the Calcutta Cricket Club. A professor founded the Indian Cricket Club under the name of Presidency College Cricket Club. Our country has won the World Cup in nineteen eighty three and two thousand eleven. The game of cricket is played between two teams of eleven players. Each team also has four extra players to replace with the hurt player whenever needed. There are two judges of the game to decide the game that is known as the umpire. And there are a total of three umpires. The third one is observing or watching the match outside of the field who makes the decision by watching the video under special circumstances. The toss is done by an umpire to start the game. Whichever team wins the toss decides on its own whether to bat or bowl. After toss match starts and two members of the batting team stand on either side of the pitch and all the members of the bowling team stand to stop the ball in the field then one of the bowling teams throws the ball towards the batsman. The batsman strikes the ball with the bat and takes a run or hits a four or a six. This is a turn by turn for both teams. Team plays until all the over or all the batsmen in the team are out whichever team scores more runs is declared victorious. Cricket has many different types or it is being played in many different ways like One Day and T twenty and Test Matches and International championships etc. The game of cricket is very lovable and good. Everyone likes to play and watch this game matched on TV and Mobiles etc. In the past Sachin Tendulkar the great player of India has taken this game to infinite heights. Earlier only a few people from a select country played it. But nowadays everyone likes to play this game that is why children will be found playing cricket in every street of India. This is how we should keep playing all sports and stay healthy.' },
+    { id: 'cpct5', num: 5, title: 'The Christmas Festival', level: 'Easy', words: 550, duration: 900, text: 'This holy festival is celebrated every year on twenty fifth December as a celebration of the birth of Jesus Christ with full joy and gaiety. Christmas festival is celebrated with great pomp. This day is celebrated as the birth anniversary of God Jesus Christ. This festival is celebrated in the country and abroad with its customs and traditions. On this festival decorating the Christmas tree and cutting cakes going to church and gifts from Santa Claus has a different significance. The Christmas festival has special significance for the people of Christianity. According to the religious book Bible of Christianity Jesus Christ was born on this day however different views have been given regarding the birth date of Jesus Christ. Jesus spent his entire life in the well being of others and inspired people to follow the right path he is also known as the liberator and protector of liberating people from suffering. At the same time Jesus performed many such miracles due to which he was not only called the messenger of God so his birthday was celebrated as Christmas. On this day all schools and colleges and government and private offices have their holidays. The history of this holy Christmas celebrated with joy and cheerfulness is associated with the birth anniversary of Jesus Christ. The birth of Jesus Christ had already been predicted that a man on earth would be born who would grow up to be an influential king and his kingdom would have no limits and he would be the savior of the world the painter and will be the right guide. After this when Jesus Christ was born in a cowshed from the womb of mother Mary in Bethlehem in Israel his prophecy came true. After which his birthday was celebrated as Christmas festival. The Christmas feast is especially associated with Santa Claus. Many children wait for the Christmas festival entire year because Santa Claus with a long beard in a red and white dress will come and give them a lot of gifts and fulfill their wishes. Saint Nicholas is considered the father of the Santa he had a deep faith in the Lord Jesus Christ and loved children. Saint Nicholas used to give children their favorite gifts to make them happy due to which people had a lot of love and respect towards them. Although Santa Claus has no direct connection with the birthday of Jesus Christ today Santa Claus is still an important part of Christmas. The Christmas festival is incomplete without Santa Claus. In the schools nowadays on the occasion of Christmas children are called in the appearance of Santa Claus and they are given chocolate. Along with this many songs have also been made about Christmas and Santa Claus which work to increase the beauty and joy of Christmas. The festival of Christmas is a festival of brotherhood love and happiness which gives a message to all of us to live together. This festival fills the lives of all people with happiness and inspires us to follow the path of truth. On this day people take a pledge to help the suffering and needy as per the teachings of Jesus Christ and take a pledge to walk the prescribed path of Christianity generously. Also spread some peace and love and forgiveness.' },
+    { id: 'cpct6', num: 6, title: 'Independence Day', level: 'Medium', words: 550, duration: 900, text: 'In India Independence Day is celebrated on fifteenth August every year. The country was under the rule of the British for nearly two hundred years eventually liberating itself from their clutches and become an independent nation. August fifteenth has since become a day to celebrate independence. It is also celebrated as a tribute to the freedom fighters who laid down their lives to give us a better place to live. It is celebrated with great enthusiasm and courage by every citizen of India because Independence Day means a lot to them and is very important. Since fifteenth August is a national holiday. Independence Day celebrations are held a day before in most schools and colleges in the country. Independence Day celebrations in schools and colleges across the country include flag hoisting and speeches and debates and quiz competitions dances and poetry recitations and various other cultural activities. Students are thrilled about these activities and participate in them wholeheartedly. Students of the primary wing are also seen dressed as freedom fighters. These activities take students closer to their roots and fill them with a sense of patriotism that is otherwise missing in this generation. This day is also celebrated in the offices a day before Independence Day. In offices employees are usually asked to wear saffron or white or green attire to keep up with the Independence Day theme. People are seen wearing ethnic clothes in the mentioned colors and the whole atmosphere is illuminated. Flag hoisting is done in many offices across the country. Special lunches are organized to strengthen the bond between employees. On occasion people also come forward to give speeches and some offices organize cultural events to add emotion. Society welfare associations of various residential areas take initiative to celebrate Independence Day. People gather in a nearby park during the early morning hours on Independence Day to celebrate the day in its true sense. They dress according to the theme of Independence Day and participate in various activities organized during the program. Flag hoisting is done at the beginning of the festival. After the flag hoisting people stand in a state of meditation in honour of the ringing national anthem. Patriotic songs are played in full volume during these celebrations and people are seen immersed in the spirit of patriotism. During these events dance and poetry recitation competitions are organized. Fancy dress competitions are also held in which children are seen as freedom fighters such as Jawaharlal Nehru Sarojini Naidu and Bhagat Singh etc. These competitions are mostly followed by lunch. People sit together and enjoy food during these events this is a good time to bond with a neighbor. In many parts of our country kite flying is done as a ritual on Independence Day. Colorful kites flying freely in the sky are considered a symbol of independence. People go on their terrace or go to the nearby ground to enjoy the activity of kite flying. They invite their friends and relatives to enjoy this activity. Kite flying competitions are also held at various places and people participate with full enthusiasm. Independence Day is also celebrated to remember the great souls of our country who stood up for their rights and fought regardless of their lives. This day is celebrated with great enthusiasm throughout the country.' },
+    { id: 'cpct7', num: 7, title: 'Ascension Island', level: 'Hard', words: 550, duration: 900, text: 'From the sea volcanic Ascension Island looks as if it is smouldering. Big mid Atlantic swell rolling up from the Southern Ocean explodes onto the rugged cinder and sand shoreline leaving sea spray hanging in the air like steam. Inland it is all black lava and red rubble a forbidding landscape that once earned the island the tourist repelling descriptor of hell with the fire put out. The mist that collects around the highest peak of the island completes the smoky illusion. Rising above a cataclysmic backdrop of dormant craters pyroclastic deposits and lava domes. Green Mountain is a leafy oddity on the charred island and its flourishing cloud forest is testament to both the ingenuity of humans and the resilience of nature. Planted on a desolate hilltop less than hundred years ago the forest that began on a whim has started attracting the notice of scientists around the world. Upending traditional ideas of conservation Green Mountain offers the hopeful idea that manmade ecosystems can improve our environment. As the climate crisis ravages landscapes and leads to catastrophic damage such as the recent bush fires in Australia the thriving jungle on Ascension bolsters the argument that maybe we can regenerate a forest using concepts from this remote and often forgotten place. Ascension went on to become a useful stopping point for ships. But during his visit Charles Darwin pointed out the most obvious flaw of the island. Its treeless naked hideousness made it a very tough place to live. Inspired by the theories of Darwin about turning the arid landscape into a garden botanist Joseph Hooker also came up with a plan. He said by planting seedlings from around the world trees could catch the mist and increase rainfall over the scorched island making it livable. It was the opportunity to visit quirky and little known forest of Darwin along with the midocean promise of fresh raspberries and bananas that drew my family to Ascension. An island that now has a population of around nine hundred people made up of American and British military and their civilian contractors. Leaving our sailboat anchored in Clarence Bay we drove our rental car out of Nasa Road and through a blindingly bright lunarscape past the nightclub the golf course lava flows and volcanic craters and around the feral donkeys that were foraging in a desert of mesquite and prickly pear. Eventually we started up Green Mountain. Here the harsh sunlight was softened by mist and then blotted out by patchy rain. Then the road took us into a casuarina and acacia forest that could have come straight out of Australia. From there we drove into a dense jungle of bananas ginger juniper raspberries coffee ferns and figs. After parking we set off on a hike. Encountering the occasional feral sheep we walked along a cool misty trail. Overgrown with Cape yews and Norfolk pines descendants of some of the seedlings Hooker advised the British Admiralty to transport to Ascension from botanical gardens around the world the forest felt deceptively ancient. According to traditional ecological principles this hotchpotch of endemic grasses and ferns combined with more than three hundred nonindigenous species should never have evolved into a thriving ecosystem. Complex forests are thought to take millions of years of careful self selection to develop' },
+    { id: 'cpct8', num: 8, title: 'Iron and Evolution', level: 'Hard', words: 550, duration: 900, text: 'Our red blood is full of iron. We need iron for growth and for immunity. It is even added to foodstuffs such as cereals to ensure that there is enough of this nutrient in the diet to prevent iron deficiency. However on a very different scale during the development of life on planet earth over billions of years iron deficiency may have stimulated evolution. According to our new research rising and falling levels of iron on our planet may have enabled complex organisms to evolve from simpler forebears. The terrestrial planets in our solar system have different amounts of iron in their rocky mantles the layer below the outermost planetary crust. Mantle of the mercury has the least amount of iron. On the other hand the mantle of the mars has the most. This variation is due to differences in distance from the sun. It is also down to the varying conditions under which the planets initially formed their metallic iron rich cores. The amount of iron in the mantle regulates several planetary processes including the retention of surface water. And without water life as we know it cannot exist. Astronomical observations of other solar systems may enable estimates of a mantle iron of planets helping to narrow the search for planets capable of harbouring life. As well as contributing to planetary habitability iron is fundamental for the biochemistry that allows life to happen. Iron has a unique combination of properties including the ability to form chemical bonds in multiple orientations and relative ease of gaining or losing one electron. As a result iron mediates many biochemical processes in cells especially by enabling catalysis a process that speeds up chemical reactions. Metabolic processes that are vital to life such as cellular energy generation rely on iron. In our work we calculated the amount of iron in the seas of the earth over billions of years. We then considered the effect on evolution of enormous amounts of iron falling out of the seas. The initial formative events of geochemistry evolving into biochemistry life took place more than four billion years ago. And there is a consensus that iron was a pivotal element for this process. The conditions of early earth were very different to those now. In particular there was almost no oxygen in the atmosphere which meant that iron was easily soluble in water as ferrous iron. The abundance of nutritious iron in the early seas of the earth had really helped life to evolve. However this ferrous paradise was not to last. The Great Oxygenation Event resulted in the appearance of oxygen in the atmosphere of the earth. It occurred from around two billion years ago. This changed the surface of earth and caused a profound loss of soluble iron from the upper ocean and surface waters of the planet. A second more recent event called oxygenation event occurred between eight hundred to five hundred million years ago. This particularly raised oxygen concentrations yet higher. Life had developed and maintains an inescapable dependency on iron. The loss of access to soluble iron had major consequences for the evolution of life on earth. Behaviour that optimised the acquisition and use of iron would have had a clear selective advantage. We can still see this in genetic analysis of infections today.' },
+    { id: 'cpct9', num: 9, title: 'Tom, Jerry & Doraemon', level: 'Easy-Medium', words: 550, duration: 900, text: 'The cartoon has always been an important part of my lifestyle during childhood. I always used to connect myself with the cartoon characters. It is not only me who loved cartoons this much. There are lots of younger people across the world who loves this illustration work. They personally love the fact that cartoons are stress relievers. The cartoon series not only meant to entertain us but they play a very important role in teaching. We have also seen that nowadays small kids are learning through cartoon animation. They find it very interesting and entertaining at the same time. I have a long list of my favourite cartoons but I will share my top favourite cartoon series. Therefore here are some of my favourite cartoon characters and series. I would like to thank the creators of this sensational cartoon Show Tom and Jerry. This show has a special place in my heart. It will be a lie if someone says that they do not like Tom and Jerry. Well talking about the storyline of the show so Tom is the name of the pet of the house owner and in that house there is a mouse called Jerry. Jerry is my favourite character. I find him cute. It has always been about the fight between Tom and Jerry. Jerry used to steal something and Tom tries to catch him. Jerry is very naughty and provoking. He always irritates Tom. I loved to watch them fighting. Apart from that they have symbolized the true meaning of friendship. When it comes to the common task they have done it very significantly. I am sure that Tom and Jerry are the favourite cartoons of every age group. It is one of the most successful cartoon shows. It still has a huge fan base and most of the people including me still like this funniest show. Doraemon is my second favourite cartoon show. He is a cat robot who has superpowers. He lives at house of Nobita. Nobita is a very lazy character but innocent. He always gets himself in trouble and whenever he is in trouble and Doraemon will be there to help him. Nobita has a female friend named Shizuka. Nobita has several enemies too Suniyo and Jian. They are best friends but still bully Nobita. They always put Nobita in trouble and make him feel embarrassed in front of Shizuka. But Doraemon always comes to help him. By using his superpower and gadgets and he teaches a lesson to Suniyo and Jian. Also Jian is a very bad singer. He always irritates people by singing songs. Doraemon loves Nobita and Doraemon always helps Nobita in his homework. After all they are cartoon characters and we need to see them for entertainment purposes only. Doraemon teaches lots of positive lessons like Nobita to have Doraemon but we do not. So we should not wait for Doraemon to come and help us. We should do it by ourselves. Another lesson which the show Doraemon teaches is that we should not bully someone. These are the reasons why I love Doraemon. I am sure many younger generation kids love this show. Life is not always fair. These shows are very popular among children. They made us laugh every time and taught us important lessons.' },
+    { id: 'cpct10', num: 10, title: 'Summer Vacation', level: 'Easy-Medium', words: 550, duration: 900, text: 'Summer is the hottest season of the year although children enjoy it a lot due to the long holiday. It is a very interesting and entertaining season for them as they get a chance to go swimming and enjoy the hilly areas and eat ice cream and their favourite fruits. They also enjoy long school closures during the summer holidays. Summer holidays are usually the happiest period of student. This means a lot to them as they get some time to rest from their daily school schedules. The duration of summer holidays has been reduced to forty five days in the summer season every year. Every year it starts from the third week of the month of May and ends on the last day of the last week of June. Its purpose is to have many important objectives in summer vacations along with resting from the summer heat and this gives the students a long break after the final annual examination at the end of the session. The students feel exhausted and do not take interest in studies hence and they need rest to improve their health and viability after a long year of study. Another purpose of the summer holidays is to give the students a little rest from the unbearable heat of the summer season. So summer vacation is the best option to study and give them a break from the heat. The aim is to help students to recover in weak subjects. During this time students see new places and increase their general knowledge and get time for project work. I thoroughly enjoyed my summer vacation this year. During this time I was quite happy to be free from all the work of the school days. I had already forgotten all the busy school schedules and daily household complications. I was completely unsure about planning for the summer holidays this year. My parents hid this plan from me to surprise me and I was really surprised when they told me about summer vacation plans. Actually it was a long tour to all the cultural heritage and beautiful tourist destinations of India. I have captured all those memorable moments in my smartphone which I can always keep with me. I have also clicked photos of my dear family members. Whenever we got time during the tour we clicked photos of many good activities like swimming and strolling on the green in the cool natural air in the morning etc. Along with this I did things like roaming the streets and playing football in the field etc. I tried to learn something good from people of all the cultures and traditions of India. I also met people of different religions during summer holidays in this year. I am very happy after my holidays because it has given me a lot of self satisfaction. I did a lot of shopping with my parents at various places in India during the tour. I think it was the best summer vacation of my life. Now we are back home and I have started working on my project. I also have to help my sister and brother to complete their holiday homework. Only two weeks left for our school to open. Then we will go to our village to visit our grandparent house.' }
+  ];
+
   var ACHIEVEMENTS = [
     { id: 'first_step', icon: '🎯', name: 'First Steps', desc: 'Complete your first test' },
     { id: 'speedster', icon: '🚀', name: 'Speedster', desc: 'Reach 60 WPM in a test' },
@@ -1010,7 +1489,8 @@
     { id: 'sniper_elite', icon: '🎯', name: 'Sniper Elite', desc: 'Hit 10 targets in a row in Sniper Mode' },
     { id: 'code_cracked', icon: '🔓', name: 'Code Cracked', desc: 'Crack a Hard vault in Code Breaker' },
     { id: 'ace_pilot', icon: '🚀', name: 'Ace Pilot', desc: 'Survive 5 waves in Missile Defense' },
-    { id: 'daily_champion', icon: '📅', name: 'Daily Champion', desc: 'Complete a Daily Challenge' }
+    { id: 'daily_champion', icon: '📅', name: 'Daily Champion', desc: 'Complete a Daily Challenge' },
+    { id: 'cpct_champion', icon: '📝', name: 'CPCT Champion', desc: 'Complete a CPCT English mock test' }
   ];
 
   var KB_ROWS = [
@@ -1704,28 +2184,462 @@
 
   /* ============== TABS ============== */
   var tabTest = document.getElementById('tab-test');
+  var tabCpct = document.getElementById('tab-cpct');
   var tabGames = document.getElementById('tab-games');
   var tabDashboard = document.getElementById('tab-dashboard');
   var viewTest = document.getElementById('view-test');
+  var viewCpct = document.getElementById('view-cpct');
   var viewGames = document.getElementById('view-games');
   var viewDashboard = document.getElementById('view-dashboard');
 
   function switchView(name) {
     viewTest.hidden = name !== 'test';
+    viewCpct.hidden = name !== 'cpct';
     viewGames.hidden = name !== 'games';
     viewDashboard.hidden = name !== 'dashboard';
     tabTest.classList.toggle('active', name === 'test');
+    tabCpct.classList.toggle('active', name === 'cpct');
     tabGames.classList.toggle('active', name === 'games');
     tabDashboard.classList.toggle('active', name === 'dashboard');
     tabTest.setAttribute('aria-selected', String(name === 'test'));
+    tabCpct.setAttribute('aria-selected', String(name === 'cpct'));
     tabGames.setAttribute('aria-selected', String(name === 'games'));
     tabDashboard.setAttribute('aria-selected', String(name === 'dashboard'));
     if (name === 'dashboard') renderDashboard();
     if (name === 'games' && window.renderGameBests) window.renderGameBests();
+    if (name === 'cpct') cpctRenderMockList();
   }
   tabTest.addEventListener('click', function () { switchView('test'); });
+  tabCpct.addEventListener('click', function () { switchView('cpct'); });
   tabGames.addEventListener('click', function () { switchView('games'); });
   tabDashboard.addEventListener('click', function () { switchView('dashboard'); });
+
+  /* ============== CPCT ENGLISH (word-to-word mock tests, exam-mode UI) ============== */
+  var cpctBest = loadJSON('cpct_best', {});
+  var cpctTest = null;
+  var cpctWordEls = [];
+  var CPCT_QUALIFY_NWPM = 30;
+
+  var cpctMocksGrid = document.getElementById('cpct-mocks-grid');
+  var cpctPanelSelect = document.getElementById('cpct-panel-select');
+  var cpctPanelTyping = document.getElementById('cpct-panel-typing');
+  var cpctPanelResults = document.getElementById('cpct-panel-results');
+  var cpctPassageDisplay = document.getElementById('cpct-passage-display');
+  var cpctAnswerBox = document.getElementById('cpct-answerbox');
+  var cpctTypingInput = document.getElementById('cpct-typing-input');
+  var cpctProgressFill = document.getElementById('cpct-progress-fill');
+  var cpctLiveTime = document.getElementById('cpct-live-time');
+  var cpctLiveWords = document.getElementById('cpct-live-words');
+  var cpctCapsWarning = document.getElementById('cpct-caps-warning');
+  var cpctTypingTitle = document.getElementById('cpct-typing-title');
+  var cpctMockBadge = document.getElementById('cpct-mock-badge');
+  var cpctMockSelect = document.getElementById('cpct-mock-select');
+  var cpctWordLengthEl = document.getElementById('cpct-word-length');
+  var cpctWordCountPill = document.getElementById('cpct-wordcount-pill');
+  var cpctStatKeystrokes = document.getElementById('cpct-stat-keystrokes');
+  var cpctStatErrors = document.getElementById('cpct-stat-errors');
+  var cpctStatBackspace = document.getElementById('cpct-stat-backspace');
+  var cpctStatTotalWords = document.getElementById('cpct-stat-totalwords');
+  var cpctStatTypedWords = document.getElementById('cpct-stat-typedwords');
+  var cpctStatPendingWords = document.getElementById('cpct-stat-pendingwords');
+
+  function cpctEsc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function cpctRenderMockList() {
+    cpctMocksGrid.innerHTML = CPCT_MOCKS.map(function (m) {
+      var best = cpctBest[m.id];
+      var bestHtml = best ? ('<p class="cpct-mock-best">Best: ' + best.wpm + ' WPM · ' + best.accuracy + '%</p>') : '';
+      return '<div class="cpct-mock-card">' +
+        '<div class="cpct-mock-num">#' + m.num + '</div>' +
+        '<h3 class="cpct-mock-title">Mock ' + m.num + ': ' + m.title + '</h3>' +
+        '<p class="cpct-mock-meta">' + m.words + ' words · <span class="level-pill level-' + m.level + '">' + m.level + '</span> · 15 min</p>' +
+        bestHtml +
+        '<button class="button-primary cpct-start-btn" type="button" data-mock="' + m.id + '">Start Mock ' + m.num + '</button>' +
+        '</div>';
+    }).join('');
+    Array.prototype.forEach.call(cpctMocksGrid.querySelectorAll('.cpct-start-btn'), function (btn) {
+      btn.addEventListener('click', function () {
+        var mock = CPCT_MOCKS.filter(function (m) { return m.id === btn.getAttribute('data-mock'); })[0];
+        if (mock) cpctBeginTest(mock);
+      });
+    });
+  }
+
+  function cpctPopulateMockSelect(activeId) {
+    cpctMockSelect.innerHTML = CPCT_MOCKS.map(function (m) {
+      return '<option value="' + m.id + '">' + m.num + '. ' + cpctEsc(m.title) + '</option>';
+    }).join('');
+    cpctMockSelect.value = activeId;
+  }
+
+  function cpctRenderWordHtml(word, typed) {
+    var html = '';
+    for (var i = 0; i < word.length; i++) {
+      var cls = 'char';
+      if (i < typed.length) cls += (typed[i] === word[i] ? ' correct' : ' incorrect');
+      html += '<span class="' + cls + '">' + cpctEsc(word[i]) + '</span>';
+    }
+    if (typed.length > word.length) {
+      html += '<span class="char extra">' + cpctEsc(typed.slice(word.length)) + '</span>';
+    }
+    return html;
+  }
+
+  function cpctRenderAnswerBox() {
+    if (!cpctTest) { cpctAnswerBox.innerHTML = ''; return; }
+    var html = '';
+    for (var i = 0; i < cpctTest.index; i++) {
+      var ok = cpctTest.wordResults[i];
+      var typedWord = cpctTest.typedWords[i];
+      // Show exactly what was typed, even if wrong — never swap in the correct word.
+      var shown = (typedWord && typedWord.length > 0) ? typedWord : cpctTest.words[i];
+      html += '<span class="' + (ok ? 'word-correct' : 'word-wrong') + '">' + cpctEsc(shown) + '</span> ';
+    }
+    var target = cpctTest.words[cpctTest.index] || '';
+    html += cpctRenderWordHtml(target, cpctTypingInput.value) + '<span class="cpct-caret"></span>';
+    cpctAnswerBox.innerHTML = html;
+  }
+
+  function cpctUpdateSidebarStats() {
+    if (!cpctTest) return;
+    cpctStatKeystrokes.textContent = cpctTest.keystrokes;
+    cpctStatErrors.textContent = cpctTest.errorCount;
+    cpctStatBackspace.textContent = cpctTest.backspaces;
+    cpctStatTotalWords.textContent = cpctTest.words.length;
+    cpctStatTypedWords.textContent = cpctTest.index;
+    cpctStatPendingWords.textContent = cpctTest.words.length - cpctTest.index;
+    cpctLiveWords.textContent = cpctTest.index + '/' + cpctTest.words.length + ' words';
+  }
+
+  function cpctBeginTest(mock) {
+    var words = mock.text.trim().split(/\s+/);
+    var totalChars = words.reduce(function (sum, w) { return sum + w.length; }, 0);
+    cpctTest = {
+      mock: mock, words: words, index: 0, startTime: null, timerId: null,
+      correctWords: 0, wrongWords: 0, wrongList: [], wordResults: [], typedWords: [], finished: false,
+      keystrokes: 0, backspaces: 0, errorCount: 0, charsTyped: 0, prevInputLen: 0
+    };
+
+    var frag = document.createDocumentFragment();
+    cpctWordEls = [];
+    words.forEach(function (w, i) {
+      var span = document.createElement('span');
+      span.className = 'cpct-word' + (i === 0 ? ' cpct-current' : '');
+      span.textContent = w;
+      frag.appendChild(span);
+      cpctWordEls.push(span);
+    });
+    cpctPassageDisplay.innerHTML = '';
+    cpctPassageDisplay.appendChild(frag);
+
+    cpctTypingTitle.textContent = mock.title;
+    cpctMockBadge.textContent = 'Mock ' + mock.num + ': ' + mock.title;
+    cpctPopulateMockSelect(mock.id);
+    cpctWordLengthEl.textContent = (totalChars / words.length).toFixed(2);
+    cpctWordCountPill.textContent = mock.words + 'w';
+    cpctTypingInput.value = '';
+    cpctTypingInput.disabled = false;
+    cpctLiveTime.textContent = fmtTime(mock.duration);
+    cpctProgressFill.style.width = '0%';
+    cpctCapsWarning.classList.remove('show');
+    cpctRenderAnswerBox();
+    cpctUpdateSidebarStats();
+
+    cpctPanelSelect.hidden = true;
+    cpctPanelResults.hidden = true;
+    cpctPanelTyping.hidden = false;
+    document.body.style.overflow = 'hidden';
+    cpctTypingInput.focus();
+  }
+
+  cpctAnswerBox.addEventListener('click', function () { cpctTypingInput.focus(); });
+
+  cpctTypingInput.addEventListener('paste', function (e) { e.preventDefault(); });
+
+  cpctTypingInput.addEventListener('keydown', function (e) {
+    if (!cpctTest || cpctTest.finished) return;
+    if (e.getModifierState && e.getModifierState('CapsLock')) {
+      cpctCapsWarning.classList.add('show');
+    } else {
+      cpctCapsWarning.classList.remove('show');
+    }
+    if (e.key === ' ') {
+      e.preventDefault();
+      cpctTest.keystrokes++;
+      cpctSubmitWord();
+      return;
+    }
+    if (e.key === 'Backspace') {
+      cpctTest.backspaces++;
+      return;
+    }
+    if (e.key.length === 1) {
+      cpctTest.keystrokes++;
+    }
+  });
+
+  cpctTypingInput.addEventListener('input', function () {
+    if (!cpctTest || cpctTest.finished) return;
+    if (cpctTest.startTime === null) {
+      cpctTest.startTime = Date.now();
+      cpctTest.timerId = setInterval(cpctTick, 250);
+    }
+    var newVal = cpctTypingInput.value;
+    var target = cpctTest.words[cpctTest.index];
+    if (newVal.length > cpctTest.prevInputLen) {
+      for (var i = cpctTest.prevInputLen; i < newVal.length; i++) {
+        if (target[i] !== newVal[i]) cpctTest.errorCount++;
+      }
+    }
+    cpctTest.prevInputLen = newVal.length;
+
+    var span = cpctWordEls[cpctTest.index];
+    if (span) span.innerHTML = cpctRenderWordHtml(target, newVal);
+    cpctRenderAnswerBox();
+    cpctUpdateSidebarStats();
+  });
+
+  function cpctSubmitWord() {
+    if (!cpctTest || cpctTest.finished) return;
+    if (cpctTest.startTime === null) {
+      cpctTest.startTime = Date.now();
+      cpctTest.timerId = setInterval(cpctTick, 250);
+    }
+    var typed = cpctTypingInput.value;
+    var target = cpctTest.words[cpctTest.index];
+    var span = cpctWordEls[cpctTest.index];
+    var isCorrect = typed.length > 0 && typed === target;
+
+    span.className = 'cpct-word ' + (isCorrect ? 'cpct-done-correct' : 'cpct-done-incorrect');
+    // Show what was actually typed when wrong — don't silently "fix" it to the correct word.
+    span.textContent = isCorrect ? target : (typed.length > 0 ? typed : target);
+
+    cpctTest.charsTyped += typed.length;
+    cpctTest.wordResults.push(isCorrect);
+    cpctTest.typedWords.push(typed);
+    if (isCorrect) { cpctTest.correctWords++; playKeySound(); }
+    else { cpctTest.wrongWords++; cpctTest.wrongList.push({ typed: typed, target: target }); playErrorSound(); }
+
+    cpctTest.index++;
+    cpctTypingInput.value = '';
+    cpctTest.prevInputLen = 0;
+
+    if (cpctTest.index >= cpctTest.words.length) { cpctFinish('completed'); return; }
+
+    var nextSpan = cpctWordEls[cpctTest.index];
+    nextSpan.className = 'cpct-word cpct-current';
+    nextSpan.scrollIntoView({ block: 'nearest' });
+
+    cpctProgressFill.style.width = Math.round((cpctTest.index / cpctTest.words.length) * 100) + '%';
+    cpctRenderAnswerBox();
+    cpctUpdateSidebarStats();
+  }
+
+  function cpctTick() {
+    if (!cpctTest || cpctTest.startTime === null || cpctTest.finished) return;
+    var elapsedSec = (Date.now() - cpctTest.startTime) / 1000;
+    var remaining = Math.max(0, cpctTest.mock.duration - elapsedSec);
+    cpctLiveTime.textContent = fmtTime(remaining);
+    if (remaining <= 0) { cpctFinish('timeout'); return; }
+  }
+
+  function cpctFinish(reason) {
+    if (!cpctTest || cpctTest.finished) return;
+    cpctTest.finished = true;
+    clearInterval(cpctTest.timerId);
+    cpctTypingInput.disabled = true;
+
+    var mock = cpctTest.mock;
+    var elapsedSec = cpctTest.startTime ? (Date.now() - cpctTest.startTime) / 1000 : 0;
+    var minutes = Math.max(elapsedSec / 60, 1 / 600);
+    var netSpeed = Math.max(0, Math.round(cpctTest.correctWords / minutes));
+    var attempted = cpctTest.correctWords + cpctTest.wrongWords;
+    var grossSpeed = Math.max(0, Math.round(attempted / minutes));
+    var accuracy = attempted > 0 ? Math.round((cpctTest.correctWords / attempted) * 100) : 0;
+    var qualified = netSpeed >= CPCT_QUALIFY_NWPM;
+
+    // Three-state result:
+    // GREEN = typed the whole passage before time ran out (and hit 30+ NWPM)
+    // YELLOW = submitted early on purpose, before finishing (and hit 30+ NWPM)
+    // RED = time ran out before finishing (fail, even if 30+ NWPM), or NWPM stayed below 30
+    var statusState;
+    if (reason === 'timeout') {
+      statusState = 'red';
+    } else if (reason === 'completed') {
+      statusState = qualified ? 'green' : 'red';
+    } else {
+      statusState = qualified ? 'yellow' : 'red';
+    }
+    var isPass = statusState !== 'red';
+
+    var message;
+    if (reason === 'timeout') {
+      message = qualified
+        ? 'Time ran out before you finished the full passage, so this attempt is Not Qualified even though your speed cleared 30 NWPM — finishing within time matters in the real CPCT exam.'
+        : "Time ran out before you finished. Your speed and accuracy are based on the words you completed before the buzzer.";
+    } else if (reason === 'submitted') {
+      message = qualified
+        ? 'You submitted early, before finishing the full passage, but your Net Speed cleared 30 NWPM — marked Qualified (Early Submit).'
+        : 'You submitted the test early. Your speed and accuracy are based on the words you completed before submitting.';
+    } else {
+      message = qualified
+        ? 'You typed the full mock passage before time ran out — nice pace! Try the next mock to keep building speed.'
+        : 'You typed the full passage, but your Net Speed stayed below 30 NWPM. Try the next mock to build speed.';
+    }
+
+    var statusRow = document.getElementById('cpct-result-status-row');
+    statusRow.className = 'cpct-result-status-row ' + (statusState === 'green' ? 'pass' : statusState === 'yellow' ? 'warn' : 'fail');
+    document.getElementById('cpct-result-status-icon').innerHTML = isPass
+      ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>'
+      : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>';
+    document.getElementById('cpct-result-status-title').textContent =
+      statusState === 'green' ? 'Qualified' : statusState === 'yellow' ? 'Qualified — Early Submit' : 'Not Qualified';
+    document.getElementById('cpct-result-status-sub').textContent = 'thunderstudy.indevs.in · English · CPCT Mock ' + mock.num;
+
+    var scoreBigEl = document.getElementById('cpct-res-score');
+    var scoreTagEl = document.getElementById('cpct-result-score-tag');
+    if (reason === 'submitted') {
+      // Submitted before completing: don't show one final WPM as if it were the full run —
+      // show Net and Gross WPM together up top so it's clear it's a partial attempt.
+      scoreBigEl.innerHTML = netSpeed + ' <span style="font-size:15px;">NWPM</span> · ' + grossSpeed + ' <span style="font-size:15px;">GWPM</span>';
+      scoreTagEl.textContent = 'Net · Gross WPM (submitted early)';
+    } else {
+      scoreBigEl.textContent = netSpeed;
+      scoreTagEl.textContent = 'Net WPM';
+    }
+
+    document.getElementById('cpct-howcalc-min').textContent = CPCT_QUALIFY_NWPM;
+    document.getElementById('cpct-res-netspeed').textContent = netSpeed;
+    document.getElementById('cpct-res-netspeed-sub').textContent = qualified ? 'qualified' : ('need ' + CPCT_QUALIFY_NWPM + ' NWPM');
+    document.getElementById('cpct-res-grossspeed').textContent = grossSpeed;
+    document.getElementById('cpct-res-acc').textContent = accuracy + '%';
+    document.getElementById('cpct-res-score2').textContent =
+      statusState === 'green' ? 'Pass' : statusState === 'yellow' ? 'Pass (Early)' : 'Fail';
+    document.getElementById('cpct-res-score-card').className = 'cpct-result-metric ' +
+      (statusState === 'green' ? 'accent-success' : statusState === 'yellow' ? 'accent-warning' : 'accent-error');
+
+    document.getElementById('cpct-res-time').textContent = fmtTime(elapsedSec);
+    document.getElementById('cpct-res-chars').textContent = cpctTest.charsTyped;
+    document.getElementById('cpct-res-backspace').textContent = cpctTest.backspaces;
+    document.getElementById('cpct-res-wordsfrac').textContent = cpctTest.correctWords + '/' + attempted;
+    document.getElementById('cpct-result-message').textContent = message;
+
+    var bestBadge = document.getElementById('cpct-best-badge');
+    var isNewBest = false;
+    var existing = cpctBest[mock.id];
+    if (!existing || netSpeed > existing.wpm) {
+      isNewBest = true;
+      cpctBest[mock.id] = { wpm: netSpeed, accuracy: accuracy, date: new Date().toISOString() };
+      saveJSON('cpct_best', cpctBest);
+    }
+    bestBadge.hidden = !isNewBest;
+
+    var mistakesRow = document.getElementById('cpct-mistakes-row');
+    var mistakesBody = document.getElementById('cpct-mistakes-body');
+    var wrongListEl = document.getElementById('cpct-wrong-list');
+    if (cpctTest.wrongList.length > 0) {
+      mistakesRow.hidden = false;
+      wrongListEl.innerHTML = cpctTest.wrongList.slice(0, 60).map(function (w) {
+        var shownTyped = w.typed && w.typed.length > 0 ? w.typed : '(skipped)';
+        return '<span class="cpct-wrong-chip">' + cpctEsc(shownTyped) + ' &rarr; ' + cpctEsc(w.target) + '</span>';
+      }).join('');
+    } else {
+      mistakesRow.hidden = true;
+      mistakesBody.classList.remove('open');
+      mistakesRow.classList.remove('open');
+    }
+
+    var xpGain = Math.round(netSpeed * 0.5 + accuracy * 0.5) + (reason === 'completed' ? 15 : 0) + (isNewBest ? 15 : 0) + (statusState === 'green' ? 10 : 0);
+    awardXp(xpGain);
+    var xpEl = document.getElementById('cpct-res-xp');
+    if (xpEl) xpEl.textContent = '+' + xpGain;
+
+    bumpStreak();
+    unlockAchievement('cpct_champion');
+
+    var entry = {
+      time: new Date(), passage: 'CPCT Mock ' + mock.num + ': ' + mock.title,
+      wpm: netSpeed, accuracy: accuracy, duration: elapsedSec,
+      status: statusState === 'green' ? 'Qualified' : statusState === 'yellow' ? 'Qualified (Early Submit)' : 'Not Qualified',
+      mode: 'cpct'
+    };
+    history.push(entry);
+    if (history.length > 200) history = history.slice(history.length - 200);
+    saveJSON('history', history);
+
+    checkAchievements({ wpm: netSpeed, accuracy: accuracy, govPass: false });
+    playCompleteSound();
+
+    cpctPanelTyping.hidden = true;
+    document.body.style.overflow = 'hidden';
+    cpctPanelResults.hidden = false;
+  }
+
+  document.getElementById('cpct-restart-btn').addEventListener('click', function () {
+    cpctCloseSettingsMenu();
+    if (cpctTest) cpctBeginTest(cpctTest.mock);
+  });
+  document.getElementById('cpct-submit-btn').addEventListener('click', function () {
+    if (cpctTest && !cpctTest.finished) cpctFinish('submitted');
+  });
+  document.getElementById('cpct-try-again-btn').addEventListener('click', function () {
+    if (cpctTest) cpctBeginTest(cpctTest.mock);
+  });
+  document.getElementById('cpct-quit-btn').addEventListener('click', cpctBackToSelect);
+  document.getElementById('cpct-back-btn').addEventListener('click', cpctBackToSelect);
+  document.getElementById('cpct-view-dashboard-btn').addEventListener('click', function () {
+    cpctBackToSelect();
+    switchView('dashboard');
+  });
+  document.getElementById('cpct-quit-from-settings-btn').addEventListener('click', function () {
+    cpctCloseSettingsMenu();
+    cpctBackToSelect();
+  });
+
+  cpctMockSelect.addEventListener('change', function () {
+    var mock = CPCT_MOCKS.filter(function (m) { return m.id === cpctMockSelect.value; })[0];
+    if (mock) cpctBeginTest(mock);
+  });
+
+  var cpctSettingsBtn = document.getElementById('cpct-settings-btn');
+  var cpctSettingsMenu = document.getElementById('cpct-settings-menu');
+  function cpctCloseSettingsMenu() {
+    cpctSettingsMenu.hidden = true;
+    cpctSettingsBtn.setAttribute('aria-expanded', 'false');
+  }
+  cpctSettingsBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var isOpen = !cpctSettingsMenu.hidden;
+    cpctSettingsMenu.hidden = isOpen;
+    cpctSettingsBtn.setAttribute('aria-expanded', String(!isOpen));
+  });
+  document.addEventListener('click', function (e) {
+    if (cpctSettingsMenu && !cpctSettingsMenu.hidden && !cpctSettingsMenu.contains(e.target) && e.target !== cpctSettingsBtn) {
+      cpctCloseSettingsMenu();
+    }
+  });
+
+  function cpctToggleCollapse(rowId, bodyId) {
+    var row = document.getElementById(rowId), body = document.getElementById(bodyId);
+    row.addEventListener('click', function () {
+      row.classList.toggle('open');
+      body.classList.toggle('open');
+    });
+  }
+  cpctToggleCollapse('cpct-howcalc-row', 'cpct-howcalc-body');
+  cpctToggleCollapse('cpct-mistakes-row', 'cpct-mistakes-body');
+
+  function cpctBackToSelect() {
+    if (cpctTest && cpctTest.timerId) clearInterval(cpctTest.timerId);
+    cpctPanelTyping.hidden = true;
+    cpctPanelResults.hidden = true;
+    cpctPanelSelect.hidden = false;
+    document.body.style.overflow = '';
+    cpctRenderMockList();
+  }
+
 
   /* ============== DASHBOARD ============== */
   function renderDashboard() {
